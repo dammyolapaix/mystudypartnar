@@ -1,0 +1,16 @@
+{
+  "runId": "wrun_01M5B82RCZEM5MTWGC891FKEVE",
+  "hookId": "hook_01M5B82RCZSW1W2NXXWEJQ7HJN",
+  "token": "eve:inbox:v1:eve:session:wrun_01M5B82RCZEM5MTWGC891FKEVE:inbox",
+  "metadata": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFt7InNlc3Npb25JZCI6MX0sIndydW5fMDFNNUI4MlJDWkVNNU1UV0dDODkxRktFVkUiXQ=="
+  },
+  "ownerId": "local-owner",
+  "projectId": "local-project",
+  "environment": "local",
+  "createdAt": "2026-10-19T23:31:22.202Z",
+  "specVersion": 8,
+  "isWebhook": false,
+  "isSystem": false
+}

@@ -1,0 +1,360 @@
+{
+  "version": "1.0.0",
+  "steps": {
+    "dist/src/execution/agent-sessions/steps.js": {
+      "openAgentSessionStep": {
+        "stepId": "step//eve@0.81.0//openAgentSessionStep"
+      },
+      "sendAgentSessionMessageStep": {
+        "stepId": "step//eve@0.81.0//sendAgentSessionMessageStep"
+      },
+      "cancelAgentSessionTurnStep": {
+        "stepId": "step//eve@0.81.0//cancelAgentSessionTurnStep"
+      },
+      "endAgentSessionsStep": {
+        "stepId": "step//eve@0.81.0//endAgentSessionsStep"
+      }
+    },
+    "dist/src/execution/cancel-descendant-turns-step.js": {
+      "cancelDescendantTurnsStep": {
+        "stepId": "step//eve@0.81.0//cancelDescendantTurnsStep"
+      }
+    },
+    "dist/src/execution/continuation-conflict-step.js": {
+      "settleContinuationConflictStep": {
+        "stepId": "step//eve@0.81.0//settleContinuationConflictStep"
+      }
+    },
+    "dist/src/execution/coordination-dispatch-step.js": {
+      "dispatchCoordinationStep": {
+        "stepId": "step//eve@0.81.0//dispatchCoordinationStep"
+      }
+    },
+    "dist/src/execution/create-session-step.js": {
+      "createSessionStep": {
+        "stepId": "step//eve@0.81.0//createSessionStep"
+      }
+    },
+    "dist/src/execution/dynamic-workflow/program-step.js": {
+      "runWorkflowProgramStep": {
+        "stepId": "step//eve@0.81.0//runWorkflowProgramStep"
+      }
+    },
+    "dist/src/execution/dynamic-workflow/security-step.js": {
+      "createWorkflowProgramContinuationSecurityStep": {
+        "stepId": "step//eve@0.81.0//createWorkflowProgramContinuationSecurityStep"
+      }
+    },
+    "dist/src/execution/legacy-session/completion-step.js": {
+      "completeLegacyDriverStep": {
+        "stepId": "step//eve@0.81.0//completeLegacyDriverStep"
+      }
+    },
+    "dist/src/execution/legacy-session/interrupt-step.js": {
+      "interruptLegacySessionStep": {
+        "stepId": "step//eve@0.81.0//interruptLegacySessionStep"
+      }
+    },
+    "dist/src/execution/legacy-session/prepare-step.js": {
+      "prepareLegacySessionStep": {
+        "stepId": "step//eve@0.81.0//prepareLegacySessionStep"
+      }
+    },
+    "dist/src/execution/proxied-deliver-step.js": {
+      "routeProxiedDeliverStep": {
+        "stepId": "step//eve@0.81.0//routeProxiedDeliverStep"
+      },
+      "mapHeldInputResponsesStep": {
+        "stepId": "step//eve@0.81.0//mapHeldInputResponsesStep"
+      }
+    },
+    "dist/src/execution/report-dropped-wire-payload-step.js": {
+      "reportDroppedWirePayloadStep": {
+        "stepId": "step//eve@0.81.0//reportDroppedWirePayloadStep"
+      }
+    },
+    "dist/src/execution/session-inbox/release-step.js": {
+      "releaseSessionHooksStep": {
+        "stepId": "step//eve@0.81.0//releaseSessionHooksStep"
+      }
+    },
+    "dist/src/execution/session/end-sandbox-step.js": {
+      "reportSessionSandboxCleanupFailureStep": {
+        "stepId": "step//eve@0.81.0//reportSessionSandboxCleanupFailureStep"
+      },
+      "endSessionSandboxStep": {
+        "stepId": "step//eve@0.81.0//endSessionSandboxStep"
+      }
+    },
+    "dist/src/execution/session/handoff-steps.js": {
+      "isSessionIdleForHandoffStep": {
+        "stepId": "step//eve@0.81.0//isSessionIdleForHandoffStep"
+      },
+      "validateSessionCheckpointStep": {
+        "stepId": "step//eve@0.81.0//validateSessionCheckpointStep"
+      },
+      "stopUntrackedChildSessionsStep": {
+        "stepId": "step//eve@0.81.0//stopUntrackedChildSessionsStep"
+      },
+      "reportSessionHandoffRetainedStep": {
+        "stepId": "step//eve@0.81.0//reportSessionHandoffRetainedStep"
+      },
+      "recordSessionOwnerStep": {
+        "stepId": "step//eve@0.81.0//recordSessionOwnerStep"
+      },
+      "signalSessionOwnerActivationStep": {
+        "stepId": "step//eve@0.81.0//signalSessionOwnerActivationStep"
+      },
+      "signalSessionAnchorStep": {
+        "stepId": "step//eve@0.81.0//signalSessionAnchorStep"
+      }
+    },
+    "dist/src/execution/session/task-tool-tracing-step.js": {
+      "startTaskToolCallsStep": {
+        "stepId": "step//eve@0.81.0//startTaskToolCallsStep"
+      },
+      "traceTaskToolCallStep": {
+        "stepId": "step//eve@0.81.0//traceTaskToolCallStep"
+      }
+    },
+    "dist/src/execution/session/timeout-steps.js": {
+      "startSessionTimeoutStep": {
+        "stepId": "step//eve@0.81.0//startSessionTimeoutStep"
+      },
+      "signalSessionTimeoutStep": {
+        "stepId": "step//eve@0.81.0//signalSessionTimeoutStep"
+      },
+      "cancelSessionTimeoutStep": {
+        "stepId": "step//eve@0.81.0//cancelSessionTimeoutStep"
+      }
+    },
+    "dist/src/execution/session/turn-step.js": {
+      "turnStep": {
+        "stepId": "step//eve@0.81.0//turnStep"
+      }
+    },
+    "dist/src/execution/session/turn-waiting-step.js": {
+      "publishTurnWaitingStep": {
+        "stepId": "step//eve@0.81.0//publishTurnWaitingStep"
+      }
+    },
+    "dist/src/execution/settle-cancelled-turn-step.js": {
+      "settleCancelledTurnStep": {
+        "stepId": "step//eve@0.81.0//settleCancelledTurnStep"
+      }
+    },
+    "dist/src/execution/tasks/steps.js": {
+      "cancelTasksStep": {
+        "stepId": "step//eve@0.81.0//cancelTasksStep"
+      }
+    },
+    "dist/src/execution/terminal-session-completion-step.js": {
+      "emitTerminalSessionCompletionStep": {
+        "stepId": "step//eve@0.81.0//emitTerminalSessionCompletionStep"
+      }
+    },
+    "dist/src/execution/terminal-session-failure-step.js": {
+      "emitTerminalSessionFailureStep": {
+        "stepId": "step//eve@0.81.0//emitTerminalSessionFailureStep"
+      }
+    },
+    "dist/src/execution/terminate-child-sessions-step.js": {
+      "terminateChildSessionsStep": {
+        "stepId": "step//eve@0.81.0//terminateChildSessionsStep"
+      }
+    },
+    "dist/src/execution/tool-stubs/steps.js": {
+      "publishStubResultStep": {
+        "stepId": "step//eve@0.81.0//publishStubResultStep"
+      },
+      "publishStubFailureStep": {
+        "stepId": "step//eve@0.81.0//publishStubFailureStep"
+      },
+      "callToolStubStep": {
+        "stepId": "step//eve@0.81.0//callToolStubStep"
+      },
+      "reportStubFailureStep": {
+        "stepId": "step//eve@0.81.0//reportStubFailureStep"
+      },
+      "failStubSessionStep": {
+        "stepId": "step//eve@0.81.0//failStubSessionStep"
+      }
+    },
+    "dist/src/execution/tools/agent-router-workflow.js": {
+      "chooseTarget": {
+        "stepId": "step//eve@0.81.0//chooseTarget"
+      }
+    },
+    "dist/src/execution/tools/workflow/apply-run-messages-step.js": {
+      "applyRunMessagesStep": {
+        "stepId": "step//eve@0.81.0//applyRunMessagesStep"
+      }
+    },
+    "dist/src/execution/tools/workflow/interrupt.js": {
+      "interruptWorkflowToolRun": {
+        "stepId": "step//eve@0.81.0//interruptWorkflowToolRun"
+      }
+    },
+    "dist/src/execution/tools/workflow/resume-hook-step.js": {
+      "resumeHookStep": {
+        "stepId": "step//eve@0.81.0//resumeHookStep"
+      }
+    },
+    "dist/src/execution/tools/workflow/withdraw-step.js": {
+      "withdrawWorkflowToolRunQuestionStep": {
+        "stepId": "step//eve@0.81.0//withdrawWorkflowToolRunQuestionStep"
+      },
+      "withdrawFinishedRunQuestionsStep": {
+        "stepId": "step//eve@0.81.0//withdrawFinishedRunQuestionsStep"
+      }
+    },
+    "dist/src/execution/workflow-runtime.js": {
+      "startSessionOwnerStep": {
+        "stepId": "step//eve@0.81.0//startSessionOwnerStep"
+      }
+    },
+    "dist/src/runtime/connections/events/dispatch-step.js": {
+      "dispatchConnectionEventStep": {
+        "stepId": "step//eve@0.81.0//dispatchConnectionEventStep"
+      }
+    },
+    "dist/src/runtime/connections/events/lifecycle-step.js": {
+      "openConnectionEventStep": {
+        "stepId": "step//eve@0.81.0//openConnectionEventStep"
+      },
+      "unsubscribeConnectionEventStep": {
+        "stepId": "step//eve@0.81.0//unsubscribeConnectionEventStep"
+      },
+      "startConnectionEventDeliveryStep": {
+        "stepId": "step//eve@0.81.0//startConnectionEventDeliveryStep"
+      },
+      "publishConnectionEventOutcomeStep": {
+        "stepId": "step//eve@0.81.0//publishConnectionEventOutcomeStep"
+      }
+    },
+    "dist/src/subagents/adapter.js": {
+      "forwardSubagentAuthorizationEventStep": {
+        "stepId": "step//eve@0.81.0//forwardSubagentAuthorizationEventStep"
+      },
+      "forwardSubagentInputRequestStep": {
+        "stepId": "step//eve@0.81.0//forwardSubagentInputRequestStep"
+      }
+    },
+    "dist/src/subagents/event-proxy-step.js": {
+      "runProxySubagentEventStep": {
+        "stepId": "step//eve@0.81.0//runProxySubagentEventStep"
+      }
+    },
+    "dist/src/subagents/parent-notification.js": {
+      "notifyTurnCallerStep": {
+        "stepId": "step//eve@0.81.0//notifyTurnCallerStep"
+      },
+      "notifyCancelledTaskCallerStep": {
+        "stepId": "step//eve@0.81.0//notifyCancelledTaskCallerStep"
+      },
+      "resolveInitialTurnCallerStep": {
+        "stepId": "step//eve@0.81.0//resolveInitialTurnCallerStep"
+      }
+    }
+  },
+  "workflows": {
+    "dist/src/execution/tools/agent-router-workflow.js": {
+      "runAgentRouterTask": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve@0.81.0//runAgentRouterTask"
+      }
+    },
+    "dist/src/tools/provided/sleep-workflow.js": {
+      "executeSleepTool": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve@0.81.0//executeSleepTool"
+      }
+    },
+    "dist/src/execution/dynamic-workflow/tool.js": {
+      "runWorkflowProgramTask": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve@0.81.0//runWorkflowProgramTask"
+      }
+    },
+    "dist/src/execution/legacy-session/turn-workflow.js": {
+      "turnWorkflow": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//turnWorkflow"
+      }
+    },
+    "dist/src/runtime/connections/events/workflow.js": {
+      "connectionEventWorkflow": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//connectionEventWorkflow"
+      },
+      "connectionEventDeliveryWorkflow": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//connectionEventDeliveryWorkflow"
+      }
+    },
+    "dist/src/tools/provided/ask-question-workflow.js": {
+      "executeAskQuestionTool": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve@0.81.0//executeAskQuestionTool"
+      }
+    },
+    "dist/src/runtime/subagents/workflow.js": {
+      "agentToolServeWorkflow": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//agentToolServeWorkflow"
+      }
+    },
+    "dist/src/execution/session/entry.js": {
+      "workflowEntry": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//workflowEntry"
+      }
+    },
+    "dist/src/execution/session/timeout-workflow.js": {
+      "sessionTimeoutWorkflow": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//sessionTimeoutWorkflow"
+      }
+    },
+    "dist/src/execution/tools/workflow/workflow.js": {
+      "workflowToolRunWorkflow": {
+        "graph": {
+          "edges": [],
+          "nodes": []
+        },
+        "workflowId": "workflow//eve//workflowToolRunWorkflow"
+      }
+    }
+  },
+  "classes": {}
+}

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withEve } from "eve/next";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -14,4 +15,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Agent + app: one dev server, one deploy.
+export default withEve(nextConfig);

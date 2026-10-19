@@ -1,0 +1,16 @@
+{
+  "updatedAt": "2026-10-19T23:33:46.290Z",
+  "durationMs": 182018,
+  "environment": {
+    "eveVersion": "0.81.0",
+    "nodeVersion": "v26.12.0",
+    "platform": "darwin arm64"
+  },
+  "session": {
+    "prompts": 1,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "toolCalls": {},
+    "subagents": 0
+  }
+}

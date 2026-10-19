@@ -1,0 +1,13 @@
+{
+  "eventType": "step_started",
+  "specVersion": 8,
+  "correlationId": "step_01M5B82RCZSW1W2NXXWEJQ7HJT",
+  "eventData": {
+    "stepName": "step//eve@0.81.0//startSessionTimeoutStep",
+    "workflowName": "workflow//eve//workflowEntry",
+    "ownerMessageId": "msg_01M5B82RD9CWXN328WMGY8YYTW"
+  },
+  "runId": "wrun_01M5B82RCZEM5MTWGC891FKEVE",
+  "eventId": "evnt_00000000000000000000000010",
+  "createdAt": "2026-10-19T23:31:22.262Z"
+}

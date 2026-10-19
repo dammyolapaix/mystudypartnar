@@ -1,0 +1,46 @@
+{
+  "agentId": "mystudypartnar",
+  "agentRoot": "/Users/dammyola/Projects/mystudypartnar/agent",
+  "appRoot": "/Users/dammyola/Projects/mystudypartnar",
+  "channels": [
+    {
+      "sourceKind": "module",
+      "logicalPath": "channels/eve.ts",
+      "sourceId": "channels/eve.ts"
+    }
+  ],
+  "connections": [],
+  "diagnosticsSummary": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "extensions": [],
+  "resolvedExtensions": [],
+  "hooks": [],
+  "memories": [],
+  "instructions": [
+    {
+      "definition": {
+        "content": "# Identity\n\nYou are a general-purpose AI agent powered by eve, Vercel's agent framework.\n\n# Customization\n\nYour behavior and capabilities are defined by this project's code. You can be customized into whatever kind of agent the user wants by updating the project's instructions, tools, skills, connections, channels, subagents, and schedules.\n",
+        "role": "system"
+      },
+      "sourceKind": "markdown",
+      "logicalPath": "instructions.md",
+      "sourceId": "instructions.md"
+    }
+  ],
+  "lib": [],
+  "kind": "eve-agent-discovery-manifest",
+  "sandbox": null,
+  "sandboxWorkspaces": [],
+  "schedules": [],
+  "skills": [],
+  "tools": [],
+  "version": 15,
+  "subagents": [],
+  "configModule": {
+    "sourceKind": "module",
+    "logicalPath": "agent.ts",
+    "sourceId": "agent.ts"
+  }
+}

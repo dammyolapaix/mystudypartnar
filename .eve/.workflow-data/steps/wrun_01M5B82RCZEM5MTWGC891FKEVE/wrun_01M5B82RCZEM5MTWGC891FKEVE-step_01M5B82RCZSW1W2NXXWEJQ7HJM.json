@@ -1,0 +1,20 @@
+{
+  "runId": "wrun_01M5B82RCZEM5MTWGC891FKEVE",
+  "stepId": "step_01M5B82RCZSW1W2NXXWEJQ7HJM",
+  "stepName": "step//eve@0.81.0//createSessionStep",
+  "status": "completed",
+  "input": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFt7ImFyZ3MiOjEsImNsb3N1cmVWYXJzIjotMSwidGhpc1ZhbCI6LTF9LFsyXSx7ImNvbXBpbGVkQXJ0aWZhY3RzU291cmNlIjozLCJjb250aW51YXRpb25Ub2tlbiI6NSwiZHluYW1pY1N1YmFnZW50QWdlbnRDb25maWciOi0xLCJpbmhlcml0ZWRMaW1pdHMiOi0xLCJub2RlSWQiOi0xLCJvdXRwdXRTY2hlbWEiOi0xLCJyb290U2Vzc2lvbklkIjotMSwic2Vzc2lvbklkIjo2fSx7ImtpbmQiOjR9LCJkZXZlbG9wbWVudCIsIiIsIndydW5fMDFNNUI4MlJDWkVNNU1UV0dDODkxRktFVkUiXQ=="
+  },
+  "attempt": 1,
+  "startedAt": "2026-10-19T23:31:22.244Z",
+  "createdAt": "2026-10-19T23:31:22.200Z",
+  "updatedAt": "2026-10-19T23:31:22.264Z",
+  "specVersion": 8,
+  "output": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFt7Imhpc3RvcnkiOjEsInN0YXRlIjoyfSxbXSx7ImNvbnRpbnVhdGlvblRva2VuIjozLCJoYXNQcm94eUlucHV0UmVxdWVzdHMiOjQsInNlc3Npb25JZCI6NSwidmVyc2lvbiI6Niwic25hcHNob3QiOjd9LCIiLGZhbHNlLCJ3cnVuXzAxTTVCODJSQ1pFTTVNVFdHQzg5MUZLRVZFIiwyLHsic2Vzc2lvbiI6OH0seyJhZ2VudCI6OSwiY29udGludWF0aW9uVG9rZW4iOjMsInNlc3Npb25JZCI6NSwibGltaXRzIjoxMX0seyJzeXN0ZW0iOjEwfSwiSW5zdHJ1Y3Rpb25zIChpbnN0cnVjdGlvbnMpXG4jIElkZW50aXR5XG5cbllvdSBhcmUgYSBnZW5lcmFsLXB1cnBvc2UgQUkgYWdlbnQgcG93ZXJlZCBieSBldmUsIFZlcmNlbCdzIGFnZW50IGZyYW1ld29yay5cblxuIyBDdXN0b21pemF0aW9uXG5cbllvdXIgYmVoYXZpb3IgYW5kIGNhcGFiaWxpdGllcyBhcmUgZGVmaW5lZCBieSB0aGlzIHByb2plY3QncyBjb2RlLiBZb3UgY2FuIGJlIGN1c3RvbWl6ZWQgaW50byB3aGF0ZXZlciBraW5kIG9mIGFnZW50IHRoZSB1c2VyIHdhbnRzIGJ5IHVwZGF0aW5nIHRoZSBwcm9qZWN0J3MgaW5zdHJ1Y3Rpb25zLCB0b29scywgc2tpbGxzLCBjb25uZWN0aW9ucywgY2hhbm5lbHMsIHN1YmFnZW50cywgYW5kIHNjaGVkdWxlcy5cblxuVG9vbCBleGVjdXRpb25cblRvb2wgY2FsbHMgaW4gb25lIHJlc3BvbnNlIHJ1biBpbiBwYXJhbGxlbCwgc28gYmF0Y2ggb25seSBjYWxscyB0aGF0IGRvbid0IGRlcGVuZCBvbiBlYWNoIG90aGVyLiIseyJtYXhJbnB1dFRva2Vuc1BlclNlc3Npb24iOjEyfSw0MDAwMDAwMF0="
+  },
+  "completedAt": "2026-10-19T23:31:22.264Z"
+}
