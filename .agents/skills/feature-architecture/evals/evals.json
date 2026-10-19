@@ -1,0 +1,50 @@
+{
+  "skill_name": "feature-architecture",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a public scholarships listing at /scholarships. Visitors filter by country and degree. The page has to be server-rendered, with a skeleton while the list loads, and a title Google can index. The scholarships table already exists.",
+      "expected_output": "A thin page shell passes searchParams into a Suspense child in src/features/scholarships. A matching skeleton exists. The list calls a cached query function rather than importing db. Country or degree with its own search demand is a path, or the query string follows the nuqs skill (parsers next to the route, not in the feature). No component file under src/app.",
+      "files": [],
+      "expectations": [
+        "The page file under src/app does not import @/db or drizzle-orm",
+        "The page file does not await searchParams or params",
+        "The page wraps a component from src/features in Suspense",
+        "A skeleton component exists under src/features and uses Skeleton",
+        "The query function used by the list contains the string use cache",
+        "If search-params.ts exists, it is under src/app, not under src/features",
+        "src/app contains only route files (page, layout, loading, error, not-found, search-params, route), not a presentational component"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Signed-in users need a form on the scholarship detail page to save a scholarship with a short note. Validate the note, show errors, and confirm when it saves.",
+      "expected_output": "A client form uses React Hook Form, zodResolver, shadcn Field, and useTransition. The server action uses validatedActionWithUser and updateTag after the write. Success uses toast.success from sonner. A feature test.ts covers the action or the validation seam and does not import db.",
+      "files": [],
+      "expectations": [
+        "A form component imports useForm from react-hook-form and zodResolver",
+        "The form uses useTransition and calls toast.success from sonner",
+        "The server action uses validatedActionWithUser from @/lib/action-middlewares",
+        "The server action calls updateTag after the write",
+        "The action does not import @/db or drizzle-orm",
+        "src/features contains a test.ts that does not import @/db",
+        "validations.ts exports a Zod schema that the form and the action both use"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add /scholarships/[slug] showing the name, who funds it, the deadline, and the amount. Google should index each scholarship.",
+      "expected_output": "The page is a server shell with generateMetadata, one h1, and semantic HTML. The detail component awaits params inside Suspense and calls a cached get-by-slug query. A detail skeleton matches the layout. The page does not import db and is not a client component.",
+      "files": [],
+      "expectations": [
+        "The page exports generateMetadata",
+        "The page file does not start with use client and does not import @/db",
+        "The page wraps a feature detail component in Suspense",
+        "Either the page or the detail component contains a single h1",
+        "The detail component awaits params and calls a query function",
+        "That query function contains the string use cache",
+        "A detail skeleton file exists under src/features"
+      ]
+    }
+  ]
+}

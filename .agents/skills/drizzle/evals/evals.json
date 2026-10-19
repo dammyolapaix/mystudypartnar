@@ -1,0 +1,23 @@
+{
+  "skill_name": "drizzle",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a title and a country column to scholarships, then add a function that lists non-deleted scholarships for the public listing page. The page should call that function. Apply the schema change to the local database.",
+      "expected_output": "Columns added on src/features/scholarships/schema.ts with snakeCase.table and timestamps. The list function is in src/features/scholarships/queries.ts, imports db from @/db, filters deletedAt, and starts with \"use cache\", cacheTag(\"scholarships\"), and cacheLife. The page does not import db. The schema is applied with pnpm db:push. No drizzle-kit generate and no files written under src/db/migrations/.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Add a server action that creates a scholarship with a title. Put the insert wherever it belongs in this codebase, and make sure the public list updates after the create.",
+      "expected_output": "The insert lives in src/features/scholarships/queries.ts, does not use \"use cache\", and does not call updateTag or revalidateTag. The server action calls that function, then calls updateTag(\"scholarships\") only after it resolves. The action does not import db. No migration is generated.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need the signed-in user's own applications on the dashboard. Fetch them with Drizzle. This data is private to that user.",
+      "expected_output": "The read is a function under src/features, not a db call in the page. It does not use the shared \"use cache\" directive. It uses \"use cache: private\" with a feature cacheTag, or it does not cache, and it does not read cookies inside a shared cache. Schema changes, if any, go through pnpm db:push.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "skill_name": "nuqs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add search params to the public scholarships listing at app/scholarships/page.tsx. Users filter by country (germany, canada, uk), degree (bachelor, master, phd), a free-text q, a 1-based page, and a sort of deadline or amount. The list is loaded from the database on the server. Country and degree landing pages should be something we want Google to index. Stacking both filters, or typing a search, should not be indexed. Sort should not create a second indexed URL. Use nuqs. cacheComponents is already on in next.config.ts.",
+      "expected_output": "A colocated search-params module imported from nuqs/server, with a loader, serializer, and cache. The page passes searchParams into a Suspense child that loads them, redirects dirty encodings, and fetches with the parsed values passed into a use cache function. generateMetadata sets a canonical that keeps country, degree, q, and page, drops sort, and sets noindex when q is set or both facets are set. Page 2 of a single facet stays indexable and self-canonical. Client filters share the parsers, use shallow false for content keys, and reset page when filters change. Facet links use the serializer.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "The public scholarship detail page at app/scholarships/[slug]/page.tsx already renders the overview and the eligibility requirements in the HTML. I want a ?tab= query so the eligibility section is the one on screen when someone opens a shared link. Don't hurt SEO. The slug is the page. Use nuqs.",
+      "expected_output": "tab is client-only UI state with shallow true and a literal parser. It is not read by the server loader and not included in the canonical. generateMetadata (or static metadata) canonicalizes to the path without the query. Eligibility text stays in the server-rendered document. Invalid tab values are not a new indexable URL.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "On the signed-in applications page, add a status filter (draft, submitted, accepted) and a q search that filters the list the server returns. This page is behind auth and must not be indexed. Use nuqs, and don't do the public-SEO treatment.",
+      "expected_output": "Shared nuqs/server parsers and a server loader because the server fetches with the query. Content keys use shallow false. No canonical-param design, no indexable facet links, no sitemap entries. The page or its layout is noindex. Debounce q. Do not treat it as a public landing page.",
+      "files": []
+    }
+  ]
+}
