@@ -37,6 +37,15 @@ export type PassageRecord = {
   embedding: number[];
 };
 
+export type PreparationEvent =
+  | { type: "step"; name: "extracting text" | "splitting passages" | "embedding" }
+  | { type: "finished" };
+
+export type RunChannel = {
+  emit(runId: string, event: PreparationEvent): Promise<void>;
+  history(runId: string): Promise<PreparationEvent[]>;
+};
+
 export type SourceStorage = {
   createUploadUrl(input: {
     key: string;

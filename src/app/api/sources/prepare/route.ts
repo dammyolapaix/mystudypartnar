@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { serve } from "@upstash/workflow/nextjs";
 import {
+  finishStoredSource,
   prepareStoredSource,
   recordStoredEmbeddingFailure,
 } from "@/features/sources/prepare-source";
@@ -20,6 +21,10 @@ export const { POST } = serve<{ sourceId: string }>(
         return;
       }
     });
+
+    await context.run("finish-run", async () => {
+      await finishStoredSource(sourceId);
+    });
   },
   {
     failureFunction: async ({ context }) => {
@@ -27,7 +32,12 @@ export const { POST } = serve<{ sourceId: string }>(
         context.requestPayload.sourceId,
         context.workflowRunId,
       );
-      revalidateTag("sources", "max");
+      try {
+        revalidateTag("sources", "max");
+      } catch {
+        // The finish event still asks the open page to read the row.
+      }
+      await finishStoredSource(context.requestPayload.sourceId);
     },
   },
 );

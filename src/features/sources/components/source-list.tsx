@@ -8,6 +8,7 @@ import { getSession } from "@/lib/session";
 import { listSources } from "../queries";
 import type { SourceRecord } from "../types";
 import { RetrySourceForm } from "./retry-source-form";
+import { SourceRunSubscription } from "./source-run-subscription";
 import { UploadSourceForm } from "./upload-source-form";
 
 export async function SourceList() {
@@ -18,37 +19,42 @@ export async function SourceList() {
   }
 
   const items = await listSources(session.user.id);
+  const preparingRunIds = items.flatMap((source) =>
+    source.status === "preparing" && source.runId ? [source.runId] : [],
+  );
 
   return (
     <div className="flex flex-col gap-8">
       <UploadSourceForm />
-      {items.length === 0 ? (
-        <Empty>
-          <EmptyHeader>
-            <EmptyTitle>No sources yet</EmptyTitle>
-            <EmptyDescription>
-              Upload a PDF, Word, or PowerPoint file.
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      ) : (
-        <ul className="flex flex-col gap-3">
-          {items.map((source) => (
-            <li
-              key={source.id}
-              className="flex flex-col gap-2 rounded-lg border px-4 py-3"
-            >
-              <p className="font-medium">{source.filename}</p>
-              <p className="text-sm text-muted-foreground">
-                {sourceStatusCopy(source.status)}
-              </p>
-              {source.status === "failed" ? (
-                <RetrySourceForm sourceId={source.id} />
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      )}
+      <SourceRunSubscription runIds={preparingRunIds}>
+        {items.length === 0 ? (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>No sources yet</EmptyTitle>
+              <EmptyDescription>
+                Upload a PDF, Word, or PowerPoint file.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <ul className="flex flex-col gap-3">
+            {items.map((source) => (
+              <li
+                key={source.id}
+                className="flex flex-col gap-2 rounded-lg border px-4 py-3"
+              >
+                <p className="font-medium">{source.filename}</p>
+                <p className="text-sm text-muted-foreground">
+                  {sourceStatusCopy(source.status)}
+                </p>
+                {source.status === "failed" ? (
+                  <RetrySourceForm sourceId={source.id} />
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        )}
+      </SourceRunSubscription>
     </div>
   );
 }

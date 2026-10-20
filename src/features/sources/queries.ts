@@ -66,6 +66,21 @@ export async function listPassages(
     .orderBy(asc(passages.page), asc(passages.passageOrder));
 }
 
+export async function getOwnedSourceByRun(userId: string, runId: string) {
+  const [row] = await db
+    .select(sourceColumns)
+    .from(sources)
+    .where(
+      and(
+        eq(sources.userId, userId),
+        eq(sources.runId, runId),
+        isNull(sources.deletedAt),
+      ),
+    );
+
+  return row ?? null;
+}
+
 export async function getSourceForPreparation(sourceId: string) {
   const [row] = await db
     .select({
@@ -75,6 +90,7 @@ export async function getSourceForPreparation(sourceId: string) {
       objectKey: sources.objectKey,
       status: sources.status,
       deletedAt: sources.deletedAt,
+      runId: sources.runId,
     })
     .from(sources)
     .where(eq(sources.id, sourceId));

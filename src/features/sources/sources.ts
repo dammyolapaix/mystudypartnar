@@ -2,6 +2,7 @@ import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 import {
   commitPreparation,
   deleteOwnedSource,
+  getOwnedSourceByRun,
   getSourceForPreparation,
   insertSource,
   markSourceFailed,
@@ -10,6 +11,8 @@ import {
 } from "./queries";
 import type {
   PdfPageText,
+  PreparationEvent,
+  RunChannel,
   SourceCaller,
   SourceRecord,
   SourceStorage,
@@ -36,6 +39,7 @@ type SourcesDependencies = {
   extractPdf?: (bytes: Uint8Array) => Promise<PdfPageText[]>;
   embedPassages?: (texts: string[]) => Promise<number[][]>;
   startPreparation?: (sourceId: string) => Promise<string | null>;
+  runs?: RunChannel;
 };
 
 type PendingUpload = {
@@ -57,6 +61,7 @@ export function createSources({
   extractPdf,
   embedPassages,
   startPreparation,
+  runs,
 }: SourcesDependencies) {
   const signingSecret = () => secret ?? requiredSecret();
 
@@ -175,6 +180,8 @@ export function createSources({
         throw new Error("PDF preparation is not configured");
       }
 
+      await notify(runs, source.runId, { type: "step", name: "extracting text" });
+
       let bytes: Uint8Array | null;
       try {
         bytes = await storage.readObject(source.objectKey);
@@ -195,6 +202,11 @@ export function createSources({
         return;
       }
 
+      await notify(runs, source.runId, {
+        type: "step",
+        name: "splitting passages",
+      });
+
       const nextPassages = pages.flatMap((page) => {
         if (!Number.isInteger(page.page) || page.page < 1) return [];
         return splitPage(page.text).map((text, index) => ({
@@ -207,6 +219,8 @@ export function createSources({
         await markSourceFailed(sourceId, "no_text");
         return;
       }
+
+      await notify(runs, source.runId, { type: "step", name: "embedding" });
 
       const embeddings = await embedPassages(
         nextPassages.map((passage) => passage.text),
@@ -260,7 +274,40 @@ export function createSources({
       if (!removed) return { error: "This source was not found" };
       return { deleted: true as const };
     },
+
+    async finishRun(sourceId: string) {
+      const source = await getSourceForPreparation(sourceId);
+      if (!source?.runId || !runs) return;
+      if (!source.deletedAt && source.status === "preparing") return;
+      await runs.emit(source.runId, { type: "finished" });
+    },
+
+    async replay(caller: SourceCaller, runId: string) {
+      if (!caller) return { error: "Not authenticated" };
+
+      const source = await getOwnedSourceByRun(caller.id, runId);
+      if (!source?.runId) return { error: "This source was not found" };
+      if (!runs) return { events: [] };
+      return { events: await runs.history(source.runId) };
+    },
+
+    async subscribe(caller: SourceCaller, runId: string) {
+      if (!caller) return { error: "Not authenticated" };
+
+      const source = await getOwnedSourceByRun(caller.id, runId);
+      if (!source?.runId) return { error: "This source was not found" };
+      return { channel: source.runId };
+    },
   };
+}
+
+async function notify(
+  runs: RunChannel | undefined,
+  runId: string | null,
+  event: PreparationEvent,
+) {
+  if (!runs || !runId) return;
+  await runs.emit(runId, event);
 }
 
 function requiredSecret() {

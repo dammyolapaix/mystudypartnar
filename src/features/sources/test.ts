@@ -1,6 +1,7 @@
 import { afterEach, expect, test, vi } from "vitest";
 import longPage from "./long-page.json";
 import { createSources, listPassages, listSources, type SourceStorage } from "./sources";
+import type { PreparationEvent, RunChannel } from "./types";
 import { createUser, failSourceKeepingPassages, removeUser } from "./test-users";
 
 vi.mock("next/cache", () => ({
@@ -813,6 +814,144 @@ test("a passage write is discarded when the source was deleted", async () => {
   expect(await listPassages(student.id, uploaded.source.id)).toEqual([]);
 });
 
+test("only the student who owns a source can subscribe to its run", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    startPreparation: async () => "run-1",
+  });
+  const pdf = file("%PDF-1.4\nlecture");
+  const uploaded = await confirmFile(sources, storage, student.id, "lecture.pdf", pdf);
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  expect(await sources.subscribe(null, "run-1")).toEqual({
+    error: "Not authenticated",
+  });
+  expect(await sources.subscribe({ id: other.id }, "run-1")).toEqual({
+    error: "This source was not found",
+  });
+  expect(await sources.subscribe({ id: other.id }, "run-2")).toEqual({
+    error: "This source was not found",
+  });
+  expect(await sources.subscribe({ id: student.id }, "run-1")).toEqual({
+    channel: "run-1",
+  });
+  expect(await listSources(other.id)).toEqual([]);
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "preparing",
+      failureReason: "",
+      runId: "run-1",
+      userId: student.id,
+    },
+  ]);
+});
+
+test("a student can subscribe to each preparing run", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const runIds = ["run-1", "run-2"];
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    startPreparation: async () => runIds.shift() ?? null,
+  });
+
+  const first = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "lecture.pdf",
+    file("%PDF-1.4\nlecture"),
+  );
+  const second = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "slides.pdf",
+    file("%PDF-1.4\nslides"),
+  );
+  if (!("source" in first) || !("source" in second)) {
+    throw new Error("Expected two sources");
+  }
+
+  expect(await sources.subscribe({ id: student.id }, "run-1")).toEqual({
+    channel: "run-1",
+  });
+  expect(await sources.subscribe({ id: student.id }, "run-2")).toEqual({
+    channel: "run-2",
+  });
+  expect(await sources.subscribe({ id: other.id }, "run-1")).toEqual({
+    error: "This source was not found",
+  });
+  expect(await sources.subscribe({ id: other.id }, "run-2")).toEqual({
+    error: "This source was not found",
+  });
+  expect((await listSources(student.id)).map((source) => source.status)).toEqual([
+    "preparing",
+    "preparing",
+  ]);
+});
+
+test("the owner can replay events from earlier in that run", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    startPreparation: async () => "run-1",
+    extractPdf: async () => [{ page: 1, text: "The heart has four chambers." }],
+    embedPassages: async (texts) => texts.map(() => embedding(0.25)),
+    runs: memoryRuns(),
+  });
+  const uploaded = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "lecture.pdf",
+    file("%PDF-1.4\nlecture"),
+  );
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+  await sources.finishRun(uploaded.source.id);
+
+  expect(await sources.replay({ id: student.id }, "run-1")).toEqual({
+    events: [
+      { type: "step", name: "extracting text" },
+      { type: "step", name: "splitting passages" },
+      { type: "step", name: "embedding" },
+      { type: "finished" },
+    ],
+  });
+  expect(await sources.replay({ id: other.id }, "run-1")).toEqual({
+    error: "This source was not found",
+  });
+  expect(await sources.replay(null, "run-1")).toEqual({
+    error: "Not authenticated",
+  });
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: "run-1",
+      userId: student.id,
+    },
+  ]);
+});
+
 test("another student cannot confirm an upload they do not own", async () => {
   const student = { id: crypto.randomUUID() };
   const other = { id: crypto.randomUUID() };
@@ -837,6 +976,21 @@ test("another student cannot confirm an upload they do not own", async () => {
   expect(await listSources(student.id)).toEqual([]);
   expect(await listSources(other.id)).toEqual([]);
 });
+
+function memoryRuns(): RunChannel {
+  const events = new Map<string, PreparationEvent[]>();
+
+  return {
+    async emit(runId, event) {
+      const stored = events.get(runId) ?? [];
+      stored.push(event);
+      events.set(runId, stored);
+    },
+    async history(runId) {
+      return events.get(runId) ?? [];
+    },
+  };
+}
 
 type MemoryStorage = SourceStorage & {
   put: (key: string, bytes: Uint8Array, contentLength?: number) => void;

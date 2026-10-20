@@ -1,10 +1,15 @@
 import { embedPassageTexts } from "./embeddings";
 import { extractPdfPages } from "./pdf-text";
 import { r2Storage } from "./r2-storage";
+import { sourceRunChannel } from "./run-channel";
 import { createSources } from "./sources";
 
 export async function prepareStoredSource(sourceId: string) {
   await openSources().prepare(sourceId);
+}
+
+export async function finishStoredSource(sourceId: string) {
+  await openSources().finishRun(sourceId);
 }
 
 export async function recordStoredEmbeddingFailure(sourceId: string, runId?: string) {
@@ -16,5 +21,6 @@ function openSources() {
     storage: r2Storage(),
     extractPdf: extractPdfPages,
     embedPassages: embedPassageTexts,
+    runs: sourceRunChannel(),
   });
 }
