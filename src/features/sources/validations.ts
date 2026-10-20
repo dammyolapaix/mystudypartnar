@@ -29,3 +29,5 @@ export const confirmSourceUploadSchema = z.object({
 export const retrySourceSchema = z.object({
   sourceId: z.uuid(),
 });
+
+export const refreshSourcesSchema = z.object({});

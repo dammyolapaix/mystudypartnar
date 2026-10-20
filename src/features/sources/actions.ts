@@ -7,6 +7,7 @@ import { r2Storage, StorageNotConfiguredError } from "./r2-storage";
 import { createSources } from "./sources";
 import {
   confirmSourceUploadSchema,
+  refreshSourcesSchema,
   requestSourceUploadSchema,
   retrySourceSchema,
 } from "./validations";
@@ -50,6 +51,14 @@ export const retrySource = validatedActionWithUser(
 
     updateTag("sources");
     return { success: "Processing your file…", state };
+  },
+);
+
+export const refreshSources = validatedActionWithUser(
+  refreshSourcesSchema,
+  async (state) => {
+    updateTag("sources");
+    return { state };
   },
 );
 

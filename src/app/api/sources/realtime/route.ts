@@ -4,7 +4,7 @@ import { createSources } from "@/features/sources/sources";
 import type { SourceStorage } from "@/features/sources/types";
 import { getSession } from "@/lib/session";
 
-const unusedStorage: SourceStorage = {
+const storage: SourceStorage = {
   async createUploadUrl() {
     throw new Error("File storage is not configured");
   },
@@ -23,7 +23,7 @@ export function GET(request: Request) {
       const session = await getSession();
       if (!session) return new Response("Not authenticated", { status: 401 });
 
-      const sources = createSources({ storage: unusedStorage });
+      const sources = createSources({ storage });
       for (const channel of channels) {
         const result = await sources.subscribe({ id: session.user.id }, channel);
         if ("error" in result) {

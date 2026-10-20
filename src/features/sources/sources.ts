@@ -279,26 +279,29 @@ export function createSources({
       const source = await getSourceForPreparation(sourceId);
       if (!source?.runId || !runs) return;
       if (!source.deletedAt && source.status === "preparing") return;
-      await runs.emit(source.runId, { type: "finished" });
+      await notify(runs, source.runId, { type: "finished" });
     },
 
     async replay(caller: SourceCaller, runId: string) {
-      if (!caller) return { error: "Not authenticated" };
-
-      const source = await getOwnedSourceByRun(caller.id, runId);
-      if (!source?.runId) return { error: "This source was not found" };
+      const owned = await ownedRun(caller, runId);
+      if ("error" in owned) return owned;
       if (!runs) return { events: [] };
-      return { events: await runs.history(source.runId) };
+      return { events: await runs.history(owned.source.runId) };
     },
 
     async subscribe(caller: SourceCaller, runId: string) {
-      if (!caller) return { error: "Not authenticated" };
-
-      const source = await getOwnedSourceByRun(caller.id, runId);
-      if (!source?.runId) return { error: "This source was not found" };
-      return { channel: source.runId };
+      const owned = await ownedRun(caller, runId);
+      if ("error" in owned) return owned;
+      return { channel: owned.source.runId };
     },
   };
+}
+
+async function ownedRun(caller: SourceCaller, runId: string) {
+  if (!caller) return { error: "Not authenticated" as const };
+  const source = await getOwnedSourceByRun(caller.id, runId);
+  if (!source?.runId) return { error: "This source was not found" as const };
+  return { source: { ...source, runId: source.runId } };
 }
 
 async function notify(
@@ -307,7 +310,11 @@ async function notify(
   event: PreparationEvent,
 ) {
   if (!runs || !runId) return;
-  await runs.emit(runId, event);
+  try {
+    await runs.emit(runId, event);
+  } catch {
+    return;
+  }
 }
 
 function requiredSecret() {

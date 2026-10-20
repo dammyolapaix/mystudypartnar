@@ -67,6 +67,10 @@ export async function listPassages(
 }
 
 export async function getOwnedSourceByRun(userId: string, runId: string) {
+  "use cache: private";
+  cacheTag("sources");
+  cacheLife("hours");
+
   const [row] = await db
     .select(sourceColumns)
     .from(sources)

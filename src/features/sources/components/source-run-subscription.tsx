@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
+import { refreshSources } from "../actions";
 
-const RECONNECT_LIMIT = 3;
+const MAX_RECONNECT_DELAY_MS = 10_000;
 
 export function SourceRunSubscription({
   runIds,
@@ -20,7 +21,7 @@ export function SourceRunSubscription({
     if (ids.length === 0) return;
 
     const lastAck = new Map<string, string>();
-    let source: EventSource | null = null;
+    let socket: EventSource | null = null;
     let closed = false;
     let reconnecting = false;
     let attempts = 0;
@@ -36,10 +37,10 @@ export function SourceRunSubscription({
       const current = new EventSource(`/api/sources/realtime?${params}`, {
         withCredentials: true,
       });
-      source = current;
+      socket = current;
 
       current.onmessage = (evt) => {
-        if (source !== current) return;
+        if (socket !== current) return;
         attempts = 0;
         let payload: {
           type?: string;
@@ -65,20 +66,21 @@ export function SourceRunSubscription({
         }
 
         if (payload.event === "source.finished") {
-          router.refresh();
+          void refreshSources({}).then(() => {
+            router.refresh();
+          });
         }
       };
 
       current.onerror = () => {
-        if (source !== current || closed) return;
+        if (socket !== current || closed) return;
         if (reconnecting) {
           reconnecting = false;
           return;
         }
         current.close();
-        if (attempts >= RECONNECT_LIMIT) return;
         attempts += 1;
-        window.setTimeout(connect, 1000 * attempts);
+        window.setTimeout(connect, Math.min(1000 * attempts, MAX_RECONNECT_DELAY_MS));
       };
     };
 
@@ -86,7 +88,7 @@ export function SourceRunSubscription({
 
     return () => {
       closed = true;
-      source?.close();
+      socket?.close();
     };
   }, [router, subscriptionKey]);
 

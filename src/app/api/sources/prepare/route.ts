@@ -16,7 +16,7 @@ export const { POST } = serve<{ sourceId: string }>(
 
     await context.run("refresh-sources", async () => {
       try {
-        revalidateTag("sources", "max");
+        revalidateTag("sources", { expire: 0 });
       } catch {
         return;
       }
@@ -33,7 +33,7 @@ export const { POST } = serve<{ sourceId: string }>(
         context.workflowRunId,
       );
       try {
-        revalidateTag("sources", "max");
+        revalidateTag("sources", { expire: 0 });
       } catch {
         // The finish event still asks the open page to read the row.
       }

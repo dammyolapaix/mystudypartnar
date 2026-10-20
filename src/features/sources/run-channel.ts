@@ -13,7 +13,7 @@ const schema = {
 };
 
 const HISTORY_LIMIT = 50;
-const HISTORY_SECONDS = 60 * 60;
+const HISTORY_SECONDS = 24 * 60 * 60;
 
 export function getSourceRealtime() {
   const url = process.env.UPSTASH_REDIS_REST_URL;
