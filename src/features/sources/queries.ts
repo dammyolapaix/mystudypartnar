@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { and, asc, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import db from "@/db";
 import { passages, sources } from "./schema";
 import type { PassageRecord } from "./types";
@@ -42,6 +42,7 @@ export async function insertSource(values: {
 export async function listPassages(
   userId: string,
   sourceId: string,
+  options: { includeDeleted?: boolean } = {},
 ): Promise<PassageRecord[]> {
   "use cache: private";
   cacheTag("sources");
@@ -60,7 +61,7 @@ export async function listPassages(
       and(
         eq(sources.id, sourceId),
         eq(sources.userId, userId),
-        isNull(sources.deletedAt),
+        options.includeDeleted ? undefined : isNull(sources.deletedAt),
       ),
     )
     .orderBy(asc(passages.page), asc(passages.passageOrder));
@@ -234,6 +235,31 @@ export async function commitPreparation(
       .where(eq(sources.id, sourceId));
 
     return "ready" as const;
+  });
+}
+
+export async function deleteSourcesForUser(userId: string) {
+  return db.transaction(async (tx) => {
+    const owned = await tx
+      .select({ id: sources.id, objectKey: sources.objectKey })
+      .from(sources)
+      .where(eq(sources.userId, userId))
+      .for("update");
+
+    if (owned.length === 0) return owned;
+
+    await tx.delete(passages).where(
+      inArray(
+        passages.sourceId,
+        owned.map((row) => row.id),
+      ),
+    );
+    await tx
+      .update(sources)
+      .set({ deletedAt: new Date().toISOString() })
+      .where(and(eq(sources.userId, userId), isNull(sources.deletedAt)));
+
+    return owned;
   });
 }
 

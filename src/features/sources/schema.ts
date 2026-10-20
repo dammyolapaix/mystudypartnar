@@ -23,7 +23,7 @@ export const sources = snakeCase.table(
     id: uuid().primaryKey(),
     userId: uuid()
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: "cascade" }),
     filename: text().notNull(),
     objectKey: text().notNull().unique(),
     status: sourceStatus().notNull().default("preparing"),

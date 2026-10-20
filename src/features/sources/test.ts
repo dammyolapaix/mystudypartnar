@@ -1241,6 +1241,115 @@ test("the owner can replay events from earlier in that run", async () => {
   ]);
 });
 
+test("deleting a student removes every source they own", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    extractPdf: async (bytes) => [
+      {
+        page: 1,
+        text: includesText(bytes, "other-lecture")
+          ? "Other lecture."
+          : "Student lecture.",
+      },
+    ],
+    embedPassages: async (texts) =>
+      texts.map((text) => embedding(text === "Other lecture." ? 0.75 : 0.25)),
+  });
+  const studentPdf = file("%PDF-1.4\nstudent-lecture");
+  const preparingPdf = file("%PDF-1.4\nstill-preparing");
+  const removedPdf = file("%PDF-1.4\nalready-removed");
+  const otherPdf = file("%PDF-1.4\nother-lecture");
+
+  const ready = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "notes.pdf",
+    studentPdf,
+  );
+  const preparing = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "slides.pdf",
+    preparingPdf,
+  );
+  const removed = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "old.pdf",
+    removedPdf,
+  );
+  const kept = await confirmFile(
+    sources,
+    storage,
+    other.id,
+    "other.pdf",
+    otherPdf,
+  );
+  if (
+    !("source" in ready) ||
+    !("source" in preparing) ||
+    !("source" in removed) ||
+    !("source" in kept)
+  ) {
+    throw new Error("Expected a source");
+  }
+
+  await sources.prepare(ready.source.id);
+  await sources.prepare(kept.source.id);
+  expect(await sources.deleteSource({ id: student.id }, removed.source.id)).toEqual({
+    deleted: true,
+  });
+
+  await sources.deleteSourcesForStudent(student.id);
+
+  expect(await listSources(student.id)).toEqual([]);
+  expect(
+    await listPassages(student.id, ready.source.id, { includeDeleted: true }),
+  ).toEqual([]);
+  expect(
+    await listPassages(student.id, preparing.source.id, { includeDeleted: true }),
+  ).toEqual([]);
+  expect(
+    await listPassages(student.id, removed.source.id, { includeDeleted: true }),
+  ).toEqual([]);
+  expect(await storage.readObject(`sources/${student.id}/${ready.source.id}`)).toBeNull();
+  expect(
+    await storage.readObject(`sources/${student.id}/${preparing.source.id}`),
+  ).toBeNull();
+  expect(
+    await storage.readObject(`sources/${student.id}/${removed.source.id}`),
+  ).toBeNull();
+  expect(await listSources(other.id)).toEqual([
+    {
+      id: kept.source.id,
+      filename: "other.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: null,
+      userId: other.id,
+    },
+  ]);
+  expect(await listPassages(other.id, kept.source.id)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "Other lecture.",
+      embedding: embedding(0.75),
+    },
+  ]);
+  expect(await storage.readObject(`sources/${other.id}/${kept.source.id}`)).toEqual(
+    otherPdf,
+  );
+});
+
 test("another student cannot confirm an upload they do not own", async () => {
   const student = { id: crypto.randomUUID() };
   const other = { id: crypto.randomUUID() };

@@ -3,6 +3,7 @@ import { rm } from "node:fs/promises";
 import {
   commitPreparation,
   deleteOwnedSource,
+  deleteSourcesForUser,
   getOwnedSourceByRun,
   getSourceForPreparation,
   getSourceIdByObjectKey,
@@ -319,6 +320,13 @@ export function createSources({
       const removed = await deleteOwnedSource(caller.id, sourceId);
       if (!removed) return { error: "This source was not found" };
       return { deleted: true as const };
+    },
+
+    async deleteSourcesForStudent(userId: string) {
+      const owned = await deleteSourcesForUser(userId);
+      for (const source of owned) {
+        await storage.deleteObject(source.objectKey);
+      }
     },
 
     async finishRun(sourceId: string) {
