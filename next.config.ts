@@ -3,7 +3,7 @@ import { withEve } from "eve/next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  serverExternalPackages: ["@firecrawl/pdf-inspector"],
+  serverExternalPackages: ["@firecrawl/pdf-inspector", "libreoffice-convert"],
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

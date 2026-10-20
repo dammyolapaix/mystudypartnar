@@ -1,4 +1,5 @@
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
+import { rm } from "node:fs/promises";
 import {
   commitPreparation,
   deleteOwnedSource,
@@ -12,6 +13,8 @@ import {
 } from "./queries";
 import type {
   AbandonedUpload,
+  ConvertedOfficePdf,
+  OfficeExtension,
   PdfPageText,
   PreparationEvent,
   RunChannel,
@@ -39,6 +42,10 @@ type SourcesDependencies = {
   now?: () => number;
   secret?: string;
   extractPdf?: (bytes: Uint8Array) => Promise<PdfPageText[]>;
+  convertOffice?: (
+    bytes: Uint8Array,
+    extension: OfficeExtension,
+  ) => Promise<ConvertedOfficePdf>;
   embedPassages?: (texts: string[]) => Promise<number[][]>;
   startPreparation?: (sourceId: string) => Promise<string | null>;
   scheduleAbandonedUpload?: (upload: AbandonedUpload) => Promise<void>;
@@ -62,6 +69,7 @@ export function createSources({
   now = Date.now,
   secret,
   extractPdf,
+  convertOffice,
   embedPassages,
   startPreparation,
   scheduleAbandonedUpload,
@@ -182,71 +190,93 @@ export function createSources({
     async prepare(sourceId: string) {
       const source = await getSourceForPreparation(sourceId);
       if (!source || source.deletedAt || source.status !== "preparing") return;
-      if (sourceExtension(source.filename) !== "pdf") return;
+
+      const extension = sourceExtension(source.filename);
+      if (!extension) return;
       if (!extractPdf || !embedPassages) {
         throw new Error("PDF preparation is not configured");
       }
 
       await notify(runs, source.runId, { type: "step", name: "extracting text" });
 
-      let bytes: Uint8Array | null;
+      let temporaryPdf: string | undefined;
       try {
-        bytes = await storage.readObject(source.objectKey);
-      } catch {
-        await markSourceFailed(sourceId, "could_not_open");
-        return;
+        let bytes: Uint8Array | null;
+        try {
+          bytes = await storage.readObject(source.objectKey);
+        } catch {
+          await markSourceFailed(sourceId, "could_not_open");
+          return;
+        }
+        if (!bytes) {
+          await markSourceFailed(sourceId, "could_not_open");
+          return;
+        }
+
+        let pdfBytes = bytes;
+        if (extension !== "pdf") {
+          if (!convertOffice) {
+            throw new Error("Office preparation is not configured");
+          }
+          try {
+            const converted = await convertOffice(bytes, extension);
+            temporaryPdf = converted.path;
+            pdfBytes = converted.pdf;
+          } catch {
+            await markSourceFailed(sourceId, "could_not_open");
+            return;
+          }
+        }
+
+        let pages: PdfPageText[];
+        try {
+          pages = await extractPdf(pdfBytes);
+        } catch {
+          await markSourceFailed(sourceId, "could_not_open");
+          return;
+        }
+
+        await notify(runs, source.runId, {
+          type: "step",
+          name: "splitting passages",
+        });
+
+        const nextPassages = pages.flatMap((page) => {
+          if (!Number.isInteger(page.page) || page.page < 1) return [];
+          return splitPage(page.text).map((text, index) => ({
+            page: page.page,
+            order: index + 1,
+            text,
+          }));
+        });
+        if (nextPassages.length === 0) {
+          await markSourceFailed(sourceId, "no_text");
+          return;
+        }
+
+        await notify(runs, source.runId, { type: "step", name: "embedding" });
+
+        const embeddings = await embedPassages(
+          nextPassages.map((passage) => passage.text),
+        );
+        if (
+          embeddings.length !== nextPassages.length ||
+          embeddings.some((value) => value.length !== EMBEDDING_DIMENSIONS)
+        ) {
+          throw new Error("Embeddings do not match the passages");
+        }
+
+        await commitPreparation(
+          sourceId,
+          nextPassages.map((passage, index) => {
+            const embedding = embeddings[index];
+            if (!embedding) throw new Error("Embeddings do not match the passages");
+            return { ...passage, embedding };
+          }),
+        );
+      } finally {
+        if (temporaryPdf) await discardTemporaryPdf(temporaryPdf);
       }
-      if (!bytes) {
-        await markSourceFailed(sourceId, "could_not_open");
-        return;
-      }
-
-      let pages: PdfPageText[];
-      try {
-        pages = await extractPdf(bytes);
-      } catch {
-        await markSourceFailed(sourceId, "could_not_open");
-        return;
-      }
-
-      await notify(runs, source.runId, {
-        type: "step",
-        name: "splitting passages",
-      });
-
-      const nextPassages = pages.flatMap((page) => {
-        if (!Number.isInteger(page.page) || page.page < 1) return [];
-        return splitPage(page.text).map((text, index) => ({
-          page: page.page,
-          order: index + 1,
-          text,
-        }));
-      });
-      if (nextPassages.length === 0) {
-        await markSourceFailed(sourceId, "no_text");
-        return;
-      }
-
-      await notify(runs, source.runId, { type: "step", name: "embedding" });
-
-      const embeddings = await embedPassages(
-        nextPassages.map((passage) => passage.text),
-      );
-      if (
-        embeddings.length !== nextPassages.length ||
-        embeddings.some((value) => value.length !== EMBEDDING_DIMENSIONS)
-      ) {
-        throw new Error("Embeddings do not match the passages");
-      }
-
-      await commitPreparation(
-        sourceId,
-        nextPassages.map((passage, index) => {
-          const embedding = embeddings[index];
-          if (!embedding) throw new Error("Embeddings do not match the passages");
-          return { ...passage, embedding };
-        }),
-      );
     },
 
     async recordEmbeddingFailure(sourceId: string, runId?: string) {
@@ -318,6 +348,14 @@ async function ownedRun(caller: SourceCaller, runId: string) {
   const source = await getOwnedSourceByRun(caller.id, runId);
   if (!source?.runId) return { error: "This source was not found" as const };
   return { source: { ...source, runId: source.runId } };
+}
+
+async function discardTemporaryPdf(path: string) {
+  try {
+    await rm(path, { force: true });
+  } catch {
+    return;
+  }
 }
 
 async function notify(

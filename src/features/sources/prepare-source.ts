@@ -1,4 +1,5 @@
 import { embedPassageTexts } from "./embeddings";
+import { convertOfficeToPdf } from "./office-pdf";
 import { extractPdfPages } from "./pdf-text";
 import { r2Storage } from "./r2-storage";
 import { sourceRunChannel } from "./run-channel";
@@ -20,6 +21,7 @@ function openSources() {
   return createSources({
     storage: r2Storage(),
     extractPdf: extractPdfPages,
+    convertOffice: convertOfficeToPdf,
     embedPassages: embedPassageTexts,
     runs: sourceRunChannel(),
   });

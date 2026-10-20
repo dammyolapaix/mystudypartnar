@@ -1,3 +1,7 @@
+import { existsSync } from "node:fs";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { afterEach, expect, test, vi } from "vitest";
 import longPage from "./long-page.json";
 import { createSources, listPassages, listSources, type SourceStorage } from "./sources";
@@ -13,8 +17,12 @@ vi.mock("next/cache", () => ({
 const MAX_SOURCE_BYTES = 50 * 1024 * 1024;
 const FIFTEEN_MINUTES = 15 * 60;
 const fixtureUsers: string[] = [];
+const temporaryPdfs: string[] = [];
 
 afterEach(async () => {
+  await Promise.all(
+    temporaryPdfs.splice(0).map((path) => rm(path, { recursive: true, force: true })),
+  );
   await Promise.all(fixtureUsers.splice(0).map((id) => removeUser(id)));
 });
 
@@ -443,6 +451,209 @@ test("a text pdf becomes ready with the page text as one passage", async () => {
     },
   ]);
   expect(await listPassages(crypto.randomUUID(), uploaded.source.id)).toEqual([]);
+});
+
+test("a word or powerpoint file becomes ready and the temporary pdf is discarded", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const files = [
+    {
+      filename: "lecture.pptx",
+      extension: "pptx",
+      bytes: file([0x50, 0x4b, 0x03, 0x04], "ppt/slides/slide1.xml"),
+      page: 3,
+      text: "The heart has four chambers.",
+      vector: 0.25,
+    },
+    {
+      filename: "lecture.docx",
+      extension: "docx",
+      bytes: file([0x50, 0x4b, 0x03, 0x04], "word/document.xml"),
+      page: 2,
+      text: "Lecture 2\nArteries carry blood away from the heart.",
+      vector: 0.5,
+    },
+    {
+      filename: "essay.doc",
+      extension: "doc",
+      bytes: ole("WordDocument"),
+      page: 1,
+      text: "An older Word page.",
+      vector: 0.75,
+    },
+    {
+      filename: "deck.ppt",
+      extension: "ppt",
+      bytes: ole("PowerPoint Document"),
+      page: 4,
+      text: "Slide one.",
+      vector: 0.1,
+    },
+  ] as const;
+
+  for (const office of files) {
+    const convertedPdf = file(`%PDF-1.4\n${office.extension}`);
+    let temporaryPdf = "";
+    let keptUntilPassagesStored = false;
+    const sources = createSources({
+      storage,
+      secret: "test-secret",
+      convertOffice: async (bytes, extension) => {
+        if (extension !== office.extension || !sameBytes(bytes, office.bytes)) {
+          throw new Error(`expected the original ${office.extension} file`);
+        }
+        temporaryPdf = await writeTemporaryPdf(convertedPdf);
+        return { pdf: convertedPdf, path: temporaryPdf };
+      },
+      extractPdf: async (bytes) => {
+        if (!sameBytes(bytes, convertedPdf)) {
+          throw new Error("expected the converted pdf");
+        }
+        return [{ page: office.page, text: office.text }];
+      },
+      embedPassages: async () => {
+        keptUntilPassagesStored = existsSync(temporaryPdf);
+        return [embedding(office.vector)];
+      },
+    });
+
+    const uploaded = await confirmFile(
+      sources,
+      storage,
+      student.id,
+      office.filename,
+      office.bytes,
+    );
+    if (!("source" in uploaded)) {
+      throw new Error(`Expected ${office.filename} to become a source`);
+    }
+
+    await sources.prepare(uploaded.source.id);
+
+    expect(keptUntilPassagesStored).toBe(true);
+    expect(existsSync(temporaryPdf)).toBe(false);
+    expect(await listPassages(student.id, uploaded.source.id)).toEqual([
+      {
+        page: office.page,
+        order: 1,
+        text: office.text,
+        embedding: embedding(office.vector),
+      },
+    ]);
+    expect(
+      await storage.readObject(`sources/${student.id}/${uploaded.source.id}`),
+    ).toEqual(office.bytes);
+    const listed = await listSources(student.id);
+    expect(listed.find((source) => source.id === uploaded.source.id)).toMatchObject({
+      filename: office.filename,
+      status: "ready",
+      failureReason: "",
+    });
+    for (const key of storage.keys()) {
+      const stored = await storage.readObject(key);
+      expect(stored !== null && sameBytes(stored, convertedPdf)).toBe(false);
+    }
+  }
+});
+
+test("a deck whose only words are in the notes becomes failed", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const notes = "Hidden speaker notes.";
+  const deck = file(
+    [0x50, 0x4b, 0x03, 0x04],
+    "ppt/notesSlides/notesSlide1.xml",
+    notes,
+  );
+  const convertedPdf = file("%PDF-1.4\nslides");
+  let temporaryPdf = "";
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    convertOffice: async () => {
+      temporaryPdf = await writeTemporaryPdf(convertedPdf);
+      return { pdf: convertedPdf, path: temporaryPdf };
+    },
+    extractPdf: async (bytes) => {
+      if (!sameBytes(bytes, convertedPdf) || includesText(bytes, notes)) {
+        throw new Error("expected a pdf without speaker notes");
+      }
+      return [{ page: 1, text: "" }];
+    },
+    embedPassages: async () => {
+      throw new Error("embeddings should not run");
+    },
+  });
+
+  const uploaded = await confirmFile(sources, storage, student.id, "notes.pptx", deck);
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "notes.pptx",
+      status: "failed",
+      failureReason: "no_text",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(includesText(deck, notes)).toBe(true);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([]);
+  expect(existsSync(temporaryPdf)).toBe(false);
+  expect(
+    await storage.readObject(`sources/${student.id}/${uploaded.source.id}`),
+  ).toEqual(deck);
+});
+
+test("an office file that cannot be converted becomes failed", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const lecture = ole("WordDocument");
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    convertOffice: async () => {
+      throw new Error("soffice failed");
+    },
+    extractPdf: async () => {
+      throw new Error("extractor should not run");
+    },
+    embedPassages: async () => {
+      throw new Error("embeddings should not run");
+    },
+  });
+
+  const uploaded = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "locked.doc",
+    lecture,
+  );
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "locked.doc",
+      status: "failed",
+      failureReason: "could_not_open",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([]);
+  expect(
+    await storage.readObject(`sources/${student.id}/${uploaded.source.id}`),
+  ).toEqual(lecture);
 });
 
 test("a long page stays on that page and splits into overlapping windows", async () => {
@@ -1073,6 +1284,7 @@ function memoryRuns(): RunChannel {
 type MemoryStorage = SourceStorage & {
   put: (key: string, bytes: Uint8Array, contentLength?: number) => void;
   remove: (key: string) => void;
+  keys: () => string[];
 };
 
 function memoryStorage(): MemoryStorage {
@@ -1100,6 +1312,9 @@ function memoryStorage(): MemoryStorage {
     },
     remove(key) {
       objects.delete(key);
+    },
+    keys() {
+      return [...objects.keys()];
     },
   };
 }
@@ -1144,6 +1359,23 @@ function file(...parts: Array<string | number[]>) {
     offset += chunk.length;
   }
   return bytes;
+}
+
+function includesText(bytes: Uint8Array, text: string) {
+  return new TextDecoder().decode(bytes).includes(text);
+}
+
+function sameBytes(left: Uint8Array, right: Uint8Array) {
+  if (left.byteLength !== right.byteLength) return false;
+  return left.every((value, index) => value === right[index]);
+}
+
+async function writeTemporaryPdf(bytes: Uint8Array) {
+  const directory = await mkdtemp(join(tmpdir(), "source-pdf-"));
+  temporaryPdfs.push(directory);
+  const path = join(directory, "converted.pdf");
+  await writeFile(path, bytes);
+  return path;
 }
 
 function ole(streamName: string) {

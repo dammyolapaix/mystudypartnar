@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { sources } from "./schema";
+import type { SourceExtension } from "./utils";
 import type {
   confirmSourceUploadSchema,
   requestSourceUploadSchema,
@@ -28,6 +29,13 @@ export type SourceCaller = { id: string } | null;
 export type PdfPageText = {
   page: number;
   text: string;
+};
+
+export type OfficeExtension = Exclude<SourceExtension, "pdf">;
+
+export type ConvertedOfficePdf = {
+  pdf: Uint8Array;
+  path: string;
 };
 
 export type PassageRecord = {

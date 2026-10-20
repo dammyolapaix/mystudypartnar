@@ -1,0 +1,7 @@
+.git
+.eve
+.next
+node_modules
+coverage
+*.tsbuildinfo
+.env*
