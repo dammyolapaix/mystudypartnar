@@ -4,7 +4,7 @@ import {
   commitPreparation,
   deleteOwnedSource,
   getOwnedSourceObjectKey,
-  deleteSourcesForUser,
+  listOwnedSourceFiles,
   getOwnedSourceByRun,
   getSourceForPreparation,
   getSourceIdByObjectKey,
@@ -332,9 +332,10 @@ export function createSources({
     },
 
     async deleteSourcesForStudent(userId: string) {
-      const owned = await deleteSourcesForUser(userId);
+      const owned = await listOwnedSourceFiles(userId, { includeDeleted: true });
       for (const source of owned) {
         await storage.deleteObject(source.objectKey);
+        await deleteOwnedSource(userId, source.id);
       }
     },
 

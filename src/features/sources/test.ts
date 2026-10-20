@@ -1526,6 +1526,61 @@ test("deleting a student removes every source they own", async () => {
   );
 });
 
+test("a student's sources stay when a stored file cannot be deleted", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage: {
+      createUploadUrl: (input) => storage.createUploadUrl(input),
+      statObject: (key) => storage.statObject(key),
+      readObject: (key) => storage.readObject(key),
+      async deleteObject() {
+        throw new Error("storage down");
+      },
+    },
+    secret: "test-secret",
+    extractPdf: async () => [{ page: 1, text: "The heart has four chambers." }],
+    embedPassages: async () => [embedding(0.25)],
+  });
+  const lecture = file("%PDF-1.4\nlecture");
+  const uploaded = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "lecture.pdf",
+    lecture,
+  );
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+
+  await expect(sources.deleteSourcesForStudent(student.id)).rejects.toThrow(
+    "storage down",
+  );
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "The heart has four chambers.",
+      embedding: embedding(0.25),
+    },
+  ]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toEqual(
+    lecture,
+  );
+});
+
 test("another student cannot confirm an upload they do not own", async () => {
   const student = { id: crypto.randomUUID() };
   const other = { id: crypto.randomUUID() };

@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import db from "@/db";
 import { passages, sources } from "./schema";
 import type { PassageRecord } from "./types";
@@ -238,29 +238,19 @@ export async function commitPreparation(
   });
 }
 
-export async function deleteSourcesForUser(userId: string) {
-  return db.transaction(async (tx) => {
-    const owned = await tx
-      .select({ id: sources.id, objectKey: sources.objectKey })
-      .from(sources)
-      .where(eq(sources.userId, userId))
-      .for("update");
-
-    if (owned.length === 0) return owned;
-
-    await tx.delete(passages).where(
-      inArray(
-        passages.sourceId,
-        owned.map((row) => row.id),
+export async function listOwnedSourceFiles(
+  userId: string,
+  options: { includeDeleted?: boolean } = {},
+) {
+  return db
+    .select({ id: sources.id, objectKey: sources.objectKey })
+    .from(sources)
+    .where(
+      and(
+        eq(sources.userId, userId),
+        options.includeDeleted ? undefined : isNull(sources.deletedAt),
       ),
     );
-    await tx
-      .update(sources)
-      .set({ deletedAt: new Date().toISOString() })
-      .where(and(eq(sources.userId, userId), isNull(sources.deletedAt)));
-
-    return owned;
-  });
 }
 
 export async function getOwnedSourceObjectKey(userId: string, sourceId: string) {
@@ -276,21 +266,22 @@ export async function getOwnedSourceObjectKey(userId: string, sourceId: string) 
 
 export async function deleteOwnedSource(userId: string, sourceId: string) {
   return db.transaction(async (tx) => {
-    const [row] = await tx
-      .update(sources)
-      .set({ deletedAt: new Date().toISOString() })
-      .where(
-        and(
-          eq(sources.id, sourceId),
-          eq(sources.userId, userId),
-          isNull(sources.deletedAt),
-        ),
-      )
-      .returning({ id: sources.id });
+    const [owned] = await tx
+      .select({ id: sources.id, deletedAt: sources.deletedAt })
+      .from(sources)
+      .where(and(eq(sources.id, sourceId), eq(sources.userId, userId)))
+      .for("update");
 
-    if (!row) return null;
+    if (!owned) return null;
 
     await tx.delete(passages).where(eq(passages.sourceId, sourceId));
-    return row;
+    if (owned.deletedAt) return { id: owned.id };
+
+    await tx
+      .update(sources)
+      .set({ deletedAt: new Date().toISOString() })
+      .where(eq(sources.id, sourceId));
+
+    return { id: owned.id };
   });
 }
