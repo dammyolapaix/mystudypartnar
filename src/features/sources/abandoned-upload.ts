@@ -12,7 +12,6 @@ export async function scheduleAbandonedUpload(upload: AbandonedUpload) {
   await client.trigger({
     url: new URL("/api/sources/cleanup", baseUrl).href,
     body: upload,
-    notBefore: Math.floor(upload.expiresAt / 1000),
   });
 }
 

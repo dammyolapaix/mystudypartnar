@@ -276,8 +276,10 @@ export function createSources({
 
     async removeAbandonedUpload(upload: AbandonedUpload) {
       if (now() < upload.expiresAt) return;
-      const owned = await getSourceIdByObjectKey(upload.objectKey);
-      if (owned) return;
+      const sourceId = await getSourceIdByObjectKey(upload.objectKey, {
+        includeDeleted: true,
+      });
+      if (sourceId) return;
       await storage.deleteObject(upload.objectKey);
     },
 
