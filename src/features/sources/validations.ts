@@ -30,4 +30,8 @@ export const retrySourceSchema = z.object({
   sourceId: z.uuid(),
 });
 
+export const deleteSourceSchema = z.object({
+  sourceId: z.uuid(),
+});
+
 export const refreshSourcesSchema = z.object({});

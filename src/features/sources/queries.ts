@@ -263,6 +263,17 @@ export async function deleteSourcesForUser(userId: string) {
   });
 }
 
+export async function getOwnedSourceObjectKey(userId: string, sourceId: string) {
+  const [row] = await db
+    .select({ objectKey: sources.objectKey })
+    .from(sources)
+    .where(
+      and(eq(sources.id, sourceId), eq(sources.userId, userId), isNull(sources.deletedAt)),
+    );
+
+  return row?.objectKey ?? null;
+}
+
 export async function deleteOwnedSource(userId: string, sourceId: string) {
   return db.transaction(async (tx) => {
     const [row] = await tx

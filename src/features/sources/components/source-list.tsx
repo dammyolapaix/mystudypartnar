@@ -7,6 +7,7 @@ import {
 import { getSession } from "@/lib/session";
 import { listSources } from "../queries";
 import type { SourceRecord } from "../types";
+import { DeleteSourceForm } from "./delete-source-form";
 import { RetrySourceForm } from "./retry-source-form";
 import { SourceRunSubscription } from "./source-run-subscription";
 import { UploadSourceForm } from "./upload-source-form";
@@ -47,9 +48,12 @@ export async function SourceList() {
                 <p className="text-sm text-muted-foreground">
                   {sourceStatusCopy(source.status)}
                 </p>
-                {source.status === "failed" ? (
-                  <RetrySourceForm sourceId={source.id} />
-                ) : null}
+                <div className="flex flex-wrap items-center gap-2">
+                  {source.status === "failed" ? (
+                    <RetrySourceForm sourceId={source.id} />
+                  ) : null}
+                  <DeleteSourceForm sourceId={source.id} />
+                </div>
               </li>
             ))}
           </ul>

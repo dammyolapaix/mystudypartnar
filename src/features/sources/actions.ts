@@ -8,6 +8,7 @@ import { r2Storage, StorageNotConfiguredError } from "./r2-storage";
 import { createSources } from "./sources";
 import {
   confirmSourceUploadSchema,
+  deleteSourceSchema,
   refreshSourcesSchema,
   requestSourceUploadSchema,
   retrySourceSchema,
@@ -55,6 +56,18 @@ export const retrySource = validatedActionWithUser(
     updateTag("sources");
     return { success: "Processing your file…", state };
   },
+);
+
+export const deleteSource = validatedActionWithUser(
+  deleteSourceSchema,
+  async (state, session) =>
+    withStorage(state, async (sources) => {
+      const result = await sources.deleteSource({ id: session.user.id }, state.sourceId);
+      if ("error" in result) return { error: result.error, state };
+
+      updateTag("sources");
+      return { success: "Source deleted", state };
+    }),
 );
 
 export const refreshSources = validatedActionWithUser(

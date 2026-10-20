@@ -1100,7 +1100,10 @@ test("a passage write is discarded when the source was deleted", async () => {
   await pending;
 
   expect(await listSources(student.id)).toEqual([]);
-  expect(await listPassages(student.id, uploaded.source.id)).toEqual([]);
+  expect(
+    await listPassages(student.id, uploaded.source.id, { includeDeleted: true }),
+  ).toEqual([]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toBeNull();
 });
 
 test("only the student who owns a source can subscribe to its run", async () => {
@@ -1239,6 +1242,179 @@ test("the owner can replay events from earlier in that run", async () => {
       userId: student.id,
     },
   ]);
+});
+
+test("a confirmed delete removes the source, its file, and its passages", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    extractPdf: async () => [{ page: 1, text: "The heart has four chambers." }],
+    embedPassages: async () => [embedding(0.25)],
+  });
+  const lecture = file("%PDF-1.4\nlecture");
+  const otherLecture = file("%PDF-1.4\nother-lecture");
+  const uploaded = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "lecture.pdf",
+    lecture,
+  );
+  const kept = await confirmFile(
+    sources,
+    storage,
+    other.id,
+    "other.pdf",
+    otherLecture,
+  );
+  if (!("source" in uploaded) || !("source" in kept)) {
+    throw new Error("Expected a source");
+  }
+
+  await sources.prepare(uploaded.source.id);
+  await sources.prepare(kept.source.id);
+
+  expect(await sources.deleteSource({ id: student.id }, uploaded.source.id)).toEqual({
+    deleted: true,
+  });
+
+  expect(await listSources(student.id)).toEqual([]);
+  expect(
+    await listPassages(student.id, uploaded.source.id, { includeDeleted: true }),
+  ).toEqual([]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toBeNull();
+  expect(await listSources(other.id)).toEqual([
+    {
+      id: kept.source.id,
+      filename: "other.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: null,
+      userId: other.id,
+    },
+  ]);
+  expect(await listPassages(other.id, kept.source.id)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "The heart has four chambers.",
+      embedding: embedding(0.25),
+    },
+  ]);
+  expect(await storage.readObject(`sources/${other.id}/${kept.source.id}`)).toEqual(
+    otherLecture,
+  );
+});
+
+test("a source stays when its stored file cannot be deleted", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage: {
+      createUploadUrl: (input) => storage.createUploadUrl(input),
+      statObject: (key) => storage.statObject(key),
+      readObject: (key) => storage.readObject(key),
+      async deleteObject() {
+        throw new Error("storage down");
+      },
+    },
+    secret: "test-secret",
+    extractPdf: async () => [{ page: 1, text: "The heart has four chambers." }],
+    embedPassages: async () => [embedding(0.25)],
+  });
+  const lecture = file("%PDF-1.4\nlecture");
+  const uploaded = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "lecture.pdf",
+    lecture,
+  );
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+
+  expect(await sources.deleteSource({ id: student.id }, uploaded.source.id)).toEqual({
+    error: "This source could not be deleted",
+  });
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "The heart has four chambers.",
+      embedding: embedding(0.25),
+    },
+  ]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toEqual(
+    lecture,
+  );
+});
+
+test("another student cannot delete a source they do not own", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    extractPdf: async () => [{ page: 1, text: "The heart has four chambers." }],
+    embedPassages: async () => [embedding(0.25)],
+  });
+  const lecture = file("%PDF-1.4\nlecture");
+  const uploaded = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "lecture.pdf",
+    lecture,
+  );
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+
+  expect(await sources.deleteSource(null, uploaded.source.id)).toEqual({
+    error: "Not authenticated",
+  });
+  expect(await sources.deleteSource({ id: other.id }, uploaded.source.id)).toEqual({
+    error: "This source was not found",
+  });
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "The heart has four chambers.",
+      embedding: embedding(0.25),
+    },
+  ]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toEqual(
+    lecture,
+  );
 });
 
 test("deleting a student removes every source they own", async () => {

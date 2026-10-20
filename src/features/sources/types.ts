@@ -3,6 +3,7 @@ import type { sources } from "./schema";
 import type { SourceExtension } from "./utils";
 import type {
   confirmSourceUploadSchema,
+  deleteSourceSchema,
   requestSourceUploadSchema,
   retrySourceSchema,
 } from "./validations";
@@ -23,6 +24,7 @@ export type UploadGrant = {
 export type RequestSourceUploadInput = z.infer<typeof requestSourceUploadSchema>;
 export type ConfirmSourceUploadInput = z.infer<typeof confirmSourceUploadSchema>;
 export type RetrySourceInput = z.infer<typeof retrySourceSchema>;
+export type DeleteSourceInput = z.infer<typeof deleteSourceSchema>;
 
 export type SourceCaller = { id: string } | null;
 
