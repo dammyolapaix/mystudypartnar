@@ -1,7 +1,8 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import db from "@/db";
-import { sources } from "./schema";
+import { passages, sources } from "./schema";
+import type { PassageRecord } from "./types";
 
 const sourceColumns = {
   id: sources.id,
@@ -34,4 +35,108 @@ export async function insertSource(values: {
     .returning(sourceColumns);
 
   return row;
+}
+
+export async function listPassages(
+  userId: string,
+  sourceId: string,
+): Promise<PassageRecord[]> {
+  "use cache: private";
+  cacheTag("sources");
+  cacheLife("hours");
+
+  return db
+    .select({
+      page: passages.page,
+      order: passages.passageOrder,
+      text: passages.text,
+      embedding: passages.embedding,
+    })
+    .from(passages)
+    .innerJoin(sources, eq(passages.sourceId, sources.id))
+    .where(
+      and(
+        eq(sources.id, sourceId),
+        eq(sources.userId, userId),
+        isNull(sources.deletedAt),
+      ),
+    )
+    .orderBy(asc(passages.page), asc(passages.passageOrder));
+}
+
+export async function getSourceForPreparation(sourceId: string) {
+  const [row] = await db
+    .select({
+      id: sources.id,
+      userId: sources.userId,
+      filename: sources.filename,
+      objectKey: sources.objectKey,
+      status: sources.status,
+      deletedAt: sources.deletedAt,
+    })
+    .from(sources)
+    .where(eq(sources.id, sourceId));
+
+  return row ?? null;
+}
+
+export async function setSourceRunId(sourceId: string, runId: string) {
+  await db.update(sources).set({ runId }).where(eq(sources.id, sourceId));
+}
+
+export async function commitPreparation(
+  sourceId: string,
+  rows: PassageRecord[],
+) {
+  return db.transaction(async (tx) => {
+    const [source] = await tx
+      .select({ status: sources.status, deletedAt: sources.deletedAt })
+      .from(sources)
+      .where(eq(sources.id, sourceId))
+      .for("update");
+
+    if (!source || source.deletedAt || source.status !== "preparing") {
+      return "discarded" as const;
+    }
+
+    await tx.delete(passages).where(eq(passages.sourceId, sourceId));
+    if (rows.length > 0) {
+      await tx.insert(passages).values(
+        rows.map((row) => ({
+          sourceId,
+          page: row.page,
+          passageOrder: row.order,
+          text: row.text,
+          embedding: row.embedding,
+        })),
+      );
+    }
+    await tx
+      .update(sources)
+      .set({ status: "ready", failureReason: "" })
+      .where(eq(sources.id, sourceId));
+
+    return "ready" as const;
+  });
+}
+
+export async function deleteOwnedSource(userId: string, sourceId: string) {
+  return db.transaction(async (tx) => {
+    const [row] = await tx
+      .update(sources)
+      .set({ deletedAt: new Date().toISOString() })
+      .where(
+        and(
+          eq(sources.id, sourceId),
+          eq(sources.userId, userId),
+          isNull(sources.deletedAt),
+        ),
+      )
+      .returning({ id: sources.id });
+
+    if (!row) return null;
+
+    await tx.delete(passages).where(eq(passages.sourceId, sourceId));
+    return row;
+  });
 }

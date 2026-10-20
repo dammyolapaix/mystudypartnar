@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg17
     container_name: mystudypartnar
     hostname: localhost
     environment:
@@ -11,5 +11,6 @@ services:
       - 5432:5432
     volumes:
       - mystudypartnar_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/00-vector.sql:ro
 volumes:
   mystudypartnar_data:

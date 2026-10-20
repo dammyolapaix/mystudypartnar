@@ -23,6 +23,18 @@ export type ConfirmSourceUploadInput = z.infer<typeof confirmSourceUploadSchema>
 
 export type SourceCaller = { id: string } | null;
 
+export type PdfPageText = {
+  page: number;
+  text: string;
+};
+
+export type PassageRecord = {
+  page: number;
+  order: number;
+  text: string;
+  embedding: number[];
+};
+
 export type SourceStorage = {
   createUploadUrl(input: {
     key: string;

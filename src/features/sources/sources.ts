@@ -1,21 +1,39 @@
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import { insertSource } from "./queries";
-import type { SourceCaller, SourceRecord, SourceStorage, UploadGrant } from "./types";
+import {
+  commitPreparation,
+  deleteOwnedSource,
+  getSourceForPreparation,
+  insertSource,
+  setSourceRunId,
+} from "./queries";
+import type {
+  PdfPageText,
+  SourceCaller,
+  SourceRecord,
+  SourceStorage,
+  UploadGrant,
+} from "./types";
 import {
   MAX_SOURCE_BYTES,
   sourceBytesMatch,
   sourceExtension,
   sourceObjectKey,
+  splitPage,
   UPLOAD_URL_SECONDS,
 } from "./utils";
 
 export type { SourceStorage } from "./types";
-export { listSources } from "./queries";
+export { listPassages, listSources } from "./queries";
+
+const EMBEDDING_DIMENSIONS = 1536;
 
 type SourcesDependencies = {
   storage: SourceStorage;
   now?: () => number;
   secret?: string;
+  extractPdf?: (bytes: Uint8Array) => Promise<PdfPageText[]>;
+  embedPassages?: (texts: string[]) => Promise<number[][]>;
+  startPreparation?: (sourceId: string) => Promise<string | null>;
 };
 
 type PendingUpload = {
@@ -34,6 +52,9 @@ export function createSources({
   storage,
   now = Date.now,
   secret,
+  extractPdf,
+  embedPassages,
+  startPreparation,
 }: SourcesDependencies) {
   const signingSecret = () => secret ?? requiredSecret();
 
@@ -131,6 +152,10 @@ export function createSources({
           objectKey: pending.objectKey,
         });
         if (!source) return { error: "This upload was not found" };
+        if (startPreparation) {
+          const runId = await startPreparation(source.id);
+          if (runId) await setSourceRunId(source.id, runId);
+        }
         return { source };
       } catch (error) {
         if (isUniqueViolation(error)) {
@@ -138,6 +163,69 @@ export function createSources({
         }
         throw error;
       }
+    },
+
+    async prepare(sourceId: string) {
+      const source = await getSourceForPreparation(sourceId);
+      if (!source || source.deletedAt || source.status !== "preparing") return;
+      if (sourceExtension(source.filename) !== "pdf") return;
+      if (!extractPdf || !embedPassages) {
+        throw new Error("PDF preparation is not configured");
+      }
+
+      const bytes = await storage.readObject(source.objectKey);
+      if (!bytes) return;
+
+      const pages = await extractPdf(bytes);
+      const nextPassages = pages.flatMap((page) => {
+        if (!Number.isInteger(page.page) || page.page < 1) return [];
+        return splitPage(page.text).map((text, index) => ({
+          page: page.page,
+          order: index + 1,
+          text,
+        }));
+      });
+      if (nextPassages.length === 0) return;
+
+      const embeddings = await embedPassages(
+        nextPassages.map((passage) => passage.text),
+      );
+      if (
+        embeddings.length !== nextPassages.length ||
+        embeddings.some((value) => value.length !== EMBEDDING_DIMENSIONS)
+      ) {
+        throw new Error("Embeddings do not match the passages");
+      }
+
+      await commitPreparation(
+        sourceId,
+        nextPassages.map((passage, index) => {
+          const embedding = embeddings[index];
+          if (!embedding) throw new Error("Embeddings do not match the passages");
+          return { ...passage, embedding };
+        }),
+      );
+    },
+
+    async retry(caller: SourceCaller, sourceId: string) {
+      if (!caller) return { error: "Not authenticated" };
+
+      const source = await getSourceForPreparation(sourceId);
+      if (!source || source.deletedAt || source.userId !== caller.id) {
+        return { error: "This source was not found" };
+      }
+      if (source.status === "ready") {
+        return { error: "A ready source cannot be retried" };
+      }
+      return { error: "This source cannot be retried" };
+    },
+
+    async deleteSource(caller: SourceCaller, sourceId: string) {
+      if (!caller) return { error: "Not authenticated" };
+
+      const removed = await deleteOwnedSource(caller.id, sourceId);
+      if (!removed) return { error: "This source was not found" };
+      return { deleted: true as const };
     },
   };
 }

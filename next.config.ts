@@ -3,6 +3,7 @@ import { withEve } from "eve/next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  serverExternalPackages: ["@firecrawl/pdf-inspector"],
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

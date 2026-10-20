@@ -1,5 +1,10 @@
+import { getEncoding } from "js-tiktoken";
+
 export const MAX_SOURCE_BYTES = 50 * 1024 * 1024;
 export const UPLOAD_URL_SECONDS = 15 * 60;
+const PASSAGE_TOKENS = 500;
+const PASSAGE_OVERLAP = 80;
+const cl100k = getEncoding("cl100k_base");
 
 const EXTENSIONS = ["pdf", "doc", "docx", "ppt", "pptx"] as const;
 
@@ -21,6 +26,23 @@ export function sourceExtension(filename: string): SourceExtension | null {
 
 export function sourceObjectKey(userId: string, sourceId: string) {
   return `sources/${userId}/${sourceId}`;
+}
+
+export function splitPage(text: string) {
+  if (text.trim().length === 0) return [];
+
+  const tokens = cl100k.encode(text);
+  if (tokens.length <= PASSAGE_TOKENS) return [text];
+
+  const windows: string[] = [];
+  const step = PASSAGE_TOKENS - PASSAGE_OVERLAP;
+  for (let start = 0; start < tokens.length; start += step) {
+    const end = Math.min(start + PASSAGE_TOKENS, tokens.length);
+    const windowText = cl100k.decode(tokens.slice(start, end));
+    if (windowText.trim().length > 0) windows.push(windowText);
+    if (end === tokens.length) break;
+  }
+  return windows;
 }
 
 export function sourceBytesMatch(extension: SourceExtension, bytes: Uint8Array) {

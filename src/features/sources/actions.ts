@@ -2,6 +2,7 @@
 
 import { updateTag } from "next/cache";
 import { validatedActionWithUser } from "@/lib/action-middlewares";
+import { startSourcePreparation } from "./preparation";
 import { r2Storage, StorageNotConfiguredError } from "./r2-storage";
 import { createSources } from "./sources";
 import {
@@ -10,7 +11,10 @@ import {
 } from "./validations";
 
 function openSources() {
-  return createSources({ storage: r2Storage() });
+  return createSources({
+    storage: r2Storage(),
+    startPreparation: startSourcePreparation,
+  });
 }
 
 export const requestSourceUpload = validatedActionWithUser(
@@ -38,7 +42,7 @@ export const confirmSourceUpload = validatedActionWithUser(
 async function withStorage<State>(
   state: State,
   run: (
-    sources: ReturnType<typeof createSources>,
+    sources: ReturnType<typeof openSources>,
   ) => Promise<{ error: string; state: State } | { state: State; success?: string }>,
 ) {
   try {
