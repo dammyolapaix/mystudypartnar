@@ -7,6 +7,7 @@ import {
 import { getSession } from "@/lib/session";
 import { listSources } from "../queries";
 import type { SourceRecord } from "../types";
+import { RetrySourceForm } from "./retry-source-form";
 import { UploadSourceForm } from "./upload-source-form";
 
 export async function SourceList() {
@@ -35,12 +36,15 @@ export async function SourceList() {
           {items.map((source) => (
             <li
               key={source.id}
-              className="flex flex-col gap-1 rounded-lg border px-4 py-3"
+              className="flex flex-col gap-2 rounded-lg border px-4 py-3"
             >
               <p className="font-medium">{source.filename}</p>
               <p className="text-sm text-muted-foreground">
                 {sourceStatusCopy(source.status)}
               </p>
+              {source.status === "failed" ? (
+                <RetrySourceForm sourceId={source.id} />
+              ) : null}
             </li>
           ))}
         </ul>

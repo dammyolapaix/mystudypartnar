@@ -8,6 +8,7 @@ import { createSources } from "./sources";
 import {
   confirmSourceUploadSchema,
   requestSourceUploadSchema,
+  retrySourceSchema,
 } from "./validations";
 
 function openSources() {
@@ -25,6 +26,31 @@ export const requestSourceUpload = validatedActionWithUser(
       if ("error" in result) return { error: result.error, state };
       return { state: { ...state, ...result } };
     }),
+);
+
+export const retrySource = validatedActionWithUser(
+  retrySourceSchema,
+  async (state, session) => {
+    const sources = createSources({
+      storage: {
+        async createUploadUrl() {
+          throw new StorageNotConfiguredError();
+        },
+        async statObject() {
+          return null;
+        },
+        async readObject() {
+          return null;
+        },
+      },
+      startPreparation: startSourcePreparation,
+    });
+    const result = await sources.retry({ id: session.user.id }, state.sourceId);
+    if ("error" in result) return { error: result.error, state };
+
+    updateTag("sources");
+    return { success: "Processing your file…", state };
+  },
 );
 
 export const confirmSourceUpload = validatedActionWithUser(

@@ -3,11 +3,12 @@ import type { sources } from "./schema";
 import type {
   confirmSourceUploadSchema,
   requestSourceUploadSchema,
+  retrySourceSchema,
 } from "./validations";
 
 export type SourceRecord = Pick<
   typeof sources.$inferSelect,
-  "id" | "filename" | "status" | "userId"
+  "id" | "filename" | "status" | "failureReason" | "runId" | "userId"
 >;
 
 export type UploadGrant = {
@@ -20,6 +21,7 @@ export type UploadGrant = {
 
 export type RequestSourceUploadInput = z.infer<typeof requestSourceUploadSchema>;
 export type ConfirmSourceUploadInput = z.infer<typeof confirmSourceUploadSchema>;
+export type RetrySourceInput = z.infer<typeof retrySourceSchema>;
 
 export type SourceCaller = { id: string } | null;
 

@@ -16,6 +16,14 @@ export async function createUser() {
   return user;
 }
 
+/** Leaves passages in place. Retry must remove them rather than append. */
+export async function failSourceKeepingPassages(sourceId: string) {
+  await db
+    .update(sources)
+    .set({ status: "failed", failureReason: "no_text" })
+    .where(eq(sources.id, sourceId));
+}
+
 /** Removes a fixture user. Sources are removed first so the users reference can go. */
 export async function removeUser(userId: string) {
   await db.delete(sources).where(eq(sources.userId, userId));

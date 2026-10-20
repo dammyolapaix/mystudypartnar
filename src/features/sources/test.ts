@@ -1,7 +1,7 @@
 import { afterEach, expect, test, vi } from "vitest";
 import longPage from "./long-page.json";
 import { createSources, listPassages, listSources, type SourceStorage } from "./sources";
-import { createUser, removeUser } from "./test-users";
+import { createUser, failSourceKeepingPassages, removeUser } from "./test-users";
 
 vi.mock("next/cache", () => ({
   cacheLife: () => {},
@@ -131,6 +131,8 @@ test("a checked upload becomes a preparing source owned by that student", async 
       id: expect.any(String),
       filename: "lecture.pdf",
       status: "preparing",
+      failureReason: "",
+      runId: null,
       userId: student.id,
     },
   });
@@ -347,6 +349,8 @@ test("a text pdf becomes ready with the page text as one passage", async () => {
       id: uploaded.source.id,
       filename: "lecture.pdf",
       status: "ready",
+      failureReason: "",
+      runId: null,
       userId: student.id,
     },
   ]);
@@ -430,6 +434,235 @@ test("a mixed pdf becomes ready and image pages add no passages", async () => {
       id: uploaded.source.id,
       filename: "mixed.pdf",
       status: "ready",
+      failureReason: "",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+});
+
+test("a pdf with no text becomes failed", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    extractPdf: async () => [
+      { page: 1, text: "" },
+      { page: 2, text: "   \n" },
+    ],
+    embedPassages: async () => {
+      throw new Error("embeddings should not run");
+    },
+  });
+  const pdf = file("%PDF-1.4\nscan");
+
+  const uploaded = await confirmFile(sources, storage, student.id, "scan.pdf", pdf);
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await sources.prepare(uploaded.source.id);
+
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "scan.pdf",
+      status: "failed",
+      failureReason: "no_text",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toEqual(
+    pdf,
+  );
+});
+
+test("a pdf that cannot be opened becomes failed", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    extractPdf: async (bytes) => {
+      const header = new TextDecoder().decode(bytes.slice(0, 12));
+      if (header.startsWith("%PDF-locked")) {
+        throw new Error("password required");
+      }
+      throw new Error("invalid pdf");
+    },
+    embedPassages: async () => {
+      throw new Error("embeddings should not run");
+    },
+  });
+
+  const corrupt = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "corrupt.pdf",
+    file("%PDF-1.4\nbroken"),
+  );
+  const locked = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "locked.pdf",
+    file("%PDF-locked"),
+  );
+  const missing = await confirmFile(
+    sources,
+    storage,
+    student.id,
+    "missing.pdf",
+    file("%PDF-1.4\ngone"),
+  );
+  if (!("source" in corrupt) || !("source" in locked) || !("source" in missing)) {
+    throw new Error("Expected a source");
+  }
+  storage.remove(`sources/${student.id}/${missing.source.id}`);
+
+  await sources.prepare(corrupt.source.id);
+  await sources.prepare(locked.source.id);
+  await sources.prepare(missing.source.id);
+
+  const listed = await listSources(student.id);
+  expect(listed.map((source) => [source.filename, source.status, source.failureReason])).toEqual([
+    ["missing.pdf", "failed", "could_not_open"],
+    ["locked.pdf", "failed", "could_not_open"],
+    ["corrupt.pdf", "failed", "could_not_open"],
+  ]);
+  expect(await listPassages(student.id, corrupt.source.id)).toEqual([]);
+  expect(await listPassages(student.id, locked.source.id)).toEqual([]);
+});
+
+test("embeddings that still fail become failed", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    extractPdf: async () => [{ page: 1, text: "The heart has four chambers." }],
+    embedPassages: async () => {
+      throw new Error("embedding service unavailable");
+    },
+  });
+  const pdf = file("%PDF-1.4\nlecture");
+  const uploaded = await confirmFile(sources, storage, student.id, "lecture.pdf", pdf);
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  await expect(sources.prepare(uploaded.source.id)).rejects.toThrow(
+    "embedding service unavailable",
+  );
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "preparing",
+      failureReason: "",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+
+  await sources.recordEmbeddingFailure(uploaded.source.id);
+
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: uploaded.source.id,
+      filename: "lecture.pdf",
+      status: "failed",
+      failureReason: "embedding_failed",
+      runId: null,
+      userId: student.id,
+    },
+  ]);
+  expect(await listPassages(student.id, uploaded.source.id)).toEqual([]);
+  expect(await storage.readObject(`sources/${student.id}/${uploaded.source.id}`)).toEqual(
+    pdf,
+  );
+});
+
+test("a retry keeps the original file and replaces passages", async () => {
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
+  const storage = memoryStorage();
+  const runs: string[] = [];
+  let text = "Stale passage.";
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    startPreparation: async (id) => {
+      const runId = `run-${runs.length + 1}`;
+      runs.push(runId);
+      if (runs.length > 1) {
+        await sources.recordEmbeddingFailure(id, "run-1");
+      }
+      return runId;
+    },
+    extractPdf: async () => [{ page: 1, text }],
+    embedPassages: async (texts) =>
+      texts.map(() => embedding(texts[0] === "Stale passage." ? 0.1 : 0.25)),
+  });
+  const pdf = file("%PDF-1.4\nlecture");
+  const uploaded = await confirmFile(sources, storage, student.id, "lecture.pdf", pdf);
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+  const sourceId = uploaded.source.id;
+
+  await sources.prepare(sourceId);
+  await failSourceKeepingPassages(sourceId);
+  expect(await listPassages(student.id, sourceId)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "Stale passage.",
+      embedding: embedding(0.1),
+    },
+  ]);
+
+  expect(await sources.retry(null, sourceId)).toEqual({
+    error: "Not authenticated",
+  });
+  expect(await sources.retry({ id: other.id }, sourceId)).toEqual({
+    error: "This source was not found",
+  });
+  expect(await sources.retry({ id: student.id }, sourceId)).toEqual({
+    source: {
+      id: sourceId,
+      filename: "lecture.pdf",
+      status: "preparing",
+      failureReason: "",
+      runId: "run-2",
+      userId: student.id,
+    },
+  });
+  expect(await listPassages(student.id, sourceId)).toEqual([]);
+  expect(await storage.readObject(`sources/${student.id}/${sourceId}`)).toEqual(pdf);
+  await sources.recordEmbeddingFailure(sourceId, "run-1");
+  expect((await listSources(student.id))[0]?.status).toBe("preparing");
+
+  text = "Fresh passage.";
+  await sources.prepare(sourceId);
+
+  expect(await listPassages(student.id, sourceId)).toEqual([
+    {
+      page: 1,
+      order: 1,
+      text: "Fresh passage.",
+      embedding: embedding(0.25),
+    },
+  ]);
+  expect(await listSources(student.id)).toEqual([
+    {
+      id: sourceId,
+      filename: "lecture.pdf",
+      status: "ready",
+      failureReason: "",
+      runId: "run-2",
       userId: student.id,
     },
   ]);
@@ -470,6 +703,8 @@ test("a ready source cannot be retried or prepared again", async () => {
       id: uploaded.source.id,
       filename: "lecture.pdf",
       status: "ready",
+      failureReason: "",
+      runId: null,
       userId: student.id,
     },
   ]);
@@ -605,6 +840,7 @@ test("another student cannot confirm an upload they do not own", async () => {
 
 type MemoryStorage = SourceStorage & {
   put: (key: string, bytes: Uint8Array, contentLength?: number) => void;
+  remove: (key: string) => void;
 };
 
 function memoryStorage(): MemoryStorage {
@@ -626,6 +862,9 @@ function memoryStorage(): MemoryStorage {
     },
     put(key, bytes, contentLength = bytes.byteLength) {
       objects.set(key, { bytes, contentLength });
+    },
+    remove(key) {
+      objects.delete(key);
     },
   };
 }

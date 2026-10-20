@@ -25,3 +25,7 @@ export const requestSourceUploadSchema = z.object({
 export const confirmSourceUploadSchema = z.object({
   confirmation: z.string().min(1),
 });
+
+export const retrySourceSchema = z.object({
+  sourceId: z.uuid(),
+});

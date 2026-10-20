@@ -8,6 +8,8 @@ const sourceColumns = {
   id: sources.id,
   filename: sources.filename,
   status: sources.status,
+  failureReason: sources.failureReason,
+  runId: sources.runId,
   userId: sources.userId,
 };
 
@@ -80,8 +82,87 @@ export async function getSourceForPreparation(sourceId: string) {
   return row ?? null;
 }
 
-export async function setSourceRunId(sourceId: string, runId: string) {
-  await db.update(sources).set({ runId }).where(eq(sources.id, sourceId));
+export async function reopenFailedSource(
+  userId: string,
+  sourceId: string,
+  runId: string,
+) {
+  return db.transaction(async (tx) => {
+    const [source] = await tx
+      .select({
+        status: sources.status,
+        userId: sources.userId,
+        deletedAt: sources.deletedAt,
+      })
+      .from(sources)
+      .where(eq(sources.id, sourceId))
+      .for("update");
+
+    if (!source || source.deletedAt || source.userId !== userId) {
+      return "missing" as const;
+    }
+    if (source.status === "ready") return "ready" as const;
+    if (source.status !== "failed") return "unavailable" as const;
+
+    await tx.delete(passages).where(eq(passages.sourceId, sourceId));
+    const [row] = await tx
+      .update(sources)
+      .set({ status: "preparing", failureReason: "", runId })
+      .where(eq(sources.id, sourceId))
+      .returning(sourceColumns);
+
+    if (!row) return "unavailable" as const;
+    return { source: row };
+  });
+}
+
+export async function setSourceRunId(sourceId: string, runId: string | null) {
+  const [row] = await db
+    .update(sources)
+    .set({ runId })
+    .where(
+      and(
+        eq(sources.id, sourceId),
+        eq(sources.status, "preparing"),
+        isNull(sources.deletedAt),
+      ),
+    )
+    .returning(sourceColumns);
+
+  return row ?? null;
+}
+
+export async function markSourceFailed(
+  sourceId: string,
+  failureReason: "could_not_open" | "no_text" | "embedding_failed",
+  runId?: string,
+) {
+  return db.transaction(async (tx) => {
+    const [source] = await tx
+      .select({
+        status: sources.status,
+        deletedAt: sources.deletedAt,
+        runId: sources.runId,
+      })
+      .from(sources)
+      .where(eq(sources.id, sourceId))
+      .for("update");
+
+    if (!source || source.deletedAt || source.status !== "preparing") {
+      return "discarded" as const;
+    }
+    if (runId && source.runId && source.runId !== runId) {
+      return "discarded" as const;
+    }
+
+    await tx.delete(passages).where(eq(passages.sourceId, sourceId));
+    await tx
+      .update(sources)
+      .set({ status: "failed", failureReason })
+      .where(eq(sources.id, sourceId));
+
+    return "failed" as const;
+  });
 }
 
 export async function commitPreparation(

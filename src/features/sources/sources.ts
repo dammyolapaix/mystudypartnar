@@ -4,6 +4,8 @@ import {
   deleteOwnedSource,
   getSourceForPreparation,
   insertSource,
+  markSourceFailed,
+  reopenFailedSource,
   setSourceRunId,
 } from "./queries";
 import type {
@@ -173,10 +175,26 @@ export function createSources({
         throw new Error("PDF preparation is not configured");
       }
 
-      const bytes = await storage.readObject(source.objectKey);
-      if (!bytes) return;
+      let bytes: Uint8Array | null;
+      try {
+        bytes = await storage.readObject(source.objectKey);
+      } catch {
+        await markSourceFailed(sourceId, "could_not_open");
+        return;
+      }
+      if (!bytes) {
+        await markSourceFailed(sourceId, "could_not_open");
+        return;
+      }
 
-      const pages = await extractPdf(bytes);
+      let pages: PdfPageText[];
+      try {
+        pages = await extractPdf(bytes);
+      } catch {
+        await markSourceFailed(sourceId, "could_not_open");
+        return;
+      }
+
       const nextPassages = pages.flatMap((page) => {
         if (!Number.isInteger(page.page) || page.page < 1) return [];
         return splitPage(page.text).map((text, index) => ({
@@ -185,7 +203,10 @@ export function createSources({
           text,
         }));
       });
-      if (nextPassages.length === 0) return;
+      if (nextPassages.length === 0) {
+        await markSourceFailed(sourceId, "no_text");
+        return;
+      }
 
       const embeddings = await embedPassages(
         nextPassages.map((passage) => passage.text),
@@ -207,17 +228,29 @@ export function createSources({
       );
     },
 
+    async recordEmbeddingFailure(sourceId: string, runId?: string) {
+      await markSourceFailed(sourceId, "embedding_failed", runId);
+    },
+
     async retry(caller: SourceCaller, sourceId: string) {
       if (!caller) return { error: "Not authenticated" };
 
-      const source = await getSourceForPreparation(sourceId);
-      if (!source || source.deletedAt || source.userId !== caller.id) {
-        return { error: "This source was not found" };
+      const reopened = await reopenFailedSource(
+        caller.id,
+        sourceId,
+        randomUUID(),
+      );
+      if (reopened === "missing") return { error: "This source was not found" };
+      if (reopened === "ready") return { error: "A ready source cannot be retried" };
+      if (reopened === "unavailable") {
+        return { error: "This source cannot be retried" };
       }
-      if (source.status === "ready") {
-        return { error: "A ready source cannot be retried" };
-      }
-      return { error: "This source cannot be retried" };
+
+      if (!startPreparation) return { source: reopened.source };
+
+      const nextRunId = await startPreparation(reopened.source.id);
+      const stored = await setSourceRunId(reopened.source.id, nextRunId);
+      return { source: stored ?? reopened.source };
     },
 
     async deleteSource(caller: SourceCaller, sourceId: string) {
