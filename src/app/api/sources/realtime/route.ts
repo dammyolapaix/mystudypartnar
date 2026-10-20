@@ -14,6 +14,7 @@ const storage: SourceStorage = {
   async readObject() {
     return null;
   },
+  async deleteObject() {},
 };
 
 export function GET(request: Request) {

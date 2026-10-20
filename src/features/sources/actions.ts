@@ -2,6 +2,7 @@
 
 import { updateTag } from "next/cache";
 import { validatedActionWithUser } from "@/lib/action-middlewares";
+import { scheduleAbandonedUpload } from "./abandoned-upload";
 import { startSourcePreparation } from "./preparation";
 import { r2Storage, StorageNotConfiguredError } from "./r2-storage";
 import { createSources } from "./sources";
@@ -16,6 +17,7 @@ function openSources() {
   return createSources({
     storage: r2Storage(),
     startPreparation: startSourcePreparation,
+    scheduleAbandonedUpload,
   });
 }
 
@@ -43,6 +45,7 @@ export const retrySource = validatedActionWithUser(
         async readObject() {
           return null;
         },
+        async deleteObject() {},
       },
       startPreparation: startSourcePreparation,
     });

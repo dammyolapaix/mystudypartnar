@@ -85,6 +85,15 @@ export async function getOwnedSourceByRun(userId: string, runId: string) {
   return row ?? null;
 }
 
+export async function getSourceIdByObjectKey(objectKey: string) {
+  const [row] = await db
+    .select({ id: sources.id })
+    .from(sources)
+    .where(eq(sources.objectKey, objectKey));
+
+  return row ?? null;
+}
+
 export async function getSourceForPreparation(sourceId: string) {
   const [row] = await db
     .select({

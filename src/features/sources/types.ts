@@ -46,6 +46,11 @@ export type RunChannel = {
   history(runId: string): Promise<PreparationEvent[]>;
 };
 
+export type AbandonedUpload = {
+  objectKey: string;
+  expiresAt: number;
+};
+
 export type SourceStorage = {
   createUploadUrl(input: {
     key: string;
@@ -54,4 +59,5 @@ export type SourceStorage = {
   }): Promise<{ url: string; expiresInSeconds: number }>;
   statObject(key: string): Promise<{ contentLength: number } | null>;
   readObject(key: string): Promise<Uint8Array | null>;
+  deleteObject(key: string): Promise<void>;
 };

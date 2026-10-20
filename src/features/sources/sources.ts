@@ -4,12 +4,14 @@ import {
   deleteOwnedSource,
   getOwnedSourceByRun,
   getSourceForPreparation,
+  getSourceIdByObjectKey,
   insertSource,
   markSourceFailed,
   reopenFailedSource,
   setSourceRunId,
 } from "./queries";
 import type {
+  AbandonedUpload,
   PdfPageText,
   PreparationEvent,
   RunChannel,
@@ -39,6 +41,7 @@ type SourcesDependencies = {
   extractPdf?: (bytes: Uint8Array) => Promise<PdfPageText[]>;
   embedPassages?: (texts: string[]) => Promise<number[][]>;
   startPreparation?: (sourceId: string) => Promise<string | null>;
+  scheduleAbandonedUpload?: (upload: AbandonedUpload) => Promise<void>;
   runs?: RunChannel;
 };
 
@@ -61,6 +64,7 @@ export function createSources({
   extractPdf,
   embedPassages,
   startPreparation,
+  scheduleAbandonedUpload,
   runs,
 }: SourcesDependencies) {
   const signingSecret = () => secret ?? requiredSecret();
@@ -89,6 +93,9 @@ export function createSources({
         expiresInSeconds: UPLOAD_URL_SECONDS,
       });
       const exp = now() + signed.expiresInSeconds * 1000;
+      if (scheduleAbandonedUpload) {
+        await scheduleAbandonedUpload({ objectKey, expiresAt: exp });
+      }
 
       return {
         sourceId,
@@ -265,6 +272,13 @@ export function createSources({
       const nextRunId = await startPreparation(reopened.source.id);
       const stored = await setSourceRunId(reopened.source.id, nextRunId);
       return { source: stored ?? reopened.source };
+    },
+
+    async removeAbandonedUpload(upload: AbandonedUpload) {
+      if (now() < upload.expiresAt) return;
+      const owned = await getSourceIdByObjectKey(upload.objectKey);
+      if (owned) return;
+      await storage.deleteObject(upload.objectKey);
     },
 
     async deleteSource(caller: SourceCaller, sourceId: string) {

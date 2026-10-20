@@ -262,6 +262,84 @@ test("a missing, empty, or oversized object never becomes a source", async () =>
   expect(await listSources(student.id)).toEqual([]);
 });
 
+test("an object that never became a source is deleted after the upload url expires", async () => {
+  const student = { id: crypto.randomUUID() };
+  const storage = memoryStorage();
+  let now = 1_700_000_000_000;
+  const scheduled: Array<{ objectKey: string; expiresAt: number }> = [];
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    now: () => now,
+    scheduleAbandonedUpload: async (upload) => {
+      scheduled.push(upload);
+    },
+  });
+  const pdf = file("%PDF-1.4\n");
+
+  const grant = await sources.requestUpload(
+    { id: student.id },
+    { filename: "lecture.pdf", byteLength: pdf.byteLength },
+  );
+  if (!("uploadUrl" in grant)) throw new Error("Expected an upload url");
+
+  const key = objectKey(grant.uploadUrl);
+  storage.put(key, pdf);
+
+  expect(scheduled).toEqual([
+    { objectKey: key, expiresAt: now + FIFTEEN_MINUTES * 1000 },
+  ]);
+  expect(await listSources(student.id)).toEqual([]);
+
+  const [upload] = scheduled;
+  if (!upload) throw new Error("Expected a scheduled cleanup");
+  await sources.removeAbandonedUpload(upload);
+  expect(await storage.readObject(key)).toEqual(pdf);
+
+  now = upload.expiresAt;
+  await sources.removeAbandonedUpload(upload);
+  expect(await storage.readObject(key)).toBeNull();
+  expect(await listSources(student.id)).toEqual([]);
+});
+
+test("an object that belongs to a source is kept", async () => {
+  const student = await createUser();
+  fixtureUsers.push(student.id);
+  const storage = memoryStorage();
+  let now = 1_700_000_000_000;
+  const sources = createSources({
+    storage,
+    secret: "test-secret",
+    now: () => now,
+    scheduleAbandonedUpload: async () => {},
+  });
+  const pdf = file("%PDF-1.4\nlecture");
+
+  const grant = await sources.requestUpload(
+    { id: student.id },
+    { filename: "lecture.pdf", byteLength: pdf.byteLength },
+  );
+  if (!("confirmation" in grant) || !("uploadUrl" in grant)) {
+    throw new Error("Expected an upload url");
+  }
+  const key = objectKey(grant.uploadUrl);
+  storage.put(key, pdf);
+  const uploaded = await sources.confirmUpload(
+    { id: student.id },
+    { confirmation: grant.confirmation },
+  );
+  if (!("source" in uploaded)) throw new Error("Expected a source");
+
+  now += FIFTEEN_MINUTES * 1000;
+  await sources.removeAbandonedUpload({
+    objectKey: key,
+    expiresAt: now,
+  });
+
+  expect(await storage.readObject(key)).toEqual(pdf);
+  expect(await listSources(student.id)).toEqual([uploaded.source]);
+});
+
 test("an upload expires after 15 minutes", async () => {
   const student = { id: crypto.randomUUID() };
   const storage = memoryStorage();
@@ -1013,6 +1091,9 @@ function memoryStorage(): MemoryStorage {
     },
     async readObject(key) {
       return objects.get(key)?.bytes ?? null;
+    },
+    async deleteObject(key) {
+      objects.delete(key);
     },
     put(key, bytes, contentLength = bytes.byteLength) {
       objects.set(key, { bytes, contentLength });

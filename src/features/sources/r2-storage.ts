@@ -1,4 +1,5 @@
 import {
+  DeleteObjectCommand,
   GetObjectCommand,
   HeadObjectCommand,
   NoSuchKey,
@@ -65,6 +66,14 @@ export function r2Storage(): SourceStorage {
         return response.Body.transformToByteArray();
       } catch (error) {
         if (isMissingObject(error)) return null;
+        throw error;
+      }
+    },
+    async deleteObject(key) {
+      try {
+        await client.send(new DeleteObjectCommand({ Bucket: bucket, Key: key }));
+      } catch (error) {
+        if (isMissingObject(error)) return;
         throw error;
       }
     },
