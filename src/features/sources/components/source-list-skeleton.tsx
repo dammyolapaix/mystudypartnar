@@ -1,0 +1,16 @@
+import { Skeleton } from "@/components/ui/skeleton";
+
+export function SourceListSkeleton() {
+  return (
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-5">
+        <Skeleton className="h-16 w-full" />
+        <Skeleton className="h-8 w-24" />
+      </div>
+      <div className="flex flex-col gap-3">
+        <Skeleton className="h-14 w-full" />
+        <Skeleton className="h-14 w-full" />
+      </div>
+    </div>
+  );
+}
