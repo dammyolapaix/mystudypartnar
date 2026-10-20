@@ -7,7 +7,7 @@ import type {
 
 export type SourceRecord = Pick<
   typeof sources.$inferSelect,
-  "id" | "filename" | "status" | "studentId"
+  "id" | "filename" | "status" | "userId"
 >;
 
 export type UploadGrant = {

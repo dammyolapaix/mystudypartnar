@@ -1,4 +1,5 @@
 import { timestamps } from "@/db/helper";
+import { users } from "@/features/auth/schema";
 import { index, pgEnum, snakeCase, text, uuid } from "drizzle-orm/pg-core";
 
 export const sourceStatus = pgEnum("source_status", [
@@ -11,7 +12,9 @@ export const sources = snakeCase.table(
   "sources",
   {
     id: uuid().primaryKey(),
-    studentId: uuid().notNull(),
+    userId: uuid()
+      .notNull()
+      .references(() => users.id),
     filename: text().notNull(),
     objectKey: text().notNull().unique(),
     status: sourceStatus().notNull().default("preparing"),
@@ -19,5 +22,5 @@ export const sources = snakeCase.table(
     runId: text(),
     ...timestamps,
   },
-  (table) => [index("sources_student_id_idx").on(table.studentId)],
+  (table) => [index("sources_user_id_idx").on(table.userId)],
 );

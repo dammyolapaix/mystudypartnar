@@ -1,5 +1,6 @@
-import { expect, test, vi } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { createSources, listSources, type SourceStorage } from "./sources";
+import { createUser, removeUser } from "./test-users";
 
 vi.mock("next/cache", () => ({
   cacheLife: () => {},
@@ -9,6 +10,11 @@ vi.mock("next/cache", () => ({
 
 const MAX_SOURCE_BYTES = 50 * 1024 * 1024;
 const FIFTEEN_MINUTES = 15 * 60;
+const fixtureUsers: string[] = [];
+
+afterEach(async () => {
+  await Promise.all(fixtureUsers.splice(0).map((id) => removeUser(id)));
+});
 
 test("a signed-out visitor is refused", async () => {
   const sources = createSources({ storage: memoryStorage(), secret: "test-secret" });
@@ -26,55 +32,55 @@ test("a signed-out visitor is refused", async () => {
 });
 
 test("a file of the wrong type never becomes a source", async () => {
-  const studentId = crypto.randomUUID();
+  const userId = crypto.randomUUID();
   const sources = createSources({ storage: memoryStorage(), secret: "test-secret" });
 
   expect(
     await sources.requestUpload(
-      { id: studentId },
+      { id: userId },
       { filename: "grades.xlsx", byteLength: 32 },
     ),
   ).toEqual({ error: "This file type is not allowed" });
 
-  expect(await listSources(studentId)).toEqual([]);
+  expect(await listSources(userId)).toEqual([]);
 });
 
 test("an empty file never becomes a source", async () => {
-  const studentId = crypto.randomUUID();
+  const userId = crypto.randomUUID();
   const sources = createSources({ storage: memoryStorage(), secret: "test-secret" });
 
   expect(
     await sources.requestUpload(
-      { id: studentId },
+      { id: userId },
       { filename: "lecture.pdf", byteLength: 0 },
     ),
   ).toEqual({ error: "File is empty" });
 
-  expect(await listSources(studentId)).toEqual([]);
+  expect(await listSources(userId)).toEqual([]);
 });
 
 test("a file over 50 MB never becomes a source", async () => {
-  const studentId = crypto.randomUUID();
+  const userId = crypto.randomUUID();
   const sources = createSources({ storage: memoryStorage(), secret: "test-secret" });
 
   expect(
     await sources.requestUpload(
-      { id: studentId },
+      { id: userId },
       { filename: "lecture.pdf", byteLength: MAX_SOURCE_BYTES + 1 },
     ),
   ).toEqual({ error: "File is over 50 MB" });
 
-  expect(await listSources(studentId)).toEqual([]);
+  expect(await listSources(userId)).toEqual([]);
 });
 
 test("an upload url lasts 15 minutes, caps the body at the file size, and writes only that source key", async () => {
-  const studentId = crypto.randomUUID();
+  const userId = crypto.randomUUID();
   const storage = memoryStorage();
   const sources = createSources({ storage, secret: "test-secret" });
   const pdf = file("%PDF-1.4\n");
 
   const grant = await sources.requestUpload(
-    { id: studentId },
+    { id: userId },
     { filename: "lecture.pdf", byteLength: pdf.byteLength },
   );
 
@@ -88,18 +94,18 @@ test("an upload url lasts 15 minutes, caps the body at the file size, and writes
 
   const url = new URL(grant.uploadUrl);
   expect(decodeURIComponent(url.pathname)).toBe(
-    `/sources/${studentId}/${grant.sourceId}`,
+    `/sources/${userId}/${grant.sourceId}`,
   );
   expect(url.searchParams.get("content-length")).toBe(String(pdf.byteLength));
-  expect(await listSources(studentId)).toEqual([]);
+  expect(await listSources(userId)).toEqual([]);
 });
 
 test("a file of exactly 50 MB is accepted for upload", async () => {
-  const studentId = crypto.randomUUID();
+  const userId = crypto.randomUUID();
   const sources = createSources({ storage: memoryStorage(), secret: "test-secret" });
 
   const grant = await sources.requestUpload(
-    { id: studentId },
+    { id: userId },
     { filename: "lecture.pdf", byteLength: MAX_SOURCE_BYTES },
   );
 
@@ -107,11 +113,12 @@ test("a file of exactly 50 MB is accepted for upload", async () => {
     contentLength: MAX_SOURCE_BYTES,
     expiresInSeconds: FIFTEEN_MINUTES,
   });
-  expect(await listSources(studentId)).toEqual([]);
+  expect(await listSources(userId)).toEqual([]);
 });
 
 test("a checked upload becomes a preparing source owned by that student", async () => {
-  const student = { id: crypto.randomUUID() };
+  const student = await createUser();
+  fixtureUsers.push(student.id);
   const storage = memoryStorage();
   const sources = createSources({ storage, secret: "test-secret" });
   const pdf = file("%PDF-1.4\nlecture");
@@ -123,7 +130,7 @@ test("a checked upload becomes a preparing source owned by that student", async 
       id: expect.any(String),
       filename: "lecture.pdf",
       status: "preparing",
-      studentId: student.id,
+      userId: student.id,
     },
   });
   if (!("source" in uploaded)) {
@@ -133,7 +140,8 @@ test("a checked upload becomes a preparing source owned by that student", async 
 });
 
 test("pdf, doc, docx, ppt, and pptx files can become preparing sources", async () => {
-  const student = { id: crypto.randomUUID() };
+  const student = await createUser();
+  fixtureUsers.push(student.id);
   const storage = memoryStorage();
   const sources = createSources({ storage, secret: "test-secret" });
   const files = [
@@ -281,8 +289,9 @@ test("an upload expires after 15 minutes", async () => {
 });
 
 test("a student sees only their own sources, newest first, and may reuse a filename", async () => {
-  const student = { id: crypto.randomUUID() };
-  const other = { id: crypto.randomUUID() };
+  const student = await createUser();
+  const other = await createUser();
+  fixtureUsers.push(student.id, other.id);
   const storage = memoryStorage();
   const sources = createSources({ storage, secret: "test-secret" });
   const pdf = file("%PDF-1.4\n");
@@ -306,7 +315,7 @@ test("a student sees only their own sources, newest first, and may reuse a filen
   expect(await listSources(other.id)).toEqual([
     expect.objectContaining({
       filename: "other.pdf",
-      studentId: other.id,
+      userId: other.id,
       status: "preparing",
     }),
   ]);
@@ -367,12 +376,12 @@ function memoryStorage(): MemoryStorage {
 async function confirmFile(
   sources: ReturnType<typeof createSources>,
   storage: MemoryStorage,
-  studentId: string,
+  userId: string,
   filename: string,
   bytes: Uint8Array,
 ) {
   const grant = await sources.requestUpload(
-    { id: studentId },
+    { id: userId },
     { filename, byteLength: bytes.byteLength },
   );
   if (!("confirmation" in grant)) {
@@ -380,7 +389,7 @@ async function confirmFile(
   }
   storage.put(objectKey(grant.uploadUrl), bytes);
   return sources.confirmUpload(
-    { id: studentId },
+    { id: userId },
     { confirmation: grant.confirmation },
   );
 }

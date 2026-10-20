@@ -19,8 +19,8 @@ export function sourceExtension(filename: string): SourceExtension | null {
   return extension as SourceExtension;
 }
 
-export function sourceObjectKey(studentId: string, sourceId: string) {
-  return `sources/${studentId}/${sourceId}`;
+export function sourceObjectKey(userId: string, sourceId: string) {
+  return `sources/${userId}/${sourceId}`;
 }
 
 export function sourceBytesMatch(extension: SourceExtension, bytes: Uint8Array) {

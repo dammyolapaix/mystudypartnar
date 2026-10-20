@@ -7,10 +7,10 @@ const sourceColumns = {
   id: sources.id,
   filename: sources.filename,
   status: sources.status,
-  studentId: sources.studentId,
+  userId: sources.userId,
 };
 
-export async function listSources(studentId: string) {
+export async function listSources(userId: string) {
   "use cache: private";
   cacheTag("sources");
   cacheLife("hours");
@@ -18,13 +18,13 @@ export async function listSources(studentId: string) {
   return db
     .select(sourceColumns)
     .from(sources)
-    .where(and(eq(sources.studentId, studentId), isNull(sources.deletedAt)))
+    .where(and(eq(sources.userId, userId), isNull(sources.deletedAt)))
     .orderBy(desc(sources.createdAt), desc(sources.id));
 }
 
 export async function insertSource(values: {
   id: string;
-  studentId: string;
+  userId: string;
   filename: string;
   objectKey: string;
 }) {

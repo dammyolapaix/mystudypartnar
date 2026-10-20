@@ -20,7 +20,7 @@ type SourcesDependencies = {
 
 type PendingUpload = {
   sourceId: string;
-  studentId: string;
+  userId: string;
   filename: string;
   objectKey: string;
   byteLength: number;
@@ -70,7 +70,7 @@ export function createSources({
         confirmation: signUpload(
           {
             sourceId,
-            studentId: caller.id,
+            userId: caller.id,
             filename: input.filename,
             objectKey,
             byteLength: input.byteLength,
@@ -89,7 +89,7 @@ export function createSources({
 
       const pending = readUpload(input.confirmation, signingSecret());
       if (pending === "invalid") return { error: "This upload was not found" };
-      if (pending.studentId !== caller.id) {
+      if (pending.userId !== caller.id) {
         return { error: "This upload was not found" };
       }
       if (now() >= pending.exp) return { error: "This upload has expired" };
@@ -97,7 +97,7 @@ export function createSources({
       const extension = sourceExtension(pending.filename);
       if (
         !extension ||
-        pending.objectKey !== sourceObjectKey(pending.studentId, pending.sourceId) ||
+        pending.objectKey !== sourceObjectKey(pending.userId, pending.sourceId) ||
         !Number.isSafeInteger(pending.byteLength) ||
         pending.byteLength <= 0 ||
         pending.byteLength > MAX_SOURCE_BYTES
@@ -126,7 +126,7 @@ export function createSources({
       try {
         const source = await insertSource({
           id: pending.sourceId,
-          studentId: pending.studentId,
+          userId: pending.userId,
           filename: pending.filename,
           objectKey: pending.objectKey,
         });
@@ -175,7 +175,7 @@ function readUpload(
     return "invalid";
   }
   if (!isPendingUpload(parsed)) return "invalid";
-  if (parsed.studentId.length === 0) return "invalid";
+  if (parsed.userId.length === 0) return "invalid";
   return parsed;
 }
 
@@ -184,7 +184,7 @@ function isPendingUpload(value: unknown): value is PendingUpload {
   const pending = value as Partial<PendingUpload>;
   return (
     typeof pending.sourceId === "string" &&
-    typeof pending.studentId === "string" &&
+    typeof pending.userId === "string" &&
     typeof pending.filename === "string" &&
     typeof pending.objectKey === "string" &&
     typeof pending.byteLength === "number" &&
