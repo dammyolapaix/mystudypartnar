@@ -1,0 +1,2378 @@
+{
+  "agentRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/agent",
+  "appRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source",
+  "bindings": {
+    "eve:defaults:sandbox.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "sandbox.ts",
+        "registryId": "eve:defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53",
+        "semanticRevision": "eve:default-sandbox:v1"
+      },
+      "logicalPath": "sandbox.ts",
+      "owner": {
+        "feature": "eve:defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:defaults:tools/bash.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "tools/bash.ts",
+        "registryId": "eve:defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "tools/bash.ts",
+      "owner": {
+        "feature": "eve:defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:defaults:tools/read_file.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "tools/read_file.ts",
+        "registryId": "eve:defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "tools/read_file.ts",
+      "owner": {
+        "feature": "eve:defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:defaults:tools/write_file.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "tools/write_file.ts",
+        "registryId": "eve:defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "tools/write_file.ts",
+      "owner": {
+        "feature": "eve:defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:defaults:tools/web_fetch.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "tools/web_fetch.ts",
+        "registryId": "eve:defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "tools/web_fetch.ts",
+      "owner": {
+        "feature": "eve:defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:defaults:tools/web_search.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "tools/web_search.ts",
+        "registryId": "eve:defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "tools/web_search.ts",
+      "owner": {
+        "feature": "eve:defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": false
+      }
+    },
+    "eve:root-defaults:tools/agent.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "tools/agent.ts",
+        "registryId": "eve:root-defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "tools/agent.ts",
+      "owner": {
+        "feature": "eve:root-defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:root-defaults:channels/home.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "channels/home.ts",
+        "registryId": "eve:root-defaults",
+        "revision": "eve@0.81.0:compiled-manifest-v53"
+      },
+      "logicalPath": "channels/home.ts",
+      "owner": {
+        "feature": "eve:root-defaults",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    },
+    "eve:development-extension:self-modification:extensions/self-modification.ts": {
+      "backing": {
+        "kind": "programmatic",
+        "moduleId": "extensions/self-modification.ts",
+        "registryId": "eve:development-extension:self-modification",
+        "revision": "eve@0.81.0:development-extensions-v1",
+        "mountId": "extensions/self-modification"
+      },
+      "logicalPath": "extensions/self-modification.ts",
+      "owner": {
+        "feature": "eve:development-extension:self-modification",
+        "kind": "framework"
+      },
+      "usage": {
+        "compile": false,
+        "runtimeEntry": true
+      }
+    },
+    "agent.ts": {
+      "backing": {
+        "externalDependencies": [],
+        "kind": "filesystem",
+        "sourcePath": "/Users/dammyola/Projects/mystudypartnar/agent/agent.ts"
+      },
+      "logicalPath": "agent.ts",
+      "owner": {
+        "kind": "application"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": false
+      }
+    },
+    "channels/eve.ts": {
+      "backing": {
+        "externalDependencies": [],
+        "kind": "filesystem",
+        "sourcePath": "/Users/dammyola/Projects/mystudypartnar/agent/channels/eve.ts"
+      },
+      "logicalPath": "channels/eve.ts",
+      "owner": {
+        "kind": "application"
+      },
+      "usage": {
+        "compile": true,
+        "runtimeEntry": true
+      }
+    }
+  },
+  "channelRoutes": {
+    "effective": [
+      {
+        "kind": "channel",
+        "name": "home",
+        "logicalPath": "channels/home.ts",
+        "method": "GET",
+        "urlPath": "/",
+        "sourceId": "eve:root-defaults:channels/home.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "home",
+        "logicalPath": "channels/home.ts",
+        "method": "HEAD",
+        "urlPath": "/",
+        "sourceId": "eve:root-defaults:channels/home.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/health",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "HEAD",
+        "urlPath": "/eve/v1/health",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/info",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/connections/:name/callback/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/connections/:name/callback/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/connections/:name/callback/:attemptId/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/connections/:name/callback/:attemptId/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/callback/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/task-input/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/.well-known/workflow/v1/webhook/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/.well-known/workflow/v1/webhook/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "PUT",
+        "urlPath": "/.well-known/workflow/v1/webhook/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "PATCH",
+        "urlPath": "/.well-known/workflow/v1/webhook/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "DELETE",
+        "urlPath": "/.well-known/workflow/v1/webhook/:token",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/session",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/session/:sessionId",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/session/:sessionId/cancel",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/session/:sessionId/compact",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/session/:sessionId/clear",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "POST",
+        "urlPath": "/eve/v1/session/:sessionId/reset",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/session/:sessionId/stubs",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/session/:sessionId/stream",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      },
+      {
+        "kind": "channel",
+        "name": "eve",
+        "logicalPath": "channels/eve.ts",
+        "method": "GET",
+        "urlPath": "/eve/v1/session/:parentSessionId/subagents/:callId/:childSessionId/stream",
+        "sourceId": "channels/eve.ts",
+        "sourceKind": "module",
+        "adapterKind": "http"
+      }
+    ],
+    "preflight": [],
+    "shadowed": []
+  },
+  "connections": [],
+  "dynamicConnections": [],
+  "diagnosticsSummary": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "sourceComposition": {
+    "entries": [
+      {
+        "kind": "shadowed",
+        "source": {
+          "backing": {
+            "kind": "programmatic",
+            "moduleId": "agent.ts",
+            "registryId": "eve:defaults",
+            "revision": "eve@0.81.0:compiled-manifest-v53"
+          },
+          "form": "direct",
+          "layer": "framework-default",
+          "logicalPath": "agent.ts",
+          "owner": {
+            "feature": "eve:defaults",
+            "kind": "framework"
+          },
+          "sourceId": "eve:defaults:agent.ts"
+        },
+        "winnerSourceId": "agent.ts"
+      },
+      {
+        "kind": "shadowed",
+        "source": {
+          "backing": {
+            "kind": "programmatic",
+            "moduleId": "channels/eve.ts",
+            "registryId": "eve:root-defaults",
+            "revision": "eve@0.81.0:compiled-manifest-v53"
+          },
+          "form": "direct",
+          "layer": "framework-default",
+          "logicalPath": "channels/eve.ts",
+          "owner": {
+            "feature": "eve:root-defaults",
+            "kind": "framework"
+          },
+          "sourceId": "eve:root-defaults:channels/eve.ts"
+        },
+        "winnerSourceId": "channels/eve.ts"
+      }
+    ]
+  },
+  "dynamicInstructions": [],
+  "dynamicSkills": [],
+  "dynamicTools": [],
+  "extensionMounts": [
+    {
+      "externalDependencies": [],
+      "mountLogicalPath": "extensions/self-modification.ts",
+      "mountSourceId": "eve:development-extension:self-modification:extensions/self-modification.ts",
+      "programmaticImport": {
+        "specifier": "eve/self-modification/local",
+        "entryPath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/extension.js",
+        "config": {
+          "local": {
+            "enabled": true
+          }
+        }
+      },
+      "mountSourcePath": "/Users/dammyola/Projects/mystudypartnar/agent/extensions/self-modification.ts",
+      "namespace": "self-modification",
+      "packageName": "eve",
+      "specifier": "eve/self-modification",
+      "mountId": "extensions/self-modification",
+      "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+    }
+  ],
+  "hooks": [],
+  "memories": [],
+  "instructions": [
+    {
+      "name": "instructions",
+      "logicalPath": "instructions.md",
+      "owner": {
+        "kind": "application"
+      },
+      "content": "# Identity\n\nYou are a general-purpose AI agent powered by eve, Vercel's agent framework.\n\n# Customization\n\nYour behavior and capabilities are defined by this project's code. You can be customized into whatever kind of agent the user wants by updating the project's instructions, tools, skills, connections, channels, subagents, and schedules.\n",
+      "role": "system",
+      "sourceId": "instructions.md",
+      "sourceKind": "markdown"
+    }
+  ],
+  "remoteAgents": [],
+  "sandbox": {
+    "providerName": "docker",
+    "environmentExportName": "environment",
+    "logicalPath": "sandbox.ts",
+    "revisionHash": "a55119c1d25881aba7a797bc4800af7541d5a5aaf384160e683cda31ba44c790",
+    "sourceId": "eve:defaults:sandbox.ts",
+    "sourceKind": "module"
+  },
+  "sandboxWorkspaces": [],
+  "schedules": [],
+  "scheduleCollections": [],
+  "skills": [
+    {
+      "description": "Answer questions about the AI SDK and help build AI-powered features. Use when developers: (1) Ask about AI SDK functions like generateText, streamText, ToolLoopAgent, embed, or tools, (2) Want to build AI agents, chatbots, RAG systems, or text generation features, (3) Have questions about AI providers (OpenAI, Anthropic, Google, etc.), streaming, tool calling, structured output, or embeddings, (4) Use React hooks like useChat or useCompletion. Triggers on: \"AI SDK\", \"Vercel AI SDK\", \"generateText\", \"streamText\", \"add AI to my app\", \"build an agent\", \"tool calling\", \"structured output\", \"useChat\".",
+      "logicalPath": "skills/ai-sdk/SKILL.md",
+      "owner": {
+        "kind": "application"
+      },
+      "markdown": "## What the AI SDK Is\n\nThe AI SDK by Vercel (the `ai` package on npm) is a TypeScript toolkit for building AI applications. It provides a unified API across model providers for text generation, structured output, tool calling, agents, embeddings, and framework UI integrations.\n\n- Repository: https://github.com/vercel/ai\n- Documentation: https://ai-sdk.dev/docs\n\n## Critical: Do Not Trust Your Own Memory\n\nWhatever you remember about the AI SDK is likely outdated. The SDK changes frequently across versions - APIs are renamed, removed, and added. Your training data almost certainly contains obsolete APIs, deprecated patterns, and model IDs that no longer exist. UI hooks like `useChat` are among the most frequently changed APIs, so be especially careful with client code.\n\n**Never write AI SDK code from memory.** Always verify every API, option, and pattern against the documentation and source code for the version that is actually installed in the project.\n\n## Use the Bundled, Version-Matched Docs\n\nThe `ai` package ships its full documentation and source code inside `node_modules`. These always match the installed version, so trust them over anything you remember.\n\n1. Ensure `ai` is installed. Check `node_modules/ai/` or locate the workspace package in a monorepo that depends on `ai` (e.g. `apps/<name>/node_modules/ai/`). If `ai` is not installed anywhere in the project, install **only** the `ai` package into the target package using the project's package manager (e.g. `pnpm add ai --filter <pkg>` or `npm install ai`). Install provider packages (e.g. `@ai-sdk/openai`) and framework packages (e.g. `@ai-sdk/react`) later, when the task requires them.\n2. Read and grep the bundled docs at `node_modules/ai/docs/` (or `<package>/node_modules/ai/docs/`) and the source at `node_modules/ai/src/`.\n3. Provider and framework packages bundle their own docs at `node_modules/@ai-sdk/<name>/docs/` (or `<package>/node_modules/@ai-sdk/<name>/docs/`).\n4. If something isn't in the bundled docs, search https://ai-sdk.dev/docs. You can append `.md` to any docs page URL to get its markdown, and search via `https://ai-sdk.dev/api/search-docs?q=your_query`.\n5. If you cannot find support for an answer in the docs or source, say so explicitly — do not guess.\n\n## AI Gateway: The Fastest Way to Start\n\nThe Vercel AI Gateway is the fastest way to get started with the AI SDK. It provides access to models from OpenAI, Anthropic, Google, and other providers through a single API, without installing provider packages or managing multiple API keys.\n\nTo set it up:\n\n1. Authenticate with OIDC (for Vercel deployments) or get an AI Gateway API key.\n2. Provide it to your app via the `AI_GATEWAY_API_KEY` environment variable.\n3. Reference models with `provider/model` strings.\n\nFor exact setup, authentication, and usage, read the bundled guide and the AI Gateway docs.\n\n### Choosing a Model\n\nNever use model IDs from memory — models are released and retired frequently. Fetch the current list before writing code that references a model. Do not truncate the list (e.g. with `head`) so you can find the newest models:\n\n```bash\n# All available models\ncurl -s https://ai-gateway.vercel.sh/v1/models | jq -r '.data[].id'\n\n# Filter by provider (e.g. anthropic, openai, google)\ncurl -s https://ai-gateway.vercel.sh/v1/models | jq -r '[.data[] | select(.id | startswith(\"anthropic/\")) | .id] | reverse | .[]'\n```\n\nWhen multiple versions of a model exist, prefer the one with the highest version number.\n\n## Building and Consuming Agents\n\nUse the SDK's built-in agent abstraction (such as `ToolLoopAgent`) rather than hand-rolling tool-calling loops. For end-to-end type safety, infer the UI message type from your agent definition when consuming it on the client (e.g. with `useChat`). Consuming an agent is framework-specific: check `package.json` to detect the stack, then follow the matching quickstart.\n\nLook up the current agent, tool, and type-safety APIs in the bundled docs (`node_modules/ai/docs/`, especially the agents section) or at https://ai-sdk.dev/docs.\n\n## DevTools\n\nAI SDK DevTools captures your AI SDK calls - requests, responses, tool calls, token usage, and multi-step runs - so you can inspect exactly what your agents do. Use it while developing to debug generations. It is a separate package and is intended for local development only.\n\nFor setup instructions, read the bundled DevTools documentation.\n\n## Keep the SDK Current\n\nOutdated installs are the most common source of errors. Compare the installed version against the latest:\n\n- **Installed:** the `version` field in `node_modules/ai/package.json`.\n- **Latest:** run `npm view ai version`.\n\nIf the installed version is a major version (or more) behind the latest, tell the user they are on an old release, and recommend upgrading before continuing. Migration guides are at https://ai-sdk.dev/docs/migration-guides.\n\n## After Making Changes\n\nRun the project's type checker. Be minimal — only set options that differ from the defaults, checking docs or source for the defaults rather than over-specifying. Most type errors come from remembered, now-changed APIs; re-check the current docs and source when they occur.\n",
+      "name": "ai-sdk",
+      "rootPath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/ai-sdk",
+      "skillId": "ai-sdk",
+      "skillFilePath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/ai-sdk/SKILL.md",
+      "sourceId": "skills/ai-sdk/SKILL.md",
+      "sourceKind": "skill-package"
+    },
+    {
+      "description": "Run the Upstash CLI (`upstash`) from a terminal, shell script, or CI job when no Upstash MCP tools are in the session. Do not load this skill when Upstash MCP tools are available (the Upstash plugin registers mcp.upstash.com) - they already cover creating, listing, renaming, and deleting Redis databases, running Redis commands, usage stats, backups, Vector and Search indexes, QStash schedules and messages, Blob buckets, and Box, so call them directly. Use this skill for shell work the MCP does not do - a CI step or provisioning script that needs `upstash` commands with JSON output, piping results into other commands, `upstash auth login` and API-key setup, team and member management, changing plans, regions, TLS, eviction, auto-upgrade, or budgets, minting temporary S3 credentials for a Blob bucket, connecting a coding agent to Upstash with `upstash setup` (the Upstash plugin, or the remote MCP server plus skills), or when the user explicitly asks for the CLI or for managing Upstash without the console.",
+      "license": "MIT",
+      "logicalPath": "skills/upstash-cli/SKILL.md",
+      "owner": {
+        "kind": "application"
+      },
+      "markdown": "## Prefer the MCP server when it is available\n\nIf Upstash MCP tools are in the session, call them instead of shelling out to the CLI. They are\nalready authenticated and cover the same ground — creating and inspecting Redis databases, running\nRedis commands, usage stats, backups, Vector and Search indexes, Blob buckets, QStash schedules and\nmessages, the DLQ, and logs. Installing the Upstash plugin registers the hosted server at\n`https://mcp.upstash.com/mcp`.\n\nUse the CLI when there is no MCP in the session, or when the work is inherently shell work — a CI\nstep, a provisioning script, or piping JSON into other commands.\n\nThe Upstash CLI (`upstash`) manages Upstash services via the Upstash Developer API. All commands are non-interactive and emit JSON on stdout. Errors go to stderr as `{ \"error\": \"...\" }` with exit code `1`.\n\n## Install\n\n```bash\nnpm i -g upstash\n```\n\nOr run a single command without installing: `npx upstash <command>`.\n\n## Connect coding agents to Upstash\n\n`upstash setup` connects coding agents to Upstash in one step. Claude Code, Codex, Cursor, and Gemini CLI get the Upstash plugin (the Upstash skills plus the remote MCP server). VS Code, GitHub Copilot CLI, and OpenCode get the remote MCP server (`https://mcp.upstash.com/mcp`) in their config plus the `upstash` skill. The MCP server signs in with OAuth on first use, so setup never writes an API key into an agent's config.\n\nA person at a terminal can run `npx upstash`: with no arguments in a terminal it starts `upstash setup` and asks which agents to set up. Outside a terminal a bare `upstash` only prints the help, so from an agent or a script call `upstash setup` with `--yes` and the agent flags:\n\n```bash\nnpx -y upstash setup --yes --claude             # or --codex, --cursor, --gemini, --vscode, --copilot, --opencode\nnpx -y upstash setup --yes --cursor --mode mcp  # remote MCP server + skill instead of the plugin\nnpx -y upstash setup --yes --claude --project   # this project instead of the user config\nnpx -y upstash setup --yes --dry-run            # show what would change; without agent flags, --yes covers every detected agent\n```\n\nWith `--project`, Claude Code installs the plugin at project scope; Codex, Cursor, and Gemini CLI plugins install per user only, so they get project-level MCP config plus the skill instead. Rerunning `setup` updates what it installed. Afterwards the agent needs a restart or reload (in Claude Code, `/reload-plugins`; in Cursor, Developer: Reload Window).\n\n## Authentication\n\nRecommended: run `upstash login` once per machine. Prompts for email and a Developer API key (create one at https://console.upstash.com/account/api), verifies them, and saves to `~/.config/upstash/config.json`.\n\n```bash\nupstash login\n```\n\nAlternatives — env vars (also auto-loaded from a `.env` in cwd), or `--email` / `--api-key` inline, or `--env-path <path>` to point at a specific `.env`:\n\n```bash\nexport UPSTASH_EMAIL=you@example.com\nexport UPSTASH_API_KEY=your_api_key\n```\n\nPrecedence: flags > env vars > `.env` > saved config. Prefer a **read-only** API key for agents when possible — mutations fail at the API, the same way they would in the console.\n\n## Resource ID flags\n\n| Flag | Products |\n|------|----------|\n| `--db-id <id>` | Redis |\n| `--index-id <id>` | Vector, Search |\n| `--qstash-id <id>` | QStash |\n| `--bucket-id <id>` | Blob |\n| `--team-id <id>` | Team |\n\n## Redis\n\n```bash\nupstash redis list\nupstash redis get --db-id <id> [--hide-credentials]\nupstash redis create --name <name> --region <region> [--read-regions <r1> <r2>]\nupstash redis delete --db-id <id> [--dry-run]\nupstash redis rename --db-id <id> --name <new-name>\nupstash redis reset-password --db-id <id>\nupstash redis stats --db-id <id>\n\nupstash redis enable-tls --db-id <id>\nupstash redis {enable,disable}-eviction --db-id <id>\nupstash redis {enable,disable}-autoupgrade --db-id <id>\nupstash redis change-plan --db-id <id> --plan <free|payg|pro|paid>\nupstash redis update-budget --db-id <id> --budget <cents>\nupstash redis update-regions --db-id <id> --read-regions <r1> <r2>\nupstash redis move-to-team --db-id <id> --team-id <id>\n```\n\nRegions — AWS: `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`, `ca-central-1`, `eu-central-1`, `eu-west-1`, `eu-west-2`, `sa-east-1`, `ap-south-1`, `ap-northeast-1`, `ap-southeast-1`, `ap-southeast-2`, `af-south-1`. GCP: `us-central1`, `us-east4`, `europe-west1`, `asia-northeast1`.\n\n### Redis backups\n\n```bash\nupstash redis backup list --db-id <id>\nupstash redis backup create --db-id <id> --name <name>\nupstash redis backup delete --db-id <id> --backup-id <id> [--dry-run]\nupstash redis backup restore --db-id <id> --backup-id <id>\nupstash redis backup {enable,disable}-daily --db-id <id>\n```\n\n### Redis exec (REST, not the Developer API key)\n\n```bash\nupstash redis exec --db-url <url> --db-token <token> SET key value\nupstash redis exec --db-url <url> --db-token <token> --json '[\"SET\",\"key\",\"value\"]'\n```\n\n`--db-url` / `--db-token` fall back to `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`. Get both from `endpoint` and `rest_token` in `upstash redis get --db-id <id>`.\n\n## Team\n\n```bash\nupstash team list\nupstash team create --name <name> [--copy-cc]\nupstash team delete --team-id <id> [--dry-run]\nupstash team members --team-id <id>\nupstash team add-member --team-id <id> --member-email <email> --role <admin|dev|finance>\nupstash team remove-member --team-id <id> --member-email <email> [--dry-run]\n```\n\n## Vector\n\n```bash\nupstash vector list\nupstash vector get --index-id <id>\nupstash vector create --name <name> --region <region> --similarity-function <fn> --dimension-count <n> [--type payg] [--index-type <type>] [--embedding-model <m>] [--sparse-embedding-model <m>]\nupstash vector delete --index-id <id> [--dry-run]\nupstash vector rename --index-id <id> --name <new-name>\nupstash vector reset-password --index-id <id>\nupstash vector set-plan --index-id <id> --plan <free|payg|fixed>\nupstash vector transfer --index-id <id> --target-account <id>\nupstash vector stats                             # aggregate across all indexes\nupstash vector index-stats --index-id <id> [--period <1h|3h|12h|1d|3d|7d|30d>]\n```\n\nRegions: `eu-west-1`, `us-east-1`, `us-central1`. Similarity: `COSINE`, `EUCLIDEAN`, `DOT_PRODUCT`. Index types: `DENSE`, `SPARSE`, `HYBRID`. Dense models: `BGE_SMALL_EN_V1_5`, `BGE_BASE_EN_V1_5`, `BGE_LARGE_EN_V1_5`, `BGE_M3`. Sparse models: `BM25`, `BGE_M3`. For `HYBRID` with managed embeddings, set `--dimension-count 0`.\n\n## Search\n\n```bash\nupstash search list\nupstash search get --index-id <id>\nupstash search create --name <name> --region <region> --type <free|payg|fixed>\nupstash search delete --index-id <id> [--dry-run]\nupstash search rename --index-id <id> --name <new-name>\nupstash search reset-password --index-id <id>\nupstash search transfer --index-id <id> --target-account <id>\nupstash search stats\nupstash search index-stats --index-id <id> [--period <1h|3h|12h|1d|3d|7d|30d>]\n```\n\nRegions: `eu-west-1`, `us-central1`.\n\n## QStash\n\n```bash\nupstash qstash list                              # run first; maps region → id\nupstash qstash get --qstash-id <id>\nupstash qstash rotate-token --qstash-id <id>\nupstash qstash set-plan --qstash-id <id> --plan <paid|qstash_fixed_1m|qstash_fixed_10m|qstash_fixed_100m>\nupstash qstash stats --qstash-id <id> [--period <1h|3h|12h|1d|3d|7d|30d>]\nupstash qstash ipv4                              # CIDR blocks for allowlisting\nupstash qstash move-to-team --qstash-id <id> --target-team-id <id>\nupstash qstash update-budget --qstash-id <id> --budget <dollars>    # 0 = no limit\nupstash qstash {enable,disable}-prodpack --qstash-id <id>\n```\n\n## Blob\n\nRun `upstash blob --help` to check that the installed CLI includes Blob support. If the command is unavailable, use the console for bucket management and `upstash-blob-js` for application code until a CLI release includes it.\n\n```bash\nupstash blob list\nupstash blob get --bucket-id <id> [--hide-credentials]\nupstash blob create --name <name> [--visibility <private|public>] [--cors <origin> <origin>]\nupstash blob delete --bucket-id <id> [--dry-run]\nupstash blob credentials [--bucket-id <id>]\n```\n\nBuckets are `private` by default. `blob get` returns the bucket token, which is a bearer secret for the whole bucket — pass `--hide-credentials` when you only need the metadata.\n\n`blob credentials` exchanges a bucket token for temporary, bucket-scoped S3 credentials to use with the AWS CLI, rclone, or any S3 SDK. With `--bucket-id` it reads the token through the Developer API; with no flag it uses `UPSTASH_BLOB_TOKEN` and needs no account auth at all. `expiresAt` is the expiry as a **unix timestamp in seconds** (multiply by 1000 before comparing with `Date.now()`) — re-mint before it passes rather than caching.\n\n```bash\nCREDS=$(upstash blob credentials --bucket-id <id>)\nexport AWS_ACCESS_KEY_ID=$(echo \"$CREDS\" | jq -r .accessKeyId)\nexport AWS_SECRET_ACCESS_KEY=$(echo \"$CREDS\" | jq -r .secretAccessKey)\nexport AWS_SESSION_TOKEN=$(echo \"$CREDS\" | jq -r .sessionToken)\n\naws s3 cp image.png \"s3://$(echo \"$CREDS\" | jq -r .bucket)/image.png\" \\\n  --endpoint-url \"$(echo \"$CREDS\" | jq -r .endpoint)\" --region auto\n```\n\nObject operations are not CLI commands — the bucket is S3-compatible, so use the credentials above with an S3 tool, or the `upstash-blob-js` skill for the TypeScript SDK.\n\n## Conventions\n\n- Pipe any output to `jq` for field extraction, e.g. `upstash redis list | jq '.[].database_id'`.\n- Use `--dry-run` first on any `delete` or `remove-member`.\n- Use `--hide-credentials` on `redis get` and `blob get` when the secret isn't needed.\n",
+      "metadata": {
+        "author": "Upstash",
+        "homepage": "https://upstash.com"
+      },
+      "name": "upstash-cli",
+      "rootPath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/upstash-cli",
+      "skillId": "upstash-cli",
+      "skillFilePath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/upstash-cli/SKILL.md",
+      "sourceId": "skills/upstash-cli/SKILL.md",
+      "sourceKind": "skill-package"
+    },
+    {
+      "description": "Work with the @upstash/qstash TypeScript/JavaScript SDK, an HTTP-based message queue, task scheduler, and background job system for serverless and edge runtimes (Next.js, Vercel, Cloudflare Workers, Deno, Node.js). Use when publishing messages to HTTP endpoints or URL groups, running background jobs without a long-running worker process, scheduling with cron expressions, delaying messages, building FIFO queues with parallelism and flow control, configuring retries and callbacks, handling a dead letter queue (DLQ), deduplicating messages, fanning out to multiple endpoints, verifying QStash webhook signatures (Next.js App Router, Pages Router, and Edge Runtime), running a local QStash dev server, or migrating regions. Also use when the user asks for a serverless cron job, async task queue, job scheduler, delayed delivery, webhook delivery with retries, or event-driven messaging between services.",
+      "license": "MIT",
+      "logicalPath": "skills/upstash-qstash-js/SKILL.md",
+      "owner": {
+        "kind": "application"
+      },
+      "markdown": "# QStash JavaScript SDK\n\nQStash is an HTTP-based messaging and scheduling solution for serverless and edge runtimes. This skill helps you use the QStash JS SDK effectively.\n\n## When to use this skill\n\nUse this skill when:\n\n- Publishing HTTP messages to endpoints or URL groups\n- Creating scheduled or delayed message delivery\n- Managing FIFO queues with configurable parallelism\n- Verifying incoming webhook signatures from QStash\n- Implementing callbacks, DLQ handling, or message deduplication\n\n## Quick Start\n\n### Installing the SDK\n\n```bash\nnpm install @upstash/qstash\n```\n\n### Basic Publishing\n\n```typescript\nimport { Client } from \"@upstash/qstash\";\n\nconst client = new Client({\n  token: process.env.QSTASH_TOKEN!,\n});\n\nconst result = await client.publishJSON({\n  url: \"https://my-api.example.com/webhook\",\n  body: { event: \"user.created\", userId: \"123\" },\n});\n```\n\n## Core Concepts\n\nFor fundamental QStash operations, see:\n\n- [Publishing Messages](fundamentals/publishing-messages.md)\n- [Schedules](fundamentals/schedules.md)\n- [Queues and Flow Control](fundamentals/queues-and-flow-control.md)\n- [URL Groups](fundamentals/url-groups.md)\n- [Local Development](fundamentals/local-development.md) — automatic dev server via `devMode: true`\n\nFor verifying incoming messages:\n\n- [Receiver Verification](verification/receiver.md) - Core signature verification with the Receiver class\n- Platform-Specific Verifiers:\n  - [Next.js](verification/platform-specific/nextjs.md) - App Router, Pages Router, and Edge Runtime\n\nFor advanced features:\n\n- [Callbacks](advanced/callbacks.md)\n- [Dead Letter Queue (DLQ)](advanced/dlq.md)\n- [Message Deduplication](advanced/deduplication.md)\n- [Region migration & multi-region support](advanced/multi-region/summary.md)\n  - If needed, [multi-region env variable setup verification script](advanced/multi-region/verify-multi-region-setup.ts). Can be run without arguments\n\n## Platform Support\n\nQStash JS SDK works across various platforms:\n\n- Next.js (App Router and Pages Router)\n- Cloudflare Workers\n- Deno\n- Node.js (v18+)\n- Vercel Edge Runtime\n- SvelteKit, Nuxt, SolidJS, and other frameworks\n\n> **Note on Workflow SDK:** For building complex durable workflows that chain multiple QStash messages together, consider using the separate QStash Workflow SDK (`@upstash/workflow`). The Workflow SDK empowers you to orchestrate multi-step processes with automatic state management, retries, and fault tolerance. This Skills file focuses on the core QStash messaging SDK.\n\n## Best Practices\n\n- Always verify incoming QStash messages using the Receiver class\n- Use environment variables for tokens and signing keys\n- Set appropriate retry counts and timeouts for your use case\n- Use queues for ordered processing with controlled parallelism\n- Implement DLQ handling for failed message recovery\n",
+      "metadata": {
+        "author": "Upstash",
+        "homepage": "https://upstash.com"
+      },
+      "name": "upstash-qstash-js",
+      "rootPath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/upstash-qstash-js",
+      "skillId": "upstash-qstash-js",
+      "skillFilePath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/upstash-qstash-js/SKILL.md",
+      "sourceId": "skills/upstash-qstash-js/SKILL.md",
+      "sourceKind": "skill-package"
+    },
+    {
+      "description": "Work with the @upstash/workflow TypeScript/JavaScript SDK for durable, long-running workflows in serverless functions, multi-step processes that survive timeouts, retries, and restarts (built on QStash). Use when defining a workflow endpoint with serve(), running steps with context.run, sleeping for minutes to days without holding a function open, calling external APIs with context.call, waiting for an external event or webhook, invoking other workflows, configuring retries, failure callbacks, and a DLQ, controlling concurrency, rate, and parallelism, triggering, cancelling, or inspecting runs with the Workflow client, building AI agents and orchestrators, human-in-the-loop approvals, realtime updates, local development with the QStash dev server, adding middleware, or migrating workflows safely. Also use when the user asks for durable execution, step functions, saga or orchestration patterns, background jobs with checkpoints, or long-running tasks on Vercel, Next.js, Cloudflare Workers, or other serverless platforms.",
+      "license": "MIT",
+      "logicalPath": "skills/upstash-workflow-js/SKILL.md",
+      "owner": {
+        "kind": "application"
+      },
+      "markdown": "# Upstash Workflow SDK\n\n## Quick Start\n\nThe Upstash Workflow SDK lets you expose serverless workflow endpoints and run them reliably using QStash under the hood.\n\nInstall:\n\n```bash\nnpm install @upstash/workflow\n```\n\nDefine a simple workflow endpoint:\n\n```ts\nimport { serve } from \"@upstash/workflow\";\n\nexport const { POST } = serve(async (context) => {\n  await context.run(\"step-1\", () => console.log(\"step 1\"));\n  await context.run(\"step-2\", () => console.log(\"step 2\"));\n});\n```\n\nTrigger it from your backend:\n\n```ts\nimport { Client } from \"@upstash/workflow\";\n\nconst client = new Client({ token: process.env.QSTASH_TOKEN! });\nawait client.trigger({ url: \"https://your-app.com/api/workflow\" });\n```\n\n## Other Skill Files\n\nThese files contain the full documentation. Use them for details, patterns, and advanced behavior.\n\n- basics:\n  - **basics/serve** – How to expose workflow endpoints.\n  - **basics/context** – Full API for workflow `context` (steps, waits, webhooks, events, invoke, etc.).\n  - **basics/client** – Using the Workflow client to trigger, cancel, inspect, and notify runs.\n- features:\n  - **features/invoke** – Cross‑workflow invocation.\n  - **features/reliability** – Retries, failure callbacks, and DLQ.\n  - **features/flow-control** – Rate limits, concurrency, and parallelism.\n  - **features/wait-for-event** – Notify and wait-for-event patterns.\n  - **features/webhooks** – Webhook creation and consumption.\n- how to:\n  - **how-to/local-dev** – Local QStash dev server (auto via `QSTASH_DEV=true`) and tunneling.\n  - **how-to/realtime** – Realtime and human‑in‑the‑loop workflows.\n  - **how-to/migrations** – Migrating workflows safely.\n  - **how-to/middleware** – Adding middleware to workflows.\n- other files:\n  - **rest-api** – Low-level REST endpoints for interacting with QStash/Workflow.\n  - **troubleshooting** – Common debugging and environment issues.\n  - **agents** – Using Workflow with agents, orchestrators, and automation patterns.\n",
+      "metadata": {
+        "author": "Upstash",
+        "homepage": "https://upstash.com"
+      },
+      "name": "upstash-workflow-js",
+      "rootPath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/upstash-workflow-js",
+      "skillId": "upstash-workflow-js",
+      "skillFilePath": "/Users/dammyola/Projects/mystudypartnar/agent/skills/upstash-workflow-js/SKILL.md",
+      "sourceId": "skills/upstash-workflow-js/SKILL.md",
+      "sourceKind": "skill-package"
+    }
+  ],
+  "tools": [
+    {
+      "behavior": {
+        "availability": [],
+        "shape": {
+          "suspend": "none"
+        }
+      },
+      "description": "Execute a shell command in the shared workspace environment. A command still running after 30 seconds keeps running in the background and returns status \"running\" with its output so far and how to check on or stop it.",
+      "hasExecute": true,
+      "hasModelOutputProjection": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The shell command to execute."
+          }
+        },
+        "required": [
+          "command"
+        ],
+        "additionalProperties": false
+      },
+      "logicalPath": "tools/bash.ts",
+      "modelInputSchema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The shell command to execute."
+          }
+        },
+        "required": [
+          "command"
+        ],
+        "additionalProperties": false
+      },
+      "name": "bash",
+      "outputSchema": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "completed"
+              },
+              "exitCode": {
+                "type": "number"
+              },
+              "stderr": {
+                "type": "string"
+              },
+              "stdout": {
+                "type": "string"
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "status",
+              "exitCode",
+              "stderr",
+              "stdout",
+              "truncated"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "running"
+              },
+              "pid": {
+                "type": "number"
+              },
+              "outputDirectory": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "stderr": {
+                "type": "string"
+              },
+              "stdout": {
+                "type": "string"
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "status",
+              "pid",
+              "outputDirectory",
+              "message",
+              "stderr",
+              "stdout",
+              "truncated"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "requiresApproval": false,
+      "sourceId": "eve:defaults:tools/bash.ts",
+      "sourceKind": "module"
+    },
+    {
+      "behavior": {
+        "availability": [],
+        "shape": {
+          "suspend": "none"
+        }
+      },
+      "description": "Read a file from the local filesystem. If the path does not exist, an error is returned.\n\nUsage:\n- The filePath parameter should be an absolute path or begin with $HOME/.\n- By default, this tool returns up to 2000 lines from the start of the file.\n- The offset parameter is the line number to start from (1-indexed).\n- To read later sections, call this tool again with a larger offset.\n- Contents are returned with each line prefixed by its line number as `<line>: <content>`. For example, if a file has contents \"foo\\n\", you will receive \"1: foo\\n\".\n- Any line longer than 2000 characters is truncated.\n- PNG, JPEG, GIF, and WebP images up to 3 MiB and PDFs up to 20 MiB are shown to you as files, including files named in `Attached file <path>` references.\n- Call this tool in parallel when you know there are multiple files you want to read.\n- Avoid tiny repeated slices (30 line chunks). If you need more context, read a larger window.",
+      "hasExecute": true,
+      "hasModelOutputProjection": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filePath": {
+            "type": "string",
+            "description": "The absolute path to the file to read. A leading $HOME is supported."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum number of lines to return. Defaults to 2000."
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "1-based line number to start from. Defaults to 1."
+          }
+        },
+        "required": [
+          "filePath"
+        ],
+        "additionalProperties": false
+      },
+      "logicalPath": "tools/read_file.ts",
+      "modelInputSchema": {
+        "type": "object",
+        "properties": {
+          "filePath": {
+            "type": "string",
+            "description": "The absolute path to the file to read. A leading $HOME is supported."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum number of lines to return. Defaults to 2000."
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "1-based line number to start from. Defaults to 1."
+          }
+        },
+        "required": [
+          "filePath"
+        ],
+        "additionalProperties": false
+      },
+      "name": "read_file",
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "file": {
+            "type": "object",
+            "properties": {
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "mediaType": {
+                "type": "string"
+              },
+              "pages": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "mediaType",
+              "size"
+            ],
+            "additionalProperties": false
+          },
+          "nextOffset": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "path": {
+            "type": "string"
+          },
+          "totalLines": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "content",
+          "path",
+          "totalLines",
+          "truncated"
+        ],
+        "additionalProperties": false
+      },
+      "requiresApproval": false,
+      "sourceId": "eve:defaults:tools/read_file.ts",
+      "sourceKind": "module"
+    },
+    {
+      "behavior": {
+        "availability": [],
+        "shape": {
+          "suspend": "none"
+        }
+      },
+      "description": "Writes a file to the local filesystem.\n\nUsage:\n- This tool will overwrite the existing file if there is one at the provided path.\n- If this is an existing file, you MUST use the read_file tool first to read the file's contents. This tool will fail if you did not read the file first.\n- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.\n- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.\n- Only use emojis if the user explicitly requests it. Avoid writing emojis to files unless asked.",
+      "hasExecute": true,
+      "hasModelOutputProjection": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Complete replacement file contents."
+          },
+          "filePath": {
+            "type": "string",
+            "description": "The absolute path to the file to write. A leading $HOME is supported."
+          }
+        },
+        "required": [
+          "content",
+          "filePath"
+        ],
+        "additionalProperties": false
+      },
+      "logicalPath": "tools/write_file.ts",
+      "modelInputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Complete replacement file contents."
+          },
+          "filePath": {
+            "type": "string",
+            "description": "The absolute path to the file to write. A leading $HOME is supported."
+          }
+        },
+        "required": [
+          "content",
+          "filePath"
+        ],
+        "additionalProperties": false
+      },
+      "name": "write_file",
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "existed": {
+            "type": "boolean"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "existed",
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "requiresApproval": false,
+      "sourceId": "eve:defaults:tools/write_file.ts",
+      "sourceKind": "module"
+    },
+    {
+      "behavior": {
+        "availability": [],
+        "shape": {
+          "suspend": "none"
+        }
+      },
+      "description": "Fetch a webpage and return its content in the requested format. Use this to retrieve and analyze content from URLs.\n\nUsage notes:\n- The URL must be a fully-formed valid URL starting with https://\n- HTML responses are automatically converted to markdown or plain text based on the requested format\n- Format options: \"markdown\" (default), \"text\", or \"html\"\n- Default timeout is 30 seconds (max 120 seconds)\n- Maximum response size is 5 MB; content is further capped at the shared tool-output budget (50 KB / 2000 lines)\n- This tool is read-only and does not modify any files",
+      "hasExecute": true,
+      "hasModelOutputProjection": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "text",
+              "html"
+            ],
+            "description": "The format to return the content in (text, markdown, or html). HTML responses are automatically converted to the requested format. Defaults to \"markdown\"."
+          },
+          "timeout": {
+            "type": "number",
+            "description": "Optional timeout in seconds. Defaults to 30, max 120."
+          },
+          "url": {
+            "type": "string",
+            "description": "The fully-formed URL to fetch content from. Must start with https://."
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "logicalPath": "tools/web_fetch.ts",
+      "modelInputSchema": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "text",
+              "html"
+            ],
+            "description": "The format to return the content in (text, markdown, or html). HTML responses are automatically converted to the requested format. Defaults to \"markdown\"."
+          },
+          "timeout": {
+            "type": "number",
+            "description": "Optional timeout in seconds. Defaults to 30, max 120."
+          },
+          "url": {
+            "type": "string",
+            "description": "The fully-formed URL to fetch content from. Must start with https://."
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "name": "web_fetch",
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "contentType",
+          "truncated",
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "requiresApproval": false,
+      "sourceId": "eve:defaults:tools/web_fetch.ts",
+      "sourceKind": "module"
+    },
+    {
+      "behavior": {
+        "availability": [],
+        "handling": {
+          "kind": "provider-tool",
+          "provider": "exa"
+        }
+      },
+      "description": "Search the web for real-time information. Use this to find up-to-date information about current events, recent developments, or topics that may have changed since the knowledge cutoff.",
+      "hasExecute": false,
+      "hasModelOutputProjection": false,
+      "inputSchema": null,
+      "logicalPath": "tools/web_search.ts",
+      "name": "web_search",
+      "sourceId": "eve:defaults:tools/web_search.ts",
+      "sourceKind": "module",
+      "requiresApproval": false
+    },
+    {
+      "behavior": {
+        "availability": [
+          "root-session"
+        ],
+        "handling": {
+          "action": "self-agent",
+          "kind": "dispatch"
+        },
+        "shape": {
+          "suspend": "none"
+        }
+      },
+      "description": "Delegate a focused subtask to a copy of yourself. Use it to isolate complex work or split a large task into independent pieces. Each call starts a task, so several agents can work at once: start every independent one before you wait. A new child has fresh history and state but reuses your tools and sandbox, so give parallel writers non-overlapping scopes. In message, state the goal, what to return, and whether it may change files.",
+      "hasExecute": true,
+      "hasModelOutputProjection": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The message to send to the agent, with everything it needs to do the work."
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "additionalProperties": false
+      },
+      "logicalPath": "tools/agent.ts",
+      "modelInputSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The message to send to the agent, with everything it needs to do the work."
+          },
+          "taskId": {
+            "description": "The id of a task this tool started, copied from its \"Started task\" receipt or the [Tasks] note, to send it this input. Omit it to start a new task.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "additionalProperties": false
+      },
+      "name": "agent",
+      "requiresApproval": false,
+      "sourceId": "eve:root-defaults:tools/agent.ts",
+      "sourceKind": "module"
+    }
+  ],
+  "workspaceResourceRoot": {
+    "contentHash": "8a3087cd90bbb246c2938d374b3dd4f5c2c98a936c0108e0b710999263808fd4",
+    "logicalPath": "workspace-resources/__root__",
+    "rootEntries": []
+  },
+  "config": {
+    "compaction": {},
+    "name": "mystudypartnar",
+    "reasoning": "high",
+    "source": {
+      "logicalPath": "agent.ts",
+      "sourceId": "agent.ts",
+      "sourceKind": "module"
+    },
+    "model": {
+      "id": "openai/gpt-6-luna-fast",
+      "routing": {
+        "kind": "gateway",
+        "target": "openai"
+      },
+      "contextWindowTokens": 1050000,
+      "maxOutputTokens": 128000
+    }
+  },
+  "kind": "eve-agent-compiled-manifest",
+  "subagents": [
+    {
+      "backing": {
+        "kind": "resource",
+        "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent"
+      },
+      "entryPath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent",
+      "logicalPath": "subagents/self-modification__agent",
+      "name": "self-modification__agent",
+      "nodeId": "ext:self-modification:subagents/agent",
+      "owner": {
+        "kind": "extension",
+        "mountId": "extensions/self-modification",
+        "namespace": "self-modification",
+        "packageName": "eve"
+      },
+      "parentNodeId": "__root__",
+      "rootPath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent",
+      "sourceId": "ext:self-modification:subagents/agent",
+      "sourceKind": "module",
+      "agent": {
+        "agentRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent",
+        "appRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve",
+        "bindings": {
+          "eve:defaults:tools/bash.ts": {
+            "backing": {
+              "kind": "programmatic",
+              "moduleId": "tools/bash.ts",
+              "registryId": "eve:defaults",
+              "revision": "eve@0.81.0:compiled-manifest-v53"
+            },
+            "logicalPath": "tools/bash.ts",
+            "owner": {
+              "feature": "eve:defaults",
+              "kind": "framework"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "eve:defaults:tools/read_file.ts": {
+            "backing": {
+              "kind": "programmatic",
+              "moduleId": "tools/read_file.ts",
+              "registryId": "eve:defaults",
+              "revision": "eve@0.81.0:compiled-manifest-v53"
+            },
+            "logicalPath": "tools/read_file.ts",
+            "owner": {
+              "feature": "eve:defaults",
+              "kind": "framework"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "eve:defaults:tools/write_file.ts": {
+            "backing": {
+              "kind": "programmatic",
+              "moduleId": "tools/write_file.ts",
+              "registryId": "eve:defaults",
+              "revision": "eve@0.81.0:compiled-manifest-v53"
+            },
+            "logicalPath": "tools/write_file.ts",
+            "owner": {
+              "feature": "eve:defaults",
+              "kind": "framework"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "eve:defaults:tools/web_fetch.ts": {
+            "backing": {
+              "kind": "programmatic",
+              "moduleId": "tools/web_fetch.ts",
+              "registryId": "eve:defaults",
+              "revision": "eve@0.81.0:compiled-manifest-v53"
+            },
+            "logicalPath": "tools/web_fetch.ts",
+            "owner": {
+              "feature": "eve:defaults",
+              "kind": "framework"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "eve:defaults:tools/web_search.ts": {
+            "backing": {
+              "kind": "programmatic",
+              "moduleId": "tools/web_search.ts",
+              "registryId": "eve:defaults",
+              "revision": "eve@0.81.0:compiled-manifest-v53"
+            },
+            "logicalPath": "tools/web_search.ts",
+            "owner": {
+              "feature": "eve:defaults",
+              "kind": "framework"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": false
+            }
+          },
+          "agent.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/agent.js"
+            },
+            "logicalPath": "agent.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "sandbox.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/sandbox.js"
+            },
+            "logicalPath": "sandbox.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/edit_file.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/edit_file.js"
+            },
+            "logicalPath": "tools/edit_file.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/inspect_trace.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/inspect_trace.js"
+            },
+            "logicalPath": "tools/inspect_trace.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/inspect_trace_spans.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/inspect_trace_spans.js"
+            },
+            "logicalPath": "tools/inspect_trace_spans.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/registry_add.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/registry_add.js"
+            },
+            "logicalPath": "tools/registry_add.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/search_models.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/search_models.js"
+            },
+            "logicalPath": "tools/search_models.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/search_registry.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/search_registry.js"
+            },
+            "logicalPath": "tools/search_registry.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "tools/search_traces.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/tools/search_traces.js"
+            },
+            "logicalPath": "tools/search_traces.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "instructions.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/instructions.js"
+            },
+            "logicalPath": "instructions.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          },
+          "skills/trace_analysis.js": {
+            "backing": {
+              "externalDependencies": [],
+              "extensionScope": {
+                "namespace": "self-modification",
+                "sourceRoot": "/Users/dammyola/Projects/mystudypartnar/.eve/dev-runtime/snapshots/mvfyz1fj-f4444fe4-afb3-403e-8da2-fba63666612d/source/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension"
+              },
+              "kind": "filesystem",
+              "mountId": "extensions/self-modification",
+              "sourcePath": "/Users/dammyola/Projects/mystudypartnar/node_modules/.pnpm/eve@0.81.0_ai@7.0.145_zod@4.6.7_/node_modules/eve/dist/src/self-modification/extension/subagents/agent/skills/trace_analysis.js"
+            },
+            "logicalPath": "skills/trace_analysis.js",
+            "owner": {
+              "kind": "extension",
+              "mountId": "extensions/self-modification",
+              "namespace": "self-modification",
+              "packageName": "eve"
+            },
+            "usage": {
+              "compile": true,
+              "runtimeEntry": true
+            }
+          }
+        },
+        "channelRoutes": {
+          "effective": [],
+          "preflight": [],
+          "shadowed": []
+        },
+        "connections": [],
+        "dynamicConnections": [],
+        "diagnosticsSummary": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "sourceComposition": {
+          "entries": [
+            {
+              "kind": "shadowed",
+              "source": {
+                "backing": {
+                  "kind": "programmatic",
+                  "moduleId": "agent.ts",
+                  "registryId": "eve:defaults",
+                  "revision": "eve@0.81.0:compiled-manifest-v53"
+                },
+                "form": "direct",
+                "layer": "framework-default",
+                "logicalPath": "agent.ts",
+                "owner": {
+                  "feature": "eve:defaults",
+                  "kind": "framework"
+                },
+                "sourceId": "eve:defaults:agent.ts"
+              },
+              "winnerSourceId": "agent.js"
+            },
+            {
+              "kind": "shadowed",
+              "source": {
+                "backing": {
+                  "kind": "programmatic",
+                  "moduleId": "sandbox.ts",
+                  "registryId": "eve:defaults",
+                  "revision": "eve@0.81.0:compiled-manifest-v53",
+                  "semanticRevision": "eve:default-sandbox:v1"
+                },
+                "form": "direct",
+                "layer": "framework-default",
+                "logicalPath": "sandbox.ts",
+                "owner": {
+                  "feature": "eve:defaults",
+                  "kind": "framework"
+                },
+                "sourceId": "eve:defaults:sandbox.ts"
+              },
+              "winnerSourceId": "sandbox.js"
+            }
+          ]
+        },
+        "dynamicInstructions": [
+          {
+            "eventNames": [
+              "session.started"
+            ],
+            "logicalPath": "instructions.js",
+            "slug": "instructions",
+            "sourceId": "instructions.js",
+            "sourceKind": "module"
+          }
+        ],
+        "dynamicSkills": [
+          {
+            "eventNames": [
+              "session.started"
+            ],
+            "logicalPath": "skills/trace_analysis.js",
+            "slug": "trace_analysis",
+            "sourceId": "skills/trace_analysis.js",
+            "sourceKind": "module",
+            "extensionNamespace": "self-modification"
+          }
+        ],
+        "dynamicTools": [
+          {
+            "eventNames": [
+              "session.started"
+            ],
+            "logicalPath": "tools/inspect_trace.js",
+            "slug": "inspect_trace",
+            "sourceId": "tools/inspect_trace.js",
+            "sourceKind": "module",
+            "extensionNamespace": "self-modification"
+          },
+          {
+            "eventNames": [
+              "session.started"
+            ],
+            "logicalPath": "tools/inspect_trace_spans.js",
+            "slug": "inspect_trace_spans",
+            "sourceId": "tools/inspect_trace_spans.js",
+            "sourceKind": "module",
+            "extensionNamespace": "self-modification"
+          },
+          {
+            "eventNames": [
+              "session.started"
+            ],
+            "logicalPath": "tools/registry_add.js",
+            "slug": "registry_add",
+            "sourceId": "tools/registry_add.js",
+            "sourceKind": "module",
+            "extensionNamespace": "self-modification"
+          },
+          {
+            "eventNames": [
+              "session.started"
+            ],
+            "logicalPath": "tools/search_traces.js",
+            "slug": "search_traces",
+            "sourceId": "tools/search_traces.js",
+            "sourceKind": "module",
+            "extensionNamespace": "self-modification"
+          }
+        ],
+        "extensionMounts": [],
+        "hooks": [],
+        "memories": [],
+        "instructions": [],
+        "remoteAgents": [],
+        "sandbox": {
+          "providerName": "just-bash",
+          "logicalPath": "sandbox.js",
+          "revisionHash": "42c8f50dd87a2ed88a94b193cdab587c343c6124d7f10596226ac241f47b388b",
+          "sourceId": "sandbox.js",
+          "sourceKind": "module"
+        },
+        "sandboxWorkspaces": [],
+        "schedules": [],
+        "scheduleCollections": [],
+        "skills": [],
+        "tools": [
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Execute a shell command in the shared workspace environment. A command still running after 30 seconds keeps running in the background and returns status \"running\" with its output so far and how to check on or stop it.",
+            "hasExecute": true,
+            "hasModelOutputProjection": false,
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "The shell command to execute."
+                }
+              },
+              "required": [
+                "command"
+              ],
+              "additionalProperties": false
+            },
+            "logicalPath": "tools/bash.ts",
+            "modelInputSchema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "The shell command to execute."
+                }
+              },
+              "required": [
+                "command"
+              ],
+              "additionalProperties": false
+            },
+            "name": "bash",
+            "outputSchema": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "const": "completed"
+                    },
+                    "exitCode": {
+                      "type": "number"
+                    },
+                    "stderr": {
+                      "type": "string"
+                    },
+                    "stdout": {
+                      "type": "string"
+                    },
+                    "truncated": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "exitCode",
+                    "stderr",
+                    "stdout",
+                    "truncated"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "const": "running"
+                    },
+                    "pid": {
+                      "type": "number"
+                    },
+                    "outputDirectory": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "stderr": {
+                      "type": "string"
+                    },
+                    "stdout": {
+                      "type": "string"
+                    },
+                    "truncated": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "pid",
+                    "outputDirectory",
+                    "message",
+                    "stderr",
+                    "stdout",
+                    "truncated"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "requiresApproval": false,
+            "sourceId": "eve:defaults:tools/bash.ts",
+            "sourceKind": "module"
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Read a file from the local filesystem. If the path does not exist, an error is returned.\n\nUsage:\n- The filePath parameter should be an absolute path or begin with $HOME/.\n- By default, this tool returns up to 2000 lines from the start of the file.\n- The offset parameter is the line number to start from (1-indexed).\n- To read later sections, call this tool again with a larger offset.\n- Contents are returned with each line prefixed by its line number as `<line>: <content>`. For example, if a file has contents \"foo\\n\", you will receive \"1: foo\\n\".\n- Any line longer than 2000 characters is truncated.\n- PNG, JPEG, GIF, and WebP images up to 3 MiB and PDFs up to 20 MiB are shown to you as files, including files named in `Attached file <path>` references.\n- Call this tool in parallel when you know there are multiple files you want to read.\n- Avoid tiny repeated slices (30 line chunks). If you need more context, read a larger window.",
+            "hasExecute": true,
+            "hasModelOutputProjection": true,
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "filePath": {
+                  "type": "string",
+                  "description": "The absolute path to the file to read. A leading $HOME is supported."
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Maximum number of lines to return. Defaults to 2000."
+                },
+                "offset": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "1-based line number to start from. Defaults to 1."
+                }
+              },
+              "required": [
+                "filePath"
+              ],
+              "additionalProperties": false
+            },
+            "logicalPath": "tools/read_file.ts",
+            "modelInputSchema": {
+              "type": "object",
+              "properties": {
+                "filePath": {
+                  "type": "string",
+                  "description": "The absolute path to the file to read. A leading $HOME is supported."
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Maximum number of lines to return. Defaults to 2000."
+                },
+                "offset": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "1-based line number to start from. Defaults to 1."
+                }
+              },
+              "required": [
+                "filePath"
+              ],
+              "additionalProperties": false
+            },
+            "name": "read_file",
+            "outputSchema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "object",
+                  "properties": {
+                    "height": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "mediaType": {
+                      "type": "string"
+                    },
+                    "pages": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "size": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "width": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "mediaType",
+                    "size"
+                  ],
+                  "additionalProperties": false
+                },
+                "nextOffset": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "path": {
+                  "type": "string"
+                },
+                "totalLines": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "truncated": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "content",
+                "path",
+                "totalLines",
+                "truncated"
+              ],
+              "additionalProperties": false
+            },
+            "requiresApproval": false,
+            "sourceId": "eve:defaults:tools/read_file.ts",
+            "sourceKind": "module"
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Writes a file to the local filesystem.\n\nUsage:\n- This tool will overwrite the existing file if there is one at the provided path.\n- If this is an existing file, you MUST use the read_file tool first to read the file's contents. This tool will fail if you did not read the file first.\n- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.\n- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.\n- Only use emojis if the user explicitly requests it. Avoid writing emojis to files unless asked.",
+            "hasExecute": true,
+            "hasModelOutputProjection": false,
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "Complete replacement file contents."
+                },
+                "filePath": {
+                  "type": "string",
+                  "description": "The absolute path to the file to write. A leading $HOME is supported."
+                }
+              },
+              "required": [
+                "content",
+                "filePath"
+              ],
+              "additionalProperties": false
+            },
+            "logicalPath": "tools/write_file.ts",
+            "modelInputSchema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "Complete replacement file contents."
+                },
+                "filePath": {
+                  "type": "string",
+                  "description": "The absolute path to the file to write. A leading $HOME is supported."
+                }
+              },
+              "required": [
+                "content",
+                "filePath"
+              ],
+              "additionalProperties": false
+            },
+            "name": "write_file",
+            "outputSchema": {
+              "type": "object",
+              "properties": {
+                "existed": {
+                  "type": "boolean"
+                },
+                "path": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "existed",
+                "path"
+              ],
+              "additionalProperties": false
+            },
+            "requiresApproval": false,
+            "sourceId": "eve:defaults:tools/write_file.ts",
+            "sourceKind": "module"
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Fetch a webpage and return its content in the requested format. Use this to retrieve and analyze content from URLs.\n\nUsage notes:\n- The URL must be a fully-formed valid URL starting with https://\n- HTML responses are automatically converted to markdown or plain text based on the requested format\n- Format options: \"markdown\" (default), \"text\", or \"html\"\n- Default timeout is 30 seconds (max 120 seconds)\n- Maximum response size is 5 MB; content is further capped at the shared tool-output budget (50 KB / 2000 lines)\n- This tool is read-only and does not modify any files",
+            "hasExecute": true,
+            "hasModelOutputProjection": false,
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "format": {
+                  "type": "string",
+                  "enum": [
+                    "markdown",
+                    "text",
+                    "html"
+                  ],
+                  "description": "The format to return the content in (text, markdown, or html). HTML responses are automatically converted to the requested format. Defaults to \"markdown\"."
+                },
+                "timeout": {
+                  "type": "number",
+                  "description": "Optional timeout in seconds. Defaults to 30, max 120."
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The fully-formed URL to fetch content from. Must start with https://."
+                }
+              },
+              "required": [
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "logicalPath": "tools/web_fetch.ts",
+            "modelInputSchema": {
+              "type": "object",
+              "properties": {
+                "format": {
+                  "type": "string",
+                  "enum": [
+                    "markdown",
+                    "text",
+                    "html"
+                  ],
+                  "description": "The format to return the content in (text, markdown, or html). HTML responses are automatically converted to the requested format. Defaults to \"markdown\"."
+                },
+                "timeout": {
+                  "type": "number",
+                  "description": "Optional timeout in seconds. Defaults to 30, max 120."
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The fully-formed URL to fetch content from. Must start with https://."
+                }
+              },
+              "required": [
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "name": "web_fetch",
+            "outputSchema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string"
+                },
+                "contentType": {
+                  "type": "string"
+                },
+                "truncated": {
+                  "type": "boolean"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "content",
+                "contentType",
+                "truncated",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "requiresApproval": false,
+            "sourceId": "eve:defaults:tools/web_fetch.ts",
+            "sourceKind": "module"
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "handling": {
+                "kind": "provider-tool",
+                "provider": "exa"
+              }
+            },
+            "description": "Search the web for real-time information. Use this to find up-to-date information about current events, recent developments, or topics that may have changed since the knowledge cutoff.",
+            "hasExecute": false,
+            "hasModelOutputProjection": false,
+            "inputSchema": null,
+            "logicalPath": "tools/web_search.ts",
+            "name": "web_search",
+            "sourceId": "eve:defaults:tools/web_search.ts",
+            "sourceKind": "module",
+            "requiresApproval": false
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "hasExecute": true,
+            "hasModelOutputProjection": false,
+            "inputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Absolute path below /source to edit."
+                },
+                "edits": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Unique exact text from the current file. Encode control characters, quotes, and backslashes as JSON escapes."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Exact replacement text. Encode control characters, quotes, and backslashes as JSON escapes."
+                      }
+                    },
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ]
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              },
+              "required": [
+                "path",
+                "edits"
+              ]
+            },
+            "logicalPath": "tools/edit_file.js",
+            "modelInputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Absolute path below /source to edit."
+                },
+                "edits": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Unique exact text from the current file. Encode control characters, quotes, and backslashes as JSON escapes."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Exact replacement text. Encode control characters, quotes, and backslashes as JSON escapes."
+                      }
+                    },
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ]
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              },
+              "required": [
+                "path",
+                "edits"
+              ]
+            },
+            "name": "edit_file",
+            "outputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "replacements": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "path",
+                "replacements"
+              ]
+            },
+            "requiresApproval": false,
+            "sourceId": "tools/edit_file.js",
+            "sourceKind": "module"
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Search the Vercel AI Gateway model catalog. Call this to list available AI Gateway models or resolve a model to its exact ID.",
+            "hasExecute": true,
+            "hasModelOutputProjection": false,
+            "inputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "description": "A full model ID, model name, or short name such as 'luna'."
+                }
+              },
+              "required": [
+                "query"
+              ]
+            },
+            "logicalPath": "tools/search_models.js",
+            "modelInputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "description": "A full model ID, model name, or short name such as 'luna'."
+                }
+              },
+              "required": [
+                "query"
+              ]
+            },
+            "name": "search_models",
+            "outputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "models": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "provider": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "provider"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "models"
+              ]
+            },
+            "requiresApproval": false,
+            "sourceId": "tools/search_models.js",
+            "sourceKind": "module"
+          },
+          {
+            "behavior": {
+              "availability": [],
+              "shape": {
+                "suspend": "none"
+              }
+            },
+            "description": "Search the eve registry for integrations this project can add: channels, MCP connections, extensions, memory providers, and observability. Read-only — it installs nothing. Call it before writing an integration by hand, then pass an exact item address (for example `channel/slack`) to registry_add.",
+            "hasExecute": true,
+            "hasModelOutputProjection": false,
+            "inputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "Free-text match against integration names, titles, and descriptions."
+                },
+                "category": {
+                  "type": "string",
+                  "enum": [
+                    "channel",
+                    "connection",
+                    "extension",
+                    "instrumentation",
+                    "memory"
+                  ],
+                  "description": "Restrict results to one registry category."
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25,
+                  "description": "Maximum number of items to return (default 10, maximum 25)."
+                },
+                "offset": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Number of matching items to skip. Use nextOffset from a prior result to retrieve the next page."
+                }
+              }
+            },
+            "logicalPath": "tools/search_registry.js",
+            "modelInputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "Free-text match against integration names, titles, and descriptions."
+                },
+                "category": {
+                  "type": "string",
+                  "enum": [
+                    "channel",
+                    "connection",
+                    "extension",
+                    "instrumentation",
+                    "memory"
+                  ],
+                  "description": "Restrict results to one registry category."
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25,
+                  "description": "Maximum number of items to return (default 10, maximum 25)."
+                },
+                "offset": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Number of matching items to skip. Use nextOffset from a prior result to retrieve the next page."
+                }
+              }
+            },
+            "name": "search_registry",
+            "outputSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
+                      "requires": {
+                        "type": "string"
+                      },
+                      "installed": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "address",
+                      "title"
+                    ]
+                  }
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "registry": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "registry",
+                      "message"
+                    ]
+                  }
+                },
+                "total": {
+                  "type": "integer"
+                },
+                "hasMore": {
+                  "type": "boolean"
+                },
+                "nextOffset": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "items",
+                "errors",
+                "total",
+                "hasMore"
+              ]
+            },
+            "requiresApproval": false,
+            "sourceId": "tools/search_registry.js",
+            "sourceKind": "module"
+          }
+        ],
+        "workspaceResourceRoot": {
+          "logicalPath": "workspace-resources/ext%3Aself-modification%3Asubagents%2Fagent",
+          "rootEntries": []
+        }
+      },
+      "configResolver": {
+        "eventNames": [
+          "session.started",
+          "turn.started"
+        ],
+        "logicalPath": "agent.js",
+        "sourceId": "agent.js",
+        "sourceKind": "module"
+      }
+    }
+  ],
+  "version": 54
+}

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-19T23:37:39.030Z",
+  "fetchedAt": "2026-10-20T00:53:16.785Z",
   "kind": "eve-model-catalog-cache",
   "models": [
     {
@@ -1894,7 +1894,8 @@
           "contextWindowTokens": 0,
           "maxOutputTokens": 0,
           "tags": [
-            "image-generation"
+            "image-generation",
+            "open-weights"
           ]
         }
       ]
@@ -3334,6 +3335,20 @@
           ]
         },
         {
+          "provider": "gmicloud",
+          "providerModelId": "deepseek-ai/deepseek-v4.1-flash-1017",
+          "contextWindowTokens": 1048575,
+          "maxOutputTokens": 1048575,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "vision",
+            "open-weights"
+          ]
+        },
+        {
           "provider": "inference-net",
           "providerModelId": "deepseek-v4.1-flash-1017",
           "contextWindowTokens": 262144,
@@ -4638,7 +4653,8 @@
           "tags": [
             "reasoning",
             "tool-use",
-            "implicit-caching"
+            "implicit-caching",
+            "open-weights"
           ]
         }
       ]
@@ -4655,7 +4671,8 @@
             "implicit-caching",
             "reasoning",
             "tool-use",
-            "structured-output"
+            "structured-output",
+            "open-weights"
           ]
         },
         {
@@ -4665,7 +4682,8 @@
           "maxOutputTokens": 32000,
           "tags": [
             "reasoning",
-            "tool-use"
+            "tool-use",
+            "open-weights"
           ]
         }
       ]
@@ -4681,7 +4699,8 @@
           "tags": [
             "reasoning",
             "tool-use",
-            "implicit-caching"
+            "implicit-caching",
+            "open-weights"
           ]
         }
       ]
@@ -4698,7 +4717,8 @@
             "reasoning",
             "tool-use",
             "video-input",
-            "vision"
+            "vision",
+            "open-weights"
           ]
         }
       ]
@@ -4714,7 +4734,8 @@
           "tags": [
             "reasoning",
             "tool-use",
-            "implicit-caching"
+            "implicit-caching",
+            "open-weights"
           ]
         }
       ]
@@ -6419,7 +6440,8 @@
             "reasoning",
             "structured-output",
             "tool-use",
-            "vision"
+            "vision",
+            "open-weights"
           ]
         },
         {
@@ -6433,7 +6455,8 @@
             "structured-output",
             "tool-use",
             "video-input",
-            "vision"
+            "vision",
+            "open-weights"
           ]
         },
         {
@@ -6447,7 +6470,8 @@
             "structured-output",
             "tool-use",
             "video-input",
-            "vision"
+            "vision",
+            "open-weights"
           ]
         },
         {
@@ -6461,7 +6485,8 @@
             "structured-output",
             "tool-use",
             "video-input",
-            "vision"
+            "vision",
+            "open-weights"
           ]
         }
       ]
@@ -9260,7 +9285,10 @@
           "provider": "tencent",
           "providerModelId": "hy-mt2-lite",
           "contextWindowTokens": 8000,
-          "maxOutputTokens": 4000
+          "maxOutputTokens": 4000,
+          "tags": [
+            "open-weights"
+          ]
         }
       ]
     },
@@ -9273,7 +9301,8 @@
           "contextWindowTokens": 8000,
           "maxOutputTokens": 4000,
           "tags": [
-            "structured-output"
+            "structured-output",
+            "open-weights"
           ]
         }
       ]
@@ -9287,7 +9316,8 @@
           "contextWindowTokens": 8000,
           "maxOutputTokens": 4000,
           "tags": [
-            "structured-output"
+            "structured-output",
+            "open-weights"
           ]
         }
       ]
