@@ -1,7 +1,7 @@
+import { r2Storage } from "@/lib/r2";
 import { embedPassageTexts } from "./embeddings";
 import { convertOfficeToPdf } from "./office-pdf";
 import { extractPdfPages } from "./pdf-text";
-import { r2Storage } from "./r2-storage";
 import { sourceRunChannel } from "./run-channel";
 import { createSources } from "./sources";
 

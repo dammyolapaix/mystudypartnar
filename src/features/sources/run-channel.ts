@@ -1,6 +1,5 @@
-import { Redis } from "@upstash/redis";
-import { Realtime } from "@upstash/realtime";
 import { z } from "zod";
+import { Realtime, upstashRedis } from "@/lib/upstash";
 import type { PreparationEvent, RunChannel } from "./types";
 
 const schema = {
@@ -16,12 +15,9 @@ const HISTORY_LIMIT = 50;
 const HISTORY_SECONDS = 24 * 60 * 60;
 
 export function getSourceRealtime() {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-
   return new Realtime({
     schema,
-    redis: url && token ? new Redis({ url, token }) : undefined,
+    redis: upstashRedis(),
     history: { maxLength: HISTORY_LIMIT, expireAfterSecs: HISTORY_SECONDS },
   });
 }
@@ -39,9 +35,7 @@ export function sourceRunChannel(): RunChannel {
       await channel.emit("source.step", { name: event.name });
     },
     async history(runId) {
-      if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
-        return [];
-      }
+      if (!upstashRedis()) return [];
 
       const messages = await realtime.channel(runId).history({ limit: HISTORY_LIMIT });
       return messages.flatMap((message) => {

@@ -7,7 +7,7 @@ import {
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
 } from "@/features/auth/validations";
-import { r2Storage } from "@/features/sources/r2-storage";
+import { r2Storage } from "@/lib/r2";
 import { createSources } from "@/features/sources/sources";
 import type { SourceStorage } from "@/features/sources/types";
 

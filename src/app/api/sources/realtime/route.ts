@@ -1,4 +1,4 @@
-import { handle } from "@upstash/realtime";
+import { handle } from "@/lib/upstash";
 import { getSourceRealtime } from "@/features/sources/run-channel";
 import { createSources } from "@/features/sources/sources";
 import type { SourceStorage } from "@/features/sources/types";

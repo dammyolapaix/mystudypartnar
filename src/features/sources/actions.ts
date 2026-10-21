@@ -2,9 +2,9 @@
 
 import { updateTag } from "next/cache";
 import { validatedActionWithUser } from "@/lib/action-middlewares";
+import { r2Storage, StorageNotConfiguredError } from "@/lib/r2";
 import { scheduleAbandonedUpload } from "./abandoned-upload";
 import { startSourcePreparation } from "./preparation";
-import { r2Storage, StorageNotConfiguredError } from "./r2-storage";
 import { createSources } from "./sources";
 import {
   confirmSourceUploadSchema,

@@ -1,5 +1,5 @@
 import { revalidateTag } from "next/cache";
-import { serve } from "@upstash/workflow/nextjs";
+import { serve } from "@/lib/upstash";
 import {
   finishStoredSource,
   prepareStoredSource,

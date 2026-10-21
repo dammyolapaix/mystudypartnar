@@ -9,7 +9,6 @@ import {
   S3ServiceException,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import type { SourceStorage } from "./types";
 
 export class StorageNotConfiguredError extends Error {
   constructor() {
@@ -17,7 +16,7 @@ export class StorageNotConfiguredError extends Error {
   }
 }
 
-export function r2Storage(): SourceStorage {
+export function r2Storage() {
   const accountId = process.env.R2_ACCOUNT_ID;
   const accessKeyId = process.env.R2_ACCESS_KEY_ID;
   const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
@@ -33,7 +32,15 @@ export function r2Storage(): SourceStorage {
   });
 
   return {
-    async createUploadUrl({ key, contentLength, expiresInSeconds }) {
+    async createUploadUrl({
+      key,
+      contentLength,
+      expiresInSeconds,
+    }: {
+      key: string;
+      contentLength: number;
+      expiresInSeconds: number;
+    }) {
       const url = await getSignedUrl(
         client,
         new PutObjectCommand({
@@ -45,7 +52,7 @@ export function r2Storage(): SourceStorage {
       );
       return { url, expiresInSeconds };
     },
-    async statObject(key) {
+    async statObject(key: string) {
       try {
         const head = await client.send(
           new HeadObjectCommand({ Bucket: bucket, Key: key }),
@@ -57,7 +64,7 @@ export function r2Storage(): SourceStorage {
         throw error;
       }
     },
-    async readObject(key) {
+    async readObject(key: string) {
       try {
         const response = await client.send(
           new GetObjectCommand({ Bucket: bucket, Key: key }),
@@ -69,7 +76,7 @@ export function r2Storage(): SourceStorage {
         throw error;
       }
     },
-    async deleteObject(key) {
+    async deleteObject(key: string) {
       try {
         await client.send(new DeleteObjectCommand({ Bucket: bucket, Key: key }));
       } catch (error) {

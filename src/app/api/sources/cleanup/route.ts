@@ -1,4 +1,4 @@
-import { serve } from "@upstash/workflow/nextjs";
+import { serve } from "@/lib/upstash";
 import { removeStoredAbandonedUpload } from "@/features/sources/abandoned-upload";
 import type { AbandonedUpload } from "@/features/sources/types";
 

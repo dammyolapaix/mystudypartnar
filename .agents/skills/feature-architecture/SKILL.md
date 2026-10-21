@@ -4,11 +4,14 @@ description: >
   Feature-folder layout for this app. Pages in src/app are route shells.
   Domain UI, validation, and server actions live in src/features. Forms
   use React Hook Form and Sonner. Tests live in the feature's test.ts.
+  A configured client for an external service (Upstash, Cloudflare R2,
+  or another vendor SDK) lives in src/lib and is imported from there.
   Use this skill whenever the user adds or changes a page, a feature, a
-  component, a form, or a server action — including "add a listing",
-  "add a detail page", "build this screen", or "save this" — even if
-  they never say "feature" or "architecture". Database access is the
-  drizzle skill. Query strings, canonicals, and robots are the nuqs skill.
+  component, a form, a server action, or a vendor client — including
+  "add a listing", "add a detail page", "build this screen", or "save
+  this" — even if they never say "feature" or "architecture". Database
+  access is the drizzle skill. Query strings, canonicals, and robots
+  are the nuqs skill.
 ---
 
 # Feature architecture
@@ -37,7 +40,7 @@ Add a file when the feature has that job. An empty file is not a feature.
 | `validations.ts` | Zod schemas for input this feature accepts. |
 | `actions.ts` | `"use server"` mutations. Calls a query function, then `updateTag`. |
 | `types.ts` | Types that belong to this feature. |
-| `utils.ts` | Pure functions. Same inputs, same outputs. No database, no `fetch`, no env. |
+| `utils.ts` | Pure functions. Same inputs, same outputs. Database access is the drizzle skill. A vendor client belongs in `src/lib`. |
 | `components/` | UI for this feature. Kebab-case filenames. |
 | `test.ts` | Vitest for this feature. One file, not a test beside every module. |
 
@@ -46,6 +49,19 @@ Add a file when the feature has that job. An empty file is not a feature.
 Shared primitives stay in `src/components/ui/`. A composite used by more than one feature (header, footer) stays in `src/components/`. `src/app/` holds `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`, and route handlers.
 
 `cn` comes from `@/lib/utils`.
+
+## Clients
+
+A configured client for an external service lives in `src/lib/<name>.ts`. That file imports the vendor package, reads that service's environment variables, and exports the client. A feature, a route, and any other module import the export. The workflow steps, the event names, and the calls on the client stay in the feature.
+
+| Client | Module |
+| --- | --- |
+| Upstash workflow, Redis, and realtime | `@/lib/upstash` |
+| Cloudflare R2 | `@/lib/r2` |
+| Better Auth | `@/lib/auth`, `@/lib/auth-client` |
+| The database | `@/db`, the drizzle skill |
+
+`triggerWorkflow`, `serve`, `handle`, `Realtime`, and `upstashRedis` come from `@/lib/upstash`. `r2Storage` comes from `@/lib/r2`. UI libraries, Zod, and React Hook Form stay in the form that uses them.
 
 ## Pages
 
@@ -225,3 +241,4 @@ Use `type`, not `interface`. When Zod or Drizzle already has the shape, derive i
 - `test.ts` covers the seam that changed, and it does not import `db`.
 - No component file was added under `src/app/`.
 - The feature folder is a plural kebab-case noun.
+- A configured client is exported from `src/lib/<name>.ts`. Call sites import that module.
