@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-20T00:53:16.785Z",
+  "fetchedAt": "2026-10-21T13:33:15.974Z",
   "kind": "eve-model-catalog-cache",
   "models": [
     {
@@ -2964,6 +2964,19 @@
             "structured-output",
             "open-weights"
           ]
+        },
+        {
+          "provider": "tencent",
+          "providerModelId": "deepseek-v4-pro-0813",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 384000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "open-weights"
+          ]
         }
       ]
     },
@@ -3214,6 +3227,20 @@
             "tool-use",
             "vision",
             "structured-output",
+            "open-weights"
+          ]
+        },
+        {
+          "provider": "tencent",
+          "providerModelId": "deepseek-v4.1-flash",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 384000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "vision",
             "open-weights"
           ]
         },
@@ -5830,6 +5857,39 @@
             "structured-output",
             "open-weights"
           ]
+        }
+      ]
+    },
+    {
+      "slug": "mistral/voxtral-mini-transcribe-3",
+      "providers": [
+        {
+          "provider": "mistral",
+          "providerModelId": "voxtral-mini-transcribe-3-0",
+          "contextWindowTokens": 65536,
+          "maxOutputTokens": 0
+        }
+      ]
+    },
+    {
+      "slug": "mistral/voxtral-mini-tts-3",
+      "providers": [
+        {
+          "provider": "mistral",
+          "providerModelId": "voxtral-mini-tts-3-0",
+          "contextWindowTokens": 4096,
+          "maxOutputTokens": 0
+        }
+      ]
+    },
+    {
+      "slug": "mistral/voxtral-small-transcribe-3",
+      "providers": [
+        {
+          "provider": "mistral",
+          "providerModelId": "voxtral-small-transcribe-3-0",
+          "contextWindowTokens": 65536,
+          "maxOutputTokens": 0
         }
       ]
     },
@@ -9069,7 +9129,8 @@
             "implicit-caching",
             "reasoning",
             "structured-output",
-            "tool-use"
+            "tool-use",
+            "open-weights"
           ]
         },
         {
@@ -9079,7 +9140,8 @@
           "maxOutputTokens": 1048576,
           "tags": [
             "reasoning",
-            "tool-use"
+            "tool-use",
+            "open-weights"
           ]
         },
         {
@@ -9092,7 +9154,8 @@
             "reasoning",
             "structured-output",
             "tool-use",
-            "free"
+            "free",
+            "open-weights"
           ]
         },
         {
@@ -9104,7 +9167,8 @@
             "implicit-caching",
             "reasoning",
             "structured-output",
-            "tool-use"
+            "tool-use",
+            "open-weights"
           ]
         }
       ]
@@ -9122,7 +9186,8 @@
             "reasoning",
             "structured-output",
             "tool-use",
-            "free"
+            "free",
+            "open-weights"
           ]
         }
       ]
@@ -9212,6 +9277,31 @@
       ]
     },
     {
+      "slug": "scaledown/scaledown-extract-1",
+      "providers": [
+        {
+          "provider": "scaledown",
+          "providerModelId": "extract-1",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 1000000,
+          "tags": [
+            "structured-output"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "scaledown/scaledown-summarize-1",
+      "providers": [
+        {
+          "provider": "scaledown",
+          "providerModelId": "summarize-1",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 1000
+        }
+      ]
+    },
+    {
       "slug": "stealth/glyph-cluster",
       "providers": [
         {
@@ -9273,6 +9363,20 @@
             "implicit-caching",
             "vision",
             "structured-output",
+            "open-weights"
+          ]
+        },
+        {
+          "provider": "tencent",
+          "providerModelId": "step-5-preview",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 64000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "vision",
             "open-weights"
           ]
         }
@@ -10532,20 +10636,6 @@
             "structured-output",
             "open-weights"
           ]
-        },
-        {
-          "provider": "xiaomi",
-          "providerModelId": "mimo-v2.5",
-          "contextWindowTokens": 1050000,
-          "maxOutputTokens": 131100,
-          "tags": [
-            "reasoning",
-            "tool-use",
-            "implicit-caching",
-            "vision",
-            "structured-output",
-            "open-weights"
-          ]
         }
       ]
     },
@@ -10647,6 +10737,20 @@
           ]
         },
         {
+          "provider": "tencent",
+          "providerModelId": "mimo-v2.6-flash",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 128000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "vision",
+            "open-weights"
+          ]
+        },
+        {
           "provider": "xiaomi",
           "providerModelId": "mimo-v2.6-flash",
           "contextWindowTokens": 1048576,
@@ -10722,6 +10826,20 @@
             "structured-output",
             "tool-use",
             "video-input",
+            "vision",
+            "open-weights"
+          ]
+        },
+        {
+          "provider": "tencent",
+          "providerModelId": "mimo-v2.6-pro",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 128000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
             "vision",
             "open-weights"
           ]
@@ -11230,6 +11348,19 @@
           ]
         },
         {
+          "provider": "tencent",
+          "providerModelId": "glm-5.2",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 128000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "open-weights"
+          ]
+        },
+        {
           "provider": "togetherai",
           "providerModelId": "zai-org/GLM-5.2",
           "contextWindowTokens": 256000,
@@ -11551,6 +11682,19 @@
           ]
         },
         {
+          "provider": "tencent",
+          "providerModelId": "glm-5.3",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 128000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "open-weights"
+          ]
+        },
+        {
           "provider": "togetherai",
           "providerModelId": "zai-org/GLM-5.3",
           "contextWindowTokens": 1000000,
@@ -11857,6 +12001,21 @@
             "implicit-caching",
             "vision",
             "structured-output",
+            "open-weights"
+          ]
+        },
+        {
+          "provider": "tencent",
+          "providerModelId": "glm-5.3-flash",
+          "contextWindowTokens": 1000000,
+          "maxOutputTokens": 128000,
+          "tags": [
+            "implicit-caching",
+            "reasoning",
+            "structured-output",
+            "tool-use",
+            "video-input",
+            "vision",
             "open-weights"
           ]
         },

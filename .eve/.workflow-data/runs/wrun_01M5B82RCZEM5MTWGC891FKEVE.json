@@ -19,9 +19,10 @@
     "data": "enN0ZCi1L/1g2APFFgDG7YQkEHH0/OQ/EXY3KiBDdl8o7PZz/JD+JpKNLv7JFO2Gu6uqqi4IewB3AH0A0mf9O+PjqX9RgxD0yGHtLQ1ibYFEzFmiCDYLbCLtLQcuTNVgMiZUhZuplE/hrtbi2CtPeRB3ku5EudfyuB3Hb+HWfoU7mqXHG6vH8dX4O6kAfI4oPda33BDHUHLnVzaolH6g/syg3I3jO0kzcjPHcMYL7uiKRUEhqYcBFVOn69Mi2js/SoGn4n1e/0YcW/sVQueOrhy64Ql//TYZ+SSQf2njGP5D/PMaYY436lNR/gDEHNuPN8oYueQPoNILYY4pd/IbIyaN1r5lmK1PTfqW40nj9aleOyXOcix/Tqe8tRy/hHOKGnJ87U8Y/0D9gPRH5SPM8Vd8ckdmBp0Xc+KuHOZSfDNWibtZbtIaqfncjDlebH6Ekz/1rqu2HPt16Pcr3JHVEGkjoqNZupfCXT3LMUtUPvWQu2pWxV6dqH1IJzMlFK0acUUNER/wILFA3xSaNkkmDuKDAIgweIjP4eJSJBMB3D/V27wezIN5QGxxBxX8QOuBvnnoOf4RZj2wNRCDEMMg1l4E4V7NDqNJcybwgfDBZ8K4uWKwsNL3lZtBrIXLgn9eL3fTTJcs92ocx/ewRZ6fOA7DwNYWiHGiBdLcWZzIhFnWcxrIneGu4F/p33PutoDQJNVhjl+887mfO0Wx3uvUw4WbqyZRqBElMswYUmSGZiYF1WoggsWY2Q0QWEcmSTEHVqxCPsgkHUDXcJZpSWcPVgEKYwvPn2+I31y3NtDqFNhMSjs2i0nEluUA3xHXnuXexgpN82eQ52WHloEMtCM8Ygdc/SuS2YdlVhe2PSq6Yuip+PcxPm14W4/AH/AIvxoxZVjSaXlSRk1HnIefKIMVAKrlQjgepBo2MoSNsqtp/QbHwk4gie9oq4Qu3JAjA6R5wMsoRA9079JXzycg4jOoSnVGSjRQag=="
   },
   "createdAt": "2026-10-19T23:31:22.151Z",
-  "status": "running",
   "startedAt": "2026-10-19T23:31:22.196Z",
-  "updatedAt": "2026-10-19T23:31:22.196Z",
+  "status": "cancelled",
+  "completedAt": "2026-10-20T07:29:49.758Z",
+  "updatedAt": "2026-10-20T07:29:49.758Z",
   "attributes": {
     "$eve.is_otel_trace_enabled": "true",
     "$eve.is_trace_content_visible": "true",

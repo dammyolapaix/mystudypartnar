@@ -20,9 +20,10 @@
     "data": "ZGV2bFtbMV0seyJkZWFkbGluZSI6Miwib3duZXJSdW5JZCI6NCwidG9rZW4iOjV9LFsiRGF0ZSIsM10sIjIwMjYtMTEtMThUMjM6MzE6MjIuMTQzWiIsIndydW5fMDFNNUI4MlJDWkVNNU1UV0dDODkxRktFVkUiLCJldmU6c2Vzc2lvbjp3cnVuXzAxTTVCODJSQ1pFTTVNVFdHQzg5MUZLRVZFOmluYm94Il0="
   },
   "createdAt": "2026-10-19T23:31:22.275Z",
-  "status": "running",
   "startedAt": "2026-10-19T23:31:22.284Z",
-  "updatedAt": "2026-10-19T23:31:22.284Z",
+  "status": "cancelled",
+  "completedAt": "2026-10-20T07:29:49.754Z",
+  "updatedAt": "2026-10-20T07:29:49.754Z",
   "attributes": {
     "$rootRunId": "wrun_01M5B82RCZEM5MTWGC891FKEVE",
     "$parentRunId": "wrun_01M5B82RCZEM5MTWGC891FKEVE",
