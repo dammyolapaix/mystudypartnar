@@ -3,6 +3,10 @@ import { revalidateTag } from "next/cache";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import * as schema from "@/features/auth/schema";
+import {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+} from "@/features/auth/validations";
 import { r2Storage } from "@/features/sources/r2-storage";
 import { createSources } from "@/features/sources/sources";
 import type { SourceStorage } from "@/features/sources/types";
@@ -13,6 +17,11 @@ export const auth = betterAuth({
     usePlural: true,
     schema,
   }),
+  emailAndPassword: {
+    enabled: true,
+    minPasswordLength: PASSWORD_MIN_LENGTH,
+    maxPasswordLength: PASSWORD_MAX_LENGTH,
+  },
   databaseHooks: {
     user: {
       delete: {
@@ -37,6 +46,7 @@ export const auth = betterAuth({
   },
   advanced: {
     database: {
+      generateId: "uuid",
       joins: true,
     },
   },

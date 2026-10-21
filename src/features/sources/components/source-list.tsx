@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Empty,
   EmptyDescription,
@@ -16,7 +17,14 @@ export async function SourceList() {
   const session = await getSession();
 
   if (!session) {
-    return <p className="text-muted-foreground">Sign in to upload a file.</p>;
+    return (
+      <p className="text-muted-foreground">
+        <Link href="/sign-in" className="underline underline-offset-4">
+          Sign in
+        </Link>{" "}
+        to upload a file.
+      </p>
+    );
   }
 
   const items = await listSources(session.user.id);
