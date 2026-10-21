@@ -1,0 +1,3 @@
+# A Set is written once and taken many times
+
+A Set's Questions, correct Options, and Explanations are fixed when the AI writes it from a Ready Source. A Practice reveals them as each Question is submitted. A Test reveals the Score and the Explanations only when the Attempt is finished. Judging again at answer time would let the wording change between Attempts, and would make a Test depend on a live model call. A later Attempt on that Set answers the same Questions, so its Score can be compared with earlier ones. Writing a different Set is a separate action and leaves the earlier Set and its Attempts in place.
