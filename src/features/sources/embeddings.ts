@@ -1,7 +1,6 @@
-import { openai } from "@ai-sdk/openai";
 import { embedMany } from "ai";
 
-const model = openai.embedding("text-embedding-3-small");
+const model = "openai/text-embedding-3-small";
 
 export async function embedPassageTexts(texts: string[]) {
   if (texts.length === 0) return [];
